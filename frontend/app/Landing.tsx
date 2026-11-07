@@ -29,7 +29,7 @@ function QuickStory() {
     >
       <motion.li
         variants={QuickStoryLi}
-        className="bg-white shadow-md rounded-2xl p-4 min-w-0 cursor-default select-none flex items-center gap-3"
+        className="min-w-0 cursor-default select-none flex items-center gap-3"
       >
         <div className="w-8 shrink-0 tracking-widest">01</div>
         <div
@@ -52,7 +52,7 @@ function QuickStory() {
 
       <motion.li
         variants={QuickStoryLi}
-        className="bg-white shadow-md rounded-2xl p-4 min-w-0 cursor-default select-none flex items-center gap-3"
+        className="min-w-0 cursor-default select-none flex items-center gap-3"
       >
         <div className="w-8 shrink-0 tracking-widest">02</div>
         <div
@@ -76,7 +76,7 @@ function QuickStory() {
 
       <motion.li
         variants={QuickStoryLi}
-        className="bg-white shadow-md rounded-2xl p-4 min-w-0 cursor-default select-none flex items-center gap-3"
+        className="min-w-0 cursor-default select-none flex items-center gap-3"
       >
         <div className="w-8 shrink-0 tracking-widest">03</div>
         <div
@@ -103,13 +103,13 @@ function QuickStory() {
 
 function Title() {
   return (
-    <div className="bg-white rounded-2xl px-4 pb-24 pt-6 shadow-md select-none flex min-w-0 flex-col gap-2 lg:px-8 xl:px-16 justify-start">
+    <div className="select-none flex min-w-0 flex-col gap-2 lg:px-8 xl:px-16 justify-start">
       <div className="flex flex-col max-w-lg">
         <EyebrowHeading />
       </div>
       <div className="w-fit max-w-full">
-        <h1 className="text-4xl tracking-wider uppercase">
-          Skincare, intelligently designed
+        <h1 className="text-6xl font-medium uppercase">
+          Skincare Redifined
         </h1>
       </div>
 
@@ -117,7 +117,7 @@ function Title() {
         Understand your skin, explore ingredients, and build a personalized
         routine guided by science.
       </p>
-      <div className="flex flex-wrap items-center gap-3 mt-2 sm:gap-6">
+      <div className="mt-4 flex flex-wrap items-center gap-1 mt-2 sm:gap-6">
         <DiscoverAurelia />
         <Methodology />
       </div>
@@ -129,7 +129,6 @@ function EyebrowHeading() {
   return (
     <p
       className="font-light tracking-widest uppercase
-    text-honey
      text-md "
     >
       Meet aurelia
@@ -152,19 +151,18 @@ function Methodology() {
       href="/methodology"
       className="
         group inline-flex w-fit items-center gap-2 whitespace-nowrap
-        rounded-lg border border-tertiary
-        px-4 py-2
-        text-sm font-light text-charcoal
-        transition-all duration-300
-        hover:border-charcoal
+        rounded-lg 
+        py-2
+        text-sm  text-charcoal
+        transition-transform duration-300
       "
     >
-      Our Methodology
+      How it works
       <ArrowUpRight
         className="h-3.5 w-3.5 shrink-0 transition-transform duration-300
           group-hover:translate-x-0.5
           group-hover:-translate-y-0.5"
-        strokeWidth={1.5}
+        strokeWidth={2}
       />
     </Link>
   );
@@ -176,19 +174,22 @@ function DiscoverAurelia() {
       href="/register"
       className="
     group w-fit whitespace-nowrap
-    rounded-xl px-4 py-2 font-light
-
-    text-white bg-charcoal
-    text-md  flex items-center gap-1"
+    rounded-xl  px-3 py-2
+  
+    bg-charcoal
+    text-white 
+    text-sm  flex items-center gap-2"
     >
-      Discover Aurelia
+      Build my routine
+      <div className="flex items-center justify-center w-fit rounded-full p-2 bg-stone-700">
       <ArrowUpRight
         className="
       transition-transform duration-300
       group-hover:translate-x-0.5 group-hover:-translate-y-0.5
       w-3.5 h-3.5 shrink-0"
-        strokeWidth={1.5}
+        strokeWidth={2}
       />
+      </div>
     </Link>
   );
 }

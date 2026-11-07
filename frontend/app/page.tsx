@@ -1,12 +1,74 @@
+"use client";
 import { Navbar } from "./Navbar";
 import { Landing } from "./Landing";
-import { ArrowUpRight, Layers, Leaf, Plus, User } from "lucide-react";
+import { ArrowUpRight, Layers, Leaf, Plus, Smile, User } from "lucide-react";
 import { How } from "./How";
 import { Purpose } from "./Purpose";
 import { SectionSeparator } from "./SectionSeparator";
 import type { LucideIcon } from "lucide-react/types";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { IntroductionNode } from "./IntroductionNode";
+import { SelectionNode } from "./SelectionNode";
+
+const MAX_STEPS = 3;
+
+enum StoryStep {
+  INTRODUCTION = 1,
+  SELECT = 2,
+  REFINE = 3,
+}
+
+type StoryStepConfig = {
+  component: React.ComponentType;
+  title: string;
+};
+
+const INTRODUCTION_COMPONENT: Record<number, StoryStepConfig> = {
+  [StoryStep.INTRODUCTION]: {
+    component: IntroductionNode,
+    title: "Introduction",
+  },
+  [StoryStep.SELECT]: {
+    component: SelectionNode,
+    title: "Selection",
+  },
+  [StoryStep.REFINE]: {
+    component: RefinementNode,
+    title: "Refinement",
+  },
+};
 
 export default function Home() {
+  const [introductionStep, setIntroductionStep] = useState(1);
+  function parseStep(step: number) {
+    return String(step).padStart(2, "0");
+  }
+  useEffect(() => {
+    const storyIntervalSwitch = setInterval(() => {
+      setIntroductionStep((prev) => {
+        switch (prev) {
+          case StoryStep.INTRODUCTION:
+            return StoryStep.SELECT;
+
+          case StoryStep.SELECT:
+            return StoryStep.REFINE;
+
+          case StoryStep.REFINE:
+            return StoryStep.INTRODUCTION;
+
+          default:
+            return StoryStep.INTRODUCTION;
+        }
+      });
+    }, 10_000);
+
+    return () => clearInterval(storyIntervalSwitch);
+  }, []);
+
+  const { component: StoryComponent, title: StoryTitle } =
+    INTRODUCTION_COMPONENT[introductionStep];
+
   return (
     <div className="mx-auto w-full max-w-[1440px]">
       <div className="w-full min-h-[min(100svh,820px)] flex flex-col mb-12 lg:mb-16">
@@ -17,61 +79,87 @@ export default function Home() {
             <Landing />
           </main>
 
-          <aside className="relative aspect-[4/5] w-full max-w-[560px] justify-self-center self-center lg:aspect-auto lg:h-[clamp(560px,calc(100svh-10rem),700px)]">
-            <div
-              className="
-                  absolute inset-y-0 -left-12 right-0
-                  overflow-hidden rounded-sm
-
-                "
-            >
-              <img
-                src="/landing2.jpg"
-                alt="Beauty editorial portrait"
-                className="h-full w-full object-cover object-center"
-              />
-
-              <div className="pointer-events-none absolute inset-0  mix-blend-soft-light" />
-
-              <div
-                className="
-              pointer-events-none absolute inset-x-0 bottom-0 h-[42%]
-              bg-gradient-to-t from-black/85 via-charcoal/35 to-transparent
-              "
-              />
-              <SkinAnnotations />
-            </div>
-            <GlossAdnotation />
-
-            <p className="select-none absolute top-10 left-6 text-xs text-white tracking-widest">
-              FIG. 01 / AURELIA
-            </p>
-
-            <Plus
-              className="absolute right-6 top-10 w-6 h-6 text-white"
-              strokeWidth={1.0}
-            />
-            <p className="text-white select-none absolute bottom-12 left-6 text-[10px] tracking-widest uppercase">
-              ILLUSTRATIVE SKIN PROFILE / 001
-            </p>
-
-            <div className="absolute top-[20%] -left-20 flex flex-col gap-12">
-              <SkinAnalysisCard
-                icon={User}
-                heading="skin profile" 
-                text="Combination · Sensitive"
-              />
-              <SkinAnalysisCard
-                icon={Leaf}
-                heading="Ingredient match"
-                text="Peptides · Azaleic acid · Retinoids"
-              />
-              <SkinAnalysisCard
-                icon={Layers}
-                heading="routine balance"
-                text="Cleanse · Treat · Hydrate · Protect"
-                translate={true}
-              />
+          <aside className="w-full min-w-0 max-w-[560px] justify-self-center self-center">
+            <div className="@container flex flex-col gap-4 rounded-lg border border-charcoal bg-white p-4 shadow-lg sm:pt-6 lg:-ml-12">
+              <div className="contents lg:relative lg:block">
+                <div className="relative mx-auto aspect-[5/4] w-full max-w-[500px] overflow-hidden rounded-lg">
+                  <img
+                    src="/landing2.jpg"
+                    alt="Beauty editorial portrait"
+                    className="h-full w-full object-cover object-center"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-[35%] bg-linear-to-t from-black/20 to-transparent"
+                  />
+                  <SkinAnnotations />
+                  <GlossAdnotation />
+                  <p className="absolute top-4 left-4 select-none text-xs tracking-widest text-white">
+                    FIG. 01 / AURELIA
+                  </p>
+                  <Plus
+                    className="absolute top-4 right-4 size-6 text-white"
+                    strokeWidth={1}
+                    aria-hidden="true"
+                  />
+                  <p className="absolute right-3 bottom-3 select-none text-[8px] tracking-widest text-white uppercase sm:text-[10px]">
+                    Illustrative skin profile / 001
+                  </p>
+                </div>
+                <div className="order-last flex flex-wrap gap-2 lg:absolute lg:top-1/2 lg:-left-12 lg:z-20 lg:-translate-y-1/2 lg:flex-col lg:gap-3 xl:gap-8">
+                  <SkinAnalysisCard
+                    icon={User}
+                    heading="skin profile"
+                    text="Combination · Sensitive"
+                  />
+                  <SkinAnalysisCard
+                    icon={Leaf}
+                    heading="Ingredient match"
+                    text="Peptides · Azelaic acid · Retinoids"
+                  />
+                  <SkinAnalysisCard
+                    icon={Layers}
+                    heading="routine balance"
+                    text="Cleanse · Treat · Hydrate · Protect"
+                    translate={true}
+                  />
+                </div>
+              </div>
+              <div className="grid min-h-[19.25rem] @min-[24rem]:min-h-[15.25rem]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={introductionStep}
+                    initial={{ y: 12, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -12, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    className="flex flex-col gap-3 text-xs"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="text-[11px] text-secondary uppercase">
+                        {StoryTitle}
+                      </p>
+                      <p className="uppercase tracking-widest text-secondary">
+                        {parseStep(introductionStep)} / 0{MAX_STEPS}
+                      </p>
+                    </div>
+                    <div className="flex w-full gap-2" aria-hidden="true">
+                      {Array.from({ length: MAX_STEPS }, (_, idx) => (
+                        <div
+                          key={idx}
+                          className={
+                            "h-px flex-1 rounded-full " +
+                            (introductionStep === idx + 1
+                              ? "bg-charcoal"
+                              : "bg-tertiary")
+                          }
+                        />
+                      ))}
+                    </div>
+                    <StoryComponent />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
           </aside>
         </div>
@@ -86,6 +174,21 @@ export default function Home() {
       <section id="our-purpose">
         <Purpose />
       </section>
+    </div>
+  );
+}
+
+
+function RefinementNode() {
+  return (
+    <div className="flex flex-col gap-1">
+      <h3 className="text-lg font-medium tracking-tight text-charcoal">
+        A routine, uniquely yours.
+      </h3>
+      <p className="text-xs leading-relaxed text-secondary">
+        A thoughtful balance of products, refined around your skin's needs to
+        bring out its natural radiance.
+      </p>
     </div>
   );
 }
@@ -105,8 +208,8 @@ export function SkinAnalysisCard({
 
   return (
     <div
-      className={`${translate ? "-translate-x-4" : ""} flex items-center justify-between rounded-2xl ring-1 ring-inset ring-white/15
-   gap-2 text-white px-2 py-1 w-56 min-h-16
+      className={`${translate ? "lg:-translate-x-4" : ""} flex items-center justify-between rounded-2xl ring-1 ring-inset ring-white/15
+   gap-2 text-white px-2 py-1 w-full sm:w-56 min-h-16
    hover:scale-[1.02] transition-[transform,box-shadow] duration-300 cursor-default
    hover:ring-white/30
    bg-charcoal/80 backdrop-blur-md shadow-md shadow-charcoal/10`}
@@ -131,24 +234,15 @@ function SkinAnnotations() {
           fill="none"
           aria-hidden="true"
           className="absolute inset-0 size-full stroke-white/70"
-        >
-          <path d="M66 27 L76 23 H94" vectorEffect="non-scaling-stroke" className="drop-shadow-sm drop-shadow-charcoal/70" />
-        </svg>
-      <div aria-hidden="true" className="absolute left-[66%] top-[27%] flex size-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 drop-shadow-sm drop-shadow-charcoal/70">
-        <span className="size-2.5 rounded-full border border-white/80" />
+        ></svg>
       </div>
-      <div className="absolute right-[6%] bottom-[77%] mb-2 isolate flex max-w-36 flex-col gap-1 text-right text-white uppercase tracking-wide drop-shadow-sm drop-shadow-charcoal/80">
-        <span className="text-[10px] font-medium sm:text-xs">Small skin variation</span>
-      </div>
-      </div>
-
     </div>
   );
 }
 
 function GlossAdnotation() {
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-6 translate-y-12 size-6 rounded-full border border-white z-10 flex items-center justify-center">
+    <div className="pointer-events-none absolute top-[48%] left-[54%] z-10 flex size-6 -translate-x-6 items-center justify-center rounded-full border border-white sm:top-[68%]">
       <div className="absolute right-full h-px bottom-1/2 translate-x-3 translate-y-6.5 w-10 bg-white/80 rotate-305" />
 
       <div className="absolute left-0 top-1/2 -translate-x-[35px] translate-y-[41px] h-px w-4 bg-white/80" />

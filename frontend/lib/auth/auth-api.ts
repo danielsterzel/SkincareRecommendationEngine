@@ -43,6 +43,17 @@ export async function loginRequest(data: LoginData): Promise<LoginResponse> {
   return loginResponseSchema.parse(json);
 }
 
+export async function logoutRequest(): Promise<void> {
+  const response = await fetch("http://localhost:8000/api/v1/auth/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Couldn't log out");
+  }
+}
+
 export async function refreshRequest(): Promise<RefreshResponse>
 {
     const response = await fetch("http://localhost:8000/api/v1/auth/refresh", 

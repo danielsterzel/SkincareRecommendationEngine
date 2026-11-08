@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { IntroductionNode } from "./IntroductionNode";
 import { SelectionNode } from "./SelectionNode";
+import { RefinementNode } from "./RefinementNode";
 
 const MAX_STEPS = 3;
 
@@ -82,7 +83,7 @@ export default function Home() {
           <aside className="w-full min-w-0 max-w-[560px] justify-self-center self-center">
             <div className="@container flex flex-col gap-4 rounded-lg border border-charcoal bg-white p-4 shadow-lg sm:pt-6 lg:-ml-12">
               <div className="contents lg:relative lg:block">
-                <div className="relative mx-auto aspect-[5/4] w-full max-w-[500px] overflow-hidden rounded-lg">
+                <div className="relative mx-auto aspect-[4/3] max-h-[28svh] w-full max-w-[500px] overflow-hidden rounded-lg lg:max-h-[max(9rem,calc(100svh-33rem))] xl:max-h-[max(9rem,calc(100svh-25rem))]">
                   <img
                     src="/landing2.jpg"
                     alt="Beauty editorial portrait"
@@ -106,7 +107,7 @@ export default function Home() {
                     Illustrative skin profile / 001
                   </p>
                 </div>
-                <div className="order-last flex flex-wrap gap-2 lg:absolute lg:top-1/2 lg:-left-12 lg:z-20 lg:-translate-y-1/2 lg:flex-col lg:gap-3 xl:gap-8">
+                <div className="order-last flex flex-wrap gap-2 lg:absolute lg:top-1/2 lg:-left-12 lg:z-20 lg:-translate-y-1/2 lg:flex-col lg:gap-3 xl:[@media(min-height:760px)]:gap-8">
                   <SkinAnalysisCard
                     icon={User}
                     heading="skin profile"
@@ -125,7 +126,7 @@ export default function Home() {
                   />
                 </div>
               </div>
-              <div className="grid min-h-[19.25rem] @min-[24rem]:min-h-[15.25rem]">
+              <div className="h-[15.5rem] @min-[24rem]:h-[12.5rem]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={introductionStep}
@@ -133,7 +134,7 @@ export default function Home() {
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -12, opacity: 0 }}
                     transition={{ duration: 0.35, ease: "easeOut" }}
-                    className="flex flex-col gap-3 text-xs"
+                    className="flex h-full flex-col gap-2 text-xs"
                   >
                     <div className="flex items-center justify-between">
                       <p className="text-[11px] text-secondary uppercase">
@@ -143,7 +144,7 @@ export default function Home() {
                         {parseStep(introductionStep)} / 0{MAX_STEPS}
                       </p>
                     </div>
-                    <div className="flex w-full gap-2" aria-hidden="true">
+                    <div className="flex w-full shrink-0 gap-2" aria-hidden="true">
                       {Array.from({ length: MAX_STEPS }, (_, idx) => (
                         <div
                           key={idx}
@@ -156,7 +157,9 @@ export default function Home() {
                         />
                       ))}
                     </div>
-                    <StoryComponent />
+                    <div className="min-h-0 flex-1 overflow-y-auto">
+                      <StoryComponent />
+                    </div>
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -164,7 +167,7 @@ export default function Home() {
           </aside>
         </div>
       </div>
-      <SectionSeparator text="Aurelia - the process" />
+      {/* <SectionSeparator text="Aurelia - the process" />
       <section id="how-it-works">
         <How />
       </section>
@@ -173,22 +176,7 @@ export default function Home() {
 
       <section id="our-purpose">
         <Purpose />
-      </section>
-    </div>
-  );
-}
-
-
-function RefinementNode() {
-  return (
-    <div className="flex flex-col gap-1">
-      <h3 className="text-lg font-medium tracking-tight text-charcoal">
-        A routine, uniquely yours.
-      </h3>
-      <p className="text-xs leading-relaxed text-secondary">
-        A thoughtful balance of products, refined around your skin's needs to
-        bring out its natural radiance.
-      </p>
+      </section> */}
     </div>
   );
 }
@@ -209,7 +197,7 @@ export function SkinAnalysisCard({
   return (
     <div
       className={`${translate ? "lg:-translate-x-4" : ""} flex items-center justify-between rounded-2xl ring-1 ring-inset ring-white/15
-   gap-2 text-white px-2 py-1 w-full sm:w-56 min-h-16
+   gap-2 text-white px-2 py-1 w-full sm:w-56 min-h-12 lg:min-h-16 lg:[@media(max-height:740px)]:min-h-11
    hover:scale-[1.02] transition-[transform,box-shadow] duration-300 cursor-default
    hover:ring-white/30
    bg-charcoal/80 backdrop-blur-md shadow-md shadow-charcoal/10`}
@@ -242,7 +230,7 @@ function SkinAnnotations() {
 
 function GlossAdnotation() {
   return (
-    <div className="pointer-events-none absolute top-[48%] left-[54%] z-10 flex size-6 -translate-x-6 items-center justify-center rounded-full border border-white sm:top-[68%]">
+    <div className="pointer-events-none absolute top-[68%] left-[54%] z-10 hidden size-6 -translate-x-6 items-center justify-center rounded-full border border-white sm:flex">
       <div className="absolute right-full h-px bottom-1/2 translate-x-3 translate-y-6.5 w-10 bg-white/80 rotate-305" />
 
       <div className="absolute left-0 top-1/2 -translate-x-[35px] translate-y-[41px] h-px w-4 bg-white/80" />

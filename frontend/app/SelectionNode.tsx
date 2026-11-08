@@ -8,7 +8,7 @@ const products = [
   {
     brand: "The Ordinary",
     name: "Hyaluronic Serum",
-    icon: "tabler:dropper",
+    icon: "heroicons:eye-dropper-20-solid",
     category: "SERUM",
   },
   {
@@ -38,7 +38,7 @@ const containerVariants = {
 const productVariants = {
   hidden: {
     opacity: 0,
-    y: 12,
+    y: -8,
     filter: "blur(4px)",
   },
   visible: {

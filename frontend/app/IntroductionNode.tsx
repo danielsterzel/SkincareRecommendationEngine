@@ -122,8 +122,8 @@ export function IntroductionNode() {
         aria-hidden={!completed}
         className="flex items-center gap-1.5 text-xs text-secondary"
       >
-        <Sparkles size={12} strokeWidth={1.4} className="shrink-0" />
-        <span>Personalized to your skin's unique needs</span>
+        <Sparkles size={18} strokeWidth={1.4} className="shrink-0" />
+        <span className="">Personalized to your skin's unique needs</span>
       </motion.div>
     </div>
   );

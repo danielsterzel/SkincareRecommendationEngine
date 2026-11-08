@@ -7,13 +7,13 @@ import { ScanFaceIcon } from "lucide-react";
 
 export function Landing() {
   return (
-    <div className="@container flex w-full min-w-0 flex-col justify-center gap-8 lg:min-h-full lg:gap-12">
-      <div className="px-8">
+    <div className="@container flex w-full min-w-0 flex-col justify-center gap-8 lg:min-h-full lg:gap-12 lg:[@media(max-height:740px)]:gap-6">
+      <div className="px-8 lg:[@media(max-height:740px)]:hidden">
       </div>
       <div className="w-full">
         <Title />
       </div>
-      <div className="py-12">
+      <div className="py-12 lg:[@media(max-height:740px)]:py-6">
         <QuickStory />
       </div>
     </div>
@@ -104,12 +104,12 @@ function QuickStory() {
 function Title() {
   return (
     <div className="select-none flex min-w-0 flex-col gap-2 lg:px-8 xl:px-16 justify-start">
-      <div className="flex flex-col max-w-lg">
+      <div className="flex flex-col max-w-lg max-sm:text-center">
         <EyebrowHeading />
       </div>
-      <div className="w-fit max-w-full">
-        <h1 className="text-6xl font-medium uppercase">
-          Skincare Redifined
+      <div className="w-fit max-w-full max-sm:self-center max-sm:text-center">
+        <h1 className="text-[clamp(2rem,10vw,3rem)] leading-none font-medium uppercase sm:text-6xl">
+          Skincare Redefined
         </h1>
       </div>
 
@@ -117,7 +117,7 @@ function Title() {
         Understand your skin, explore ingredients, and build a personalized
         routine guided by science.
       </p>
-      <div className="mt-4 flex flex-wrap items-center gap-1 mt-2 sm:gap-6">
+      <div className="mt-4 flex flex-wrap items-center gap-1 mt-2 max-sm:justify-center sm:gap-6">
         <DiscoverAurelia />
         <Methodology />
       </div>
@@ -153,7 +153,7 @@ function Methodology() {
         group inline-flex w-fit items-center gap-2 whitespace-nowrap
         rounded-lg 
         py-2
-        text-sm  text-charcoal
+        text-sm text-charcoal max-sm:text-xs
         transition-transform duration-300
       "
     >
@@ -178,10 +178,10 @@ function DiscoverAurelia() {
   
     bg-charcoal
     text-white 
-    text-sm  flex items-center gap-2"
+    text-sm flex items-center gap-2 max-sm:gap-1.5 max-sm:px-2 max-sm:text-xs"
     >
       Build my routine
-      <div className="flex items-center justify-center w-fit rounded-full p-2 bg-stone-700">
+      <div className="flex items-center justify-center w-fit rounded-full p-2 bg-stone-700 max-sm:p-1.5">
       <ArrowUpRight
         className="
       transition-transform duration-300

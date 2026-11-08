@@ -19,8 +19,8 @@ export function Navbar() {
           <UnderlineLink href="/login">Login</UnderlineLink>
           <UnderlineLink href="/skin-space">SkinSpace</UnderlineLink> */}
           <Link href="" className="hover:bg-charcoal hover:text-white px-4 py-2 rounded-lg duration-300">Philosophy</Link>
-          <Link href="" className="hover:bg-charcoal hover:text-white px-4 py-2 rounded-lg duration-300">Login</Link>
-          <Link href="" className="hover:bg-charcoal hover:text-white px-4 py-2 rounded-lg duration-300">SkinSpace</Link>
+          <Link href="/login" className="hover:bg-charcoal hover:text-white px-4 py-2 rounded-lg duration-300">Login</Link>
+          <Link href="/skin-space" className="hover:bg-charcoal hover:text-white px-4 py-2 rounded-lg duration-300">SkinSpace</Link>
         </ul>
       </nav>
       <div className="hidden shrink-0 justify-end sm:flex xl:flex-1">

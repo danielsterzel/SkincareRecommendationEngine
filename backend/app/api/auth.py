@@ -52,6 +52,7 @@ GENERIC_RESEND_MESSAGE = (
 )
 INVALID_TOKEN_MESSAGE = "Invalid or expired verification token"
 INVALID_CREDENTIALS_MESSAGE = "Incorrect email or password"
+REFRESH_COOKIE_PATH = "/api/v1/auth"
 
 # A valid Argon2id hash used only to make unknown-email attempts perform the
 # same password verification work as known-email attempts.
@@ -65,7 +66,6 @@ DUMMY_PASSWORD_HASH = (
 # TODO: Refresh token security
 # - Verify that the user still exists and is active.
 # - Implement refresh token rotation and revocation.
-# - Add logout endpoint that invalidates the refresh token and clears the cookie.
 # - Review CSRF protection and cookie settings for production.
 # - Add rate limiting and tests for the refresh flow.
 
@@ -235,10 +235,23 @@ async def login(
         httponly=True,
         secure=settings.frontend_url.lower().startswith("https://"),
         samesite="lax",
-        path="/api/v1/auth",
+        path=REFRESH_COOKIE_PATH,
         max_age=60 * 60 * 24 * 30,
     )
     return login_response
+
+
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+async def logout():
+    response = Response(status_code=status.HTTP_204_NO_CONTENT)
+    response.delete_cookie(
+        key="refresh_token",
+        path=REFRESH_COOKIE_PATH,
+        httponly=True,
+        secure=settings.frontend_url.lower().startswith("https://"),
+        samesite="lax",
+    )
+    return response
 
 
 @router.get("/me", response_model=UserSchema)

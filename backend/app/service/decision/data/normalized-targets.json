@@ -14,7 +14,7 @@
     },
     {
       "original_name": "textural irregularieties",
-      "normalized_name": "textural_irregularities",
+      "normalized_name": "texture_irregularities",
       "category": "SKIN_CONCERN",
       "needs_review": false
     },
@@ -34,7 +34,7 @@
       "original_name": "signs of congestion",
       "normalized_name": "signs_of_congestion",
       "category": "SKIN_CONCERN",
-      "needs_review": true
+      "needs_review": false
     },
     {
       "original_name": "dullness",
@@ -44,7 +44,7 @@
     },
     {
       "original_name": "textural irregularities",
-      "normalized_name": "textural_irregularities",
+      "normalized_name": "texture_irregularities",
       "category": "SKIN_CONCERN",
       "needs_review": false
     },
@@ -92,7 +92,7 @@
     },
     {
       "original_name": "crow's feet",
-      "normalized_name": "crow_feet",
+      "normalized_name": "crow's_feet",
       "category": "SKIN_CONCERN",
       "needs_review": false
     },

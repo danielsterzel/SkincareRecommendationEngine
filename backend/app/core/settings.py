@@ -24,6 +24,9 @@ class Settings(BaseSettings):
     open_ai_key: str
     open_ai_model: str
 
+    neo4j_db: str
+    neo4j_db_password: str
+
     @field_validator("jwt_private_key_path", "jwt_public_key_path", mode="before")
     @classmethod
     def resolve_jwt_key_path(cls, value: str | Path) -> Path:

@@ -1,9 +1,10 @@
 from decimal import Decimal
 
-from pydantic import BaseModel, field_validator
-from typing import Literal, Any, Self
+from pydantic import BaseModel
+from typing import Literal
 from uuid import UUID
 from datetime import datetime
+from app.service.decision.domain_types import OptString
 
 
 class NormalizedSkinTarget(BaseModel):
@@ -38,10 +39,8 @@ class NormalizedSkinOutput(BaseModel):
 # print(df['source-url'].isna().sum())
 # print(df['targets'].dtype)
 
-OptString = str | None
 
-
-class ProductNode(BaseModel):
+class Product(BaseModel):
     id: UUID
     brand: str
     product_name: str  # not null

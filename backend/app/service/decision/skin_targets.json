@@ -1,0 +1,33 @@
+{
+  "product_functions": [
+    "antioxidant_support",
+    "barrier_support",
+    "cleansing",
+    "uv_protection"
+  ],
+  "skin_goals": [
+    "lip_plumpness"
+  ],
+  "skin_concern": [
+    "advanced_signs_of_aging",
+    "blemishes",
+    "crow's_feet",
+    "dark_circles",
+    "dehydration",
+    "dryness",
+    "dullness",
+    "early_signs_of_aging",
+    "hyperpigmentation",
+    "puffiness",
+    "redness",
+    "signs_of_aging",
+    "signs_of_congestion",
+    "texture_irregularities",
+    "uneven_skin_tone",
+    "visible_shine",
+    "wrinkles"
+  ],
+  "other": [
+    "hair"
+  ]
+}

@@ -3,11 +3,6 @@ from pathlib import Path
 
 from pandas.core.interchange.dataframe_protocol import DataFrame
 
-from app.service.decision.data.schemas import NormalizedSkinOutput
-from app.core.settings import settings
-from openai import OpenAI
-import json
-
 
 def remap_df_names(df: DataFrame) -> DataFrame:
     df = df.rename(

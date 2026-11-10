@@ -1,6 +1,4 @@
 from neo4j import GraphDatabase
-from pydantic import BaseModel
-
 from app.core.settings import settings
 from app.service.decision.graph_queries import (
     find_products_by_name,
@@ -10,9 +8,11 @@ from openai import OpenAI
 import pandas as pd
 import json
 from pathlib import Path
-from pprint import pprint
+
+from app.service.decision.inferation import infer_skin_concerns
 
 NORMALIZED_NAMES_JSON_PATH = "data/normalized-targets.json"
+
 TEST_CONCERN_MATCHES = Path("test_concerns/matches.txt").read_text("utf-8")
 TEST_CONCERN_NO_MATCHES = Path("test_concerns/no_matches.txt").read_text("utf-8")
 TEST_CONCERN_NORMALIZED_INPUTS = Path("test_concerns/normalized_inputs.txt").read_text(
@@ -27,10 +27,6 @@ with open(NORMALIZED_NAMES_JSON_PATH, "r") as f:
     normalized_names = json.load(f)
 
 
-class IdentifiedSkinConcerns(BaseModel):
-    skin_concerns: list[str]
-
-
 with GraphDatabase.driver(
     "bolt://localhost:7687", auth=("neo4j", "aurelia12345")
 ) as driver:
@@ -41,34 +37,10 @@ with GraphDatabase.driver(
 
     for test in tests:
 
-        identify_concern = client.responses.parse(
-            model=settings.open_ai_model,
-            input=json.dumps(
-                {"users_prompt": test, "normalized-targets.json": normalized_names}
-            ),
-            instructions="Your task is to identify any skin concerns in user's prompt. "
-            "Map any skin concern found through your reasoning to one of the values"
-            "visible in normalized-targets.json",
-            text_format=IdentifiedSkinConcerns,
-        )
-
-        skin_concerns = identify_concern.output_parsed
+        skin_concerns = infer_skin_concerns(test)
 
         if skin_concerns is None:
             continue
-
-        for concern in skin_concerns.skin_concerns:
-
-            products = find_product_by_concern(driver, concern)
-            details = {}
-            for p in products:
-
-                product_name = p.get("name")
-                if product_name is None:
-                    continue
-                rows = df[df["product-name"] == product_name]
-                products_details = json.loads(rows.to_json(orient="records"))
-                details[product_name] = products_details
 
             return_insight = client.responses.create(
                 model=settings.open_ai_model,

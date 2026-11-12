@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { IntroductionNode } from "./IntroductionNode";
 import { SelectionNode } from "./SelectionNode";
 import { RefinementNode } from "./RefinementNode";
+import { Philosophy } from "./Philosophy";
 
 const MAX_STEPS = 3;
 
@@ -71,7 +72,7 @@ export default function Home() {
     INTRODUCTION_COMPONENT[introductionStep];
 
   return (
-    <div className="mx-auto w-full max-w-[1440px]">
+    <div className="mx-auto w-full max-w-[1440px] flex flex-col items-center">
       <div className="w-full min-h-[min(100svh,820px)] flex flex-col mb-12 lg:mb-16">
         <Navbar />
 
@@ -167,6 +168,8 @@ export default function Home() {
           </aside>
         </div>
       </div>
+
+      <Philosophy/>
       {/* <SectionSeparator text="Aurelia - the process" />
       <section id="how-it-works">
         <How />

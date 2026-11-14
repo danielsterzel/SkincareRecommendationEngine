@@ -1,7 +1,7 @@
 from decimal import Decimal
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, field_validator, computed_field
+from pydantic import BaseModel, ConfigDict, field_validator, computed_field, Field
 from typing import Literal
 from uuid import UUID
 from datetime import datetime
@@ -68,15 +68,15 @@ class Product(BaseModel):
     size: float | None = None  # in ml, 503 nulls
     price: Decimal | None = None  # 1712 nulls
     source_url: str  # no nulls
-    last_verified: datetime
+    last_verified: datetime | None = None
     features: list[str] | None = None
     concentration_ingredient: OptString = None
     concentration: float | None = None
     targets: OptString = None
-    suited_for: set[SuitedForValue]
-    ph: tuple[float, float] | list[float] | None = None
+    suited_for: set[SuitedForValue] = Field(default_factory=set)
+    ph: list[float] | None = None
     rating: float | None = None
-    review_count: int
+    review_count: int | None = None
 
     @computed_field
     @property
@@ -89,3 +89,19 @@ class Product(BaseModel):
         if v is None:
             return None
         return [t.rstrip(".").strip() for t in v] or None
+
+    @field_validator("last_verified", mode="before")
+    @classmethod
+    def parse_last_verified(cls, v):
+        if isinstance(v, str) and len(v) == 10 and v[2] == "-" and v[5] == "-":
+            return datetime.strptime(v, "%d-%m-%Y")
+        return v
+
+    @field_validator("suited_for", mode="before")
+    @classmethod
+    def parse_suited_for(cls, v):
+        if v is None:
+            return set()
+        if isinstance(v, str):
+            return {s.strip() for s in v.split(",") if s.strip()}
+        return v

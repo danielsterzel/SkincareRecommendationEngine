@@ -30,7 +30,18 @@ class DatasetStats(BaseModel):
 @cache
 def load_products() -> tuple[Product, ...]:
     df = pd.read_parquet(DATASET_PATH)
-    return tuple(Product(**row) for row in df.to_dict(orient="records"))
+
+    df = df.rename(
+        columns=lambda c: (
+            c.replace("-", "_").replace("[ml]", "").replace("[euro]", "")
+        )
+    )
+
+    df["inci"] = df["inci"].fillna("")
+
+    df = df.astype(object).where(pd.notna(df), None)
+
+    return tuple(Product.model_validate(row) for row in df.to_dict(orient="records"))
 
 
 @cache

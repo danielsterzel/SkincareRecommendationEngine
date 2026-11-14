@@ -114,6 +114,7 @@ def normalize(weights: dict[str, float]) -> dict[str, float]:
     total = sum(weights.values())
     return {name: w / total for name, w in weights.items()}
 
+
 def parse_targets(raw: str | None) -> set[str]:
     if not raw:
         return set()
@@ -126,6 +127,7 @@ def rate_positive_effect(product: Product, concerns: list[str]) -> float:
         return 0.0
     matched = parse_targets(product.targets) & set(concerns)
     return len(matched) / len(concerns)
+
 
 def rate_negative_effect(
     product: Product, ctx: UserSkinContext, negative_labels: set[str]
@@ -164,12 +166,14 @@ def rate_negative_effect(
 
     return (fit + unsuited + skin_sensitivity + irritation_score) / 4.0
 
+
 def rate_product_on_ratings(product: Product, stats: DatasetStats) -> float | None:
     if product.rating is None or product.review_count is None:
         return None
     v, m = product.review_count, stats.prior_weight
     bayes = (v * product.rating + m * stats.rating_mean) / (v + m)
     return (bayes - 1) / 4
+
 
 def exclude_negative_products(
     products: list[Product], user_skin_context: UserSkinContext
@@ -199,9 +203,7 @@ def exclude_negative_products(
     def contains_any_term(ingredients: list[str], terms: set[str]) -> bool:
         return any(term in ing for ing in ingredients for term in terms)
 
-    terms = terms_for_allergens(
-        [norm(a.inci_terms) for a in user_skin_context.allergens]
-    )
+    terms = terms_for_allergens([norm(a.allergen) for a in user_skin_context.allergens])
     bad = high_severity_reactions(user_skin_context)
     safe = []
     for p in products:
@@ -226,9 +228,7 @@ def build_matrix(
 
     for p in products:
         product_labels = {
-            item.label
-            for item in negative_labels
-            if item.product == p
+            item.label for item in negative_labels if item.product_id == str(p.id)
         }
 
         s = Scores(
@@ -237,10 +237,7 @@ def build_matrix(
             ratings_effect=rate_product_on_ratings(p, stats),
         )
 
-        row = [
-            np.nan if (value := getattr(s, c)) is None else value
-            for c in CRITERIA
-        ]
+        row = [np.nan if (value := getattr(s, c)) is None else value for c in CRITERIA]
 
         rows.append(row)
 
@@ -256,8 +253,7 @@ def wsm_pipeline(user_input: str):
     ctx = openai_user_skin_context_inference(client, user_input)
 
     products = [
-        p for p in load_products()
-        if parse_targets(p.targets) & set(ctx.skin_concerns)
+        p for p in load_products() if parse_targets(p.targets) & set(ctx.skin_concerns)
     ]
 
     products = exclude_negative_products(products, ctx)
@@ -274,71 +270,67 @@ def wsm_pipeline(user_input: str):
     matrix = build_matrix(
         products,
         ctx,
-        stats,
+        dataset_stats(),
         negative_labels.mapped,
     )
 
     weights = np.array([WEIGHTS[c] for c in CRITERIA])
     scores = wsm(np.nan_to_num(matrix, nan=0.0), weights)
 
-    return sorted(
-        zip(products, scores),
+    ranking = sorted(
+        zip(products, scores, matrix),
         key=lambda x: x[1],
         reverse=True,
     )
 
+    log_data = [
+        {
+            "rank": rank,
+            "product_id": str(product.id),
+            "brand": product.brand,
+            "product_name": product.product_name,
+            "score": float(score),
+            "criteria": {
+                criterion: None if np.isnan(value) else float(value)
+                for criterion, value in zip(CRITERIA, row)
+            },
+            "targets": sorted(parse_targets(product.targets)),
+            "negative_labels": sorted(
+                {
+                    item.label
+                    for item in negative_labels.mapped
+                    if item.product_id == str(product.id)
+                }
+            ),
+        }
+        for rank, (product, score, row) in enumerate(ranking, start=1)
+    ]
 
+    log_path = Path(__file__).resolve().parent / "logs" / "wsm_results.json"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
 
-print(parse_targets("dryness, dehydration"))
+    log_path.write_text(
+        json.dumps(log_data, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    return [(product, score) for product, score, _ in ranking]
+
 
 TEST_DATA = Path("data/test_data")
 
+
 def main() -> None:
-    client = OpenAI(api_key=settings.open_ai_key)
+    products = load_products()
+    print(f"Loaded products: {len(products)}")
 
-    users = json.loads(
-        (TEST_DATA / "aurelia_user_texts_20.json").read_text()
-    )
+    users = json.loads((TEST_DATA / "aurelia_user_texts_20.json").read_text())
 
-    expected = {
-        item["user_id"]: item
-        for item in json.loads(
-            (TEST_DATA / "aurelia_user_texts_20_gold.json").read_text()
-        )
-    }
+    results = wsm_pipeline(users[0]["text"])
 
-    for user in users:
-        ctx = openai_user_skin_context_inference(client, user["text"])
+    for rank, (product, score) in enumerate(results[:10], 1):
+        print(f"{rank}. {product.brand} - " f"{product.product_name}: {score:.4f}")
 
-        predicted = set(ctx.skin_concerns)
-        gold = expected[user["user_id"]]
 
-        missing = set(gold["expected_targets"]) - predicted
-        forbidden = set(gold["negated_targets"]) & predicted
-
-        print(f"\nPredicted: {predicted}")
-        print(f"Expected: {gold['expected_targets']}")
-        print(f"Missing: {missing}")
-        print(f"Forbidden: {forbidden}")
-
-        stats = DatasetStats(
-            rating_mean=4.0,
-        )
-
-        user = users[0]
-
-        results = wsm_pipeline(
-            user_input=user["text"],
-            stats=stats,
-        )
-
-        print(f"\nUSER: {user['text']}")
-        print("\nTOP 10 RECOMMENDED PRODUCTS:")
-
-        for rank, (product, score) in enumerate(results[:10], start=1):
-            print(f"{rank}. {product.brand} - {product.product_name}")
-            print(f"   WSM score: {score:.4f}")
-            print(f"   Targets: {product.targets}")
-            print()
 if __name__ == "__main__":
     main()

@@ -42,6 +42,7 @@ def main() -> None:
     # arr = df["suited-for"].dropna().str.split(",").explode().unique()
     # print(arr)
     print(df["concentration-ingredient"].unique())
+    print(df.columns)
     # print(df['targets'].head(5))
 
 

@@ -46,4 +46,10 @@ based solely on the user's existing concerns.
 - The user's previous reactions may provide additional context,
 but they must not be treated as universal product effects.
 
+For each negative effect, return the exact product_id
+of the corresponding input product.
+
+Never generate or modify product IDs.
+Do not return entire product objects.
+
 Follow the provided output schema exactly.

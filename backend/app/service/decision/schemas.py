@@ -42,8 +42,9 @@ SkinConcern = Literal[
     "hair",
 ]
 
+
 class ProductNegativeLabel(BaseModel):
-    product: Product
+    product_id: str
     label: Literal[
         "dryness",
         "redness",

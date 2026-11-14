@@ -38,9 +38,10 @@ def main() -> None:
     # )
     # print(f"Saved {len(result)} allergens to {DATA_PATH}")
     df = pd.read_parquet("data/skincare-products-clean.parquet")
-    print(df["suited-for"].dtype)
-    arr = df["suited-for"].dropna().str.split(",").explode().unique()
-    print(arr)
+    # print(df["suited-for"].dtype)
+    # arr = df["suited-for"].dropna().str.split(",").explode().unique()
+    # print(arr)
+    print(df["concentration-ingredient"].unique())
     # print(df['targets'].head(5))
 
 

@@ -7,6 +7,8 @@ from collections import defaultdict
 from app.service.decision.dataset_schemas import Product
 from uuid import UUID
 from types import MappingProxyType
+from pydantic import BaseModel, ConfigDict
+from statistics import median
 
 ALLERGENS_PATH = Path(__file__).resolve().parent / "data" / "allergen_inci_terms.json"
 
@@ -17,10 +19,32 @@ DATASET_PATH = (
 NORM = lambda s: s.strip().lower()
 
 
+class DatasetStats(BaseModel):
+    model_config = ConfigDict(frozen=True)
+    rating_mean: float
+    prior_weight: float
+    price_min: float | None
+    price_max: float | None
+
+
 @cache
 def load_products() -> tuple[Product, ...]:
     df = pd.read_parquet(DATASET_PATH)
     return tuple(Product(**row) for row in df.to_dict(orient="records"))
+
+
+@cache
+def dataset_stats() -> DatasetStats:
+    products = load_products()
+    ratings = [p.rating for p in products if p.rating is not None]
+    counts = [p.review_count for p in products if p.review_count]
+    prices = [float(p.price) for p in products if p.price is not None]
+    return DatasetStats(
+        rating_mean=sum(ratings) / len(ratings) if ratings else 3.0,
+        prior_weight=median(counts) if counts else 20.0,
+        price_min=min(prices, default=None),
+        price_max=max(prices, default=None),
+    )
 
 
 @cache

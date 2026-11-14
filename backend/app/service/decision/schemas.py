@@ -17,7 +17,30 @@ NEGATIVE_EFFECT_LABELS = {
     "other": "A documented adverse skin effect that does not fit any of the predefined categories.",
     "unknown": "Insufficient reliable information to identify potential adverse effects. This does not imply that the product is risk-free.",
 }
-
+SkinConcern = Literal[
+    "redness",
+    "dryness",
+    "barrier_support",
+    "blemishes",
+    "hyperpigmentation",
+    "uneven_skin_tone",
+    "uv_protection",
+    "signs_of_congestion",
+    "visible_shine",
+    "crow's_feet",
+    "dehydration",
+    "early_signs_of_aging",
+    "advanced_signs_of_aging",
+    "dark_circles",
+    "puffiness",
+    "dullness",
+    "texture_irregularities",
+    "antioxidant_support",
+    "cleansing",
+    "wrinkles",
+    "lip_plumpness",
+    "hair",
+]
 
 class ProductNegativeLabel(BaseModel):
     product: Product
@@ -50,7 +73,7 @@ class PreviousReactionToProduct(BaseModel):
     concentration_ingredient: OptString = None
     concentration: float | None = None
     suited_for: OptString = None
-    ph: tuple[float, float] | list[float] | None = None
+    ph: list[float] | None = None
     source_url: OptString
     effect: str
     severity: SeverityLabels
@@ -69,10 +92,18 @@ class SkinType(StrEnum):
     DRY = "dry"
 
 
+class SensitivityLevels(StrEnum):
+    VERY_HIGH = "very_high"
+    HIGH = "high"
+    MILD = "mild"
+    LOW = "low"
+    UNKNOWN = "unknown"
+
+
 class UserSkinContext(BaseModel):
-    skin_concerns: list[str]
+    skin_concerns: list[SkinConcern]
     allergens: list[AllergenInciTerms]
-    skin_sensitivity: OptString = None
+    skin_sensitivity: SensitivityLevels
     previous_reactions_to_products: list[PreviousReactionToProduct] = Field(
         default_factory=list
     )

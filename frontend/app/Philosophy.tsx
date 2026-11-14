@@ -1,5 +1,11 @@
 "use client";
-import { LucideGraphHub, Repeat, ShieldCheck } from "lucide-react";
+import {
+  LucideGraphHub,
+  Repeat,
+  ShieldCheck,
+  CalendarDaysIcon,
+  Check,
+} from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { AboutYouCard } from "./philosophy-components/AboutYouCard";
@@ -98,17 +104,108 @@ function ApproachSection() {
     </AnimatedSection>
   );
 }
+
+const skinProgress = [
+  {
+    day: "21",
+    heading: "Big difference",
+    comments: [
+      "Incredible skin tone",
+      "perfect hydration",
+      "skin clear as day!",
+    ],
+  },
+  {
+    day: "7",
+    heading: "Small steps",
+    comments: ["A little redness", "good skin tone", "glossy skin c:"],
+  },
+  {
+    day: "7",
+    heading: "A little help",
+    comments: [
+      "Hyaluronic serum",
+      "To hydrate and give your skin that shiny look",
+      "Use sunscreen and refrain from retinols, niacynamides etc. to help with redness",
+    ],
+  },
+];
 function PersonalSection() {
   return (
     <AnimatedSection>
       <div className="flex flex-col p-3">
-        <div className="gap-1 w-full flex flex-col items-center justify-center">
-          <h2 className="text-3xl tracking-tighter">For every skin</h2>
-          <p className="max-w-lg text-secondary text-sm text-center ">
-            Our goal is to provide the best possible routine for{" "}
-            <span className=" uppercase tracking-tight">you</span>. Everyone's
-            skin is different
-          </p>
+        <div className="mt-8 grid grid-cols-[400px_1fr] gap-12 items-start">
+          <motion.div
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 12, opacity: 0 }}
+            transition={{
+              duration: 0.35,
+              delay: 0.7,
+            }}
+            className="max-h-[400px] mt-4 "
+          >
+            <img src="sillouette.jpg" className="rounded-2xl object-cover" />
+          </motion.div>
+          <motion.div
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 12, opacity: 0 }}
+            transition={{ duration: 0.35, delay: 1.5 }}
+            className="flex flex-col gap-2 justify-center items-start"
+          >
+            <h3 className="text-4xl tracking-tighter">For every skin</h3>
+            <p className=" max-w-xl text-secondary text-md">
+              To provide you with the best possible skincare routine including
+              your personal history, your dermatologist advice and your
+              preferences
+            </p>
+            <div className="grid grid-cols-3 gap-4 w-full mt-6">
+              {["skincare-1.jpg", "skincare-2.jpg", "serum.jpg"].map(
+                (src, idx) => (
+                  <div key={idx} className="flex flex-col gap-2">
+                    <div
+                      className="flex items-center gap-1 bg-amber-50 w-fit 
+                    text-amber-800
+                     rounded-full px-2 py-1 "
+                    >
+                      <CalendarDaysIcon className="size-4" />
+                      <p
+                        className="
+                      uppercase tracking-widest text-xs "
+                      >
+                        Day: {skinProgress[idx].day}{" "}
+                      </p>
+                    </div>
+
+                    <div
+                      key={src}
+                      className="aspect-square min-w-0 overflow-hidden rounded-2xl "
+                    >
+                      <img
+                        src={src}
+                        alt="Skincare"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <em className="text-xl">{skinProgress[idx].heading}</em>
+                      
+                      <ul className="flex flex-col gap-2">
+                        {skinProgress[idx].comments.map((comment) => (
+                          <li key={comment} className="text-xs flex text-secondary
+                           gap-2 items-center">
+                            <Check className="size-3 text-secondary shrink-0"/>
+                            {comment}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ),
+              )}
+            </div>
+          </motion.div>
         </div>
       </div>
     </AnimatedSection>

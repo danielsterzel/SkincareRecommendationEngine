@@ -9,7 +9,7 @@ import pandas as pd
 import json
 from pathlib import Path
 
-from app.service.decision.inferation import infer_skin_concerns
+from app.service.decision.llm_utils import infer_skin_concerns
 
 NORMALIZED_NAMES_JSON_PATH = "data/normalized-targets.json"
 

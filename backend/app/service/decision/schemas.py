@@ -1,3 +1,4 @@
+from enum import StrEnum
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -56,10 +57,23 @@ class PreviousReactionToProduct(BaseModel):
     original_text: str
 
 
+class AllergenInciTerms(BaseModel):
+    allergen: str
+    inci_terms: list[str]
+
+
+class SkinType(StrEnum):
+    OILY = "oily"
+    COMBINATION = "combination"
+    NORMAL = "normal"
+    DRY = "dry"
+
+
 class UserSkinContext(BaseModel):
     skin_concerns: list[str]
-    allergies: list[str]
+    allergens: list[AllergenInciTerms]
     skin_sensitivity: OptString = None
     previous_reactions_to_products: list[PreviousReactionToProduct] = Field(
         default_factory=list
     )
+    skin_type: SkinType | None = None

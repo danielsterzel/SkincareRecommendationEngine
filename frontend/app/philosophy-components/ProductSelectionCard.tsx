@@ -2,9 +2,10 @@ export function ProductSelectionCard() {
   return (
     <div
       className="border-[0.5px] border-olive-300 
-                 bg-white w-[400px] h-[500px] rounded-2xl scale-[1.05] p-3"
+                 bg-white w-[400px] h-[500px] rounded-2xl scale-[1.05] p-3 flex 
+                 gap-2 items-center justify-center overflow-hidden text-xs"
     >
-      <div className="relative w-full h-full object-cover overflow-hidden"></div>
+      
       <div
         className="absolute inset-0 bg-gradient-to-t
                 from-[#30251F] via-[#30251F]/15 to-transparent"

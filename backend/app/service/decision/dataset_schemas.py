@@ -1,6 +1,7 @@
 from decimal import Decimal
+from enum import StrEnum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, field_validator, computed_field
 from typing import Literal
 from uuid import UUID
 from datetime import datetime
@@ -39,12 +40,27 @@ class NormalizedSkinOutput(BaseModel):
 # print(df['source-url'].isna().sum())
 # print(df['targets'].dtype)
 
+# <ArrowStringArray>
+# [  'all-skin-types',        'oily-skin',         'dry-skin',
+#    'all-hair-types',   'sensitive-skin', 'combination-skin']
+# Length: 6, dtype: str
+
+
+class SuitedForValue(StrEnum):
+    ALL_SKIN_TYPES = "all-skin-types"
+    OILY_SKIN = "oily-skin"
+    DRY_SKIN = "dry-skin"
+    ALL_HAIR_TYPES = "all-hair-types"
+    SENSITIVE_SKIN = "sensitive-skin"
+    COMBINATION_SKIN = "combination-skin"
+
 
 class Product(BaseModel):
+    model_config = ConfigDict(frozen=True)  # do not modify fields
     id: UUID
     brand: str
     product_name: str  # not null
-    ingredients: list[str]  # no empty lists I checked
+    ingredients: list[str] | None
     category: OptString = None  # some nulls 172 out of 1930 records
     sub_category: OptString = None  # 751 nulls out of 1930
     application_area: OptString = None  # 657 nulls
@@ -57,7 +73,19 @@ class Product(BaseModel):
     concentration_ingredient: OptString = None
     concentration: float | None = None
     targets: OptString = None
-    suited_for: OptString = None
+    suited_for: set[SuitedForValue]
     ph: tuple[float, float] | list[float] | None = None
     rating: float | None = None
     review_count: int
+
+    @computed_field
+    @property
+    def ingredients_unknown(self) -> bool:
+        return self.ingredients is None
+
+    @field_validator("ingredients", mode="after")
+    @classmethod
+    def empty_means_unknown(cls, v):
+        if v is None:
+            return None
+        return [t.rstrip(".").strip() for t in v] or None

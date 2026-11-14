@@ -2,7 +2,7 @@ import pandas as pd
 from neo4j import Driver
 
 from app.service.decision.graph_queries import find_product_by_concern
-from app.service.decision.inferation import infer_skin_concerns
+from app.service.decision.llm_utils import infer_skin_concerns
 import json
 
 df = pd.read_parquet("data/skincare-products-clean.parquet")

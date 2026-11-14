@@ -12,6 +12,10 @@ export function AboutYouCard() {
       <div className="self-start max-w-[85%] rounded-2xl bg-white/85 backdrop-blur-sm px-4 py-3 text-xs text-primary shadow-sm">
         What would you like to improve today?
       </div>
+      <div
+        className="absolute inset-0 bg-gradient-to-t
+                from-[#30251F] via-[#30251F]/15 to-transparent"
+      />
       <motion.div
         initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -41,17 +45,14 @@ export function AboutYouCard() {
           Sensitivity
         </span>
       </motion.div>
-      <div className="absolute bottom-3 left-4 rounded-3xl border border-white/80 bg-white/50 backdrop-blur-md p-5 shadow-sm">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-sm">About you</h3>
-          <ArrowUpRight size={20} />
-        </div>
-
-        <p className="mt-2 text-xs text-neutral-500">
-          Tell us about your skin, concerns and goals.
-        </p>
+      <div className="flex items-center justify-between">
+        <h3 className="absolute left-6 bottom-12 text-xl font-sm text-white">About you</h3>
+        <ArrowUpRight size={20} className="absolute bottom-14 right-8 text-white"/>
       </div>
-      Ś
+
+      <p className="left-6 bottom-6 absolute mt-2 text-xs text-white/70">
+        Tell us about your skin, concerns and goals.
+      </p>
     </div>
   );
 }

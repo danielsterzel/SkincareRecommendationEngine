@@ -9,6 +9,9 @@ from app.api.questionnaire import router as api_router
 from app.api.auth import router as user_router
 from app.api.analysis import router as analysis_router
 from app.core.settings import settings
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
 app.add_middleware(

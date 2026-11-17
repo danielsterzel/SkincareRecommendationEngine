@@ -1,0 +1,530 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2180" height="2420" viewBox="0 0 2180 2420" role="img" aria-labelledby="title desc" lang="pl" xml:lang="pl">
+<title id="title">Aurelia · Decision Engine — przepływ danych i mapowania</title>
+<desc id="desc">Jeden diagram kodu roboczego. Pokazuje dane wejściowe, inferencje LLM, filtrowanie, mapowania i enumy, niepodpięty ranking WSM oraz powiązane ścieżki Neo4j i API analizy.</desc>
+<defs>
+  <marker id="live-arrow" viewBox="0 0 10 10" refX="9.3" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#516D89"/></marker>
+  <marker id="draft-arrow" viewBox="0 0 10 10" refX="9.3" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#7A728E"/></marker>
+  <marker id="order-arrow" viewBox="0 0 10 10" refX="9.3" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6D7687"/></marker>
+  <marker id="block-arrow" viewBox="0 0 10 10" refX="9.3" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#A43F33"/></marker>
+  <style>
+    text {font-family:"Helvetica Neue",Arial,sans-serif;fill:#263449;font-size:17px}
+    .header {font-size:43px;font-weight:700;fill:#172740}
+    .sub {font-size:19px;fill:#485874}
+    .section {font-size:23px;font-weight:700;fill:#273953}
+    .index {font: bold 15px Menlo,monospace;fill:#59718C}
+    .tag {font-size:12px;font-weight:700;letter-spacing:1.2px}
+    .name {font-size:22px;font-weight:700;fill:#18283D}
+    .code, .ref, .edge-label {font-family:Menlo,"DejaVu Sans Mono",monospace}
+    .code {font-size:15px;fill:#30445F}
+    .ref, .edge-label {font-size:13px;fill:#485874}
+    .warning {font-size:16px;fill:#942F24}
+    .muted {font-size:16px;fill:#5D687B}
+    .lead {font-size:17px;font-weight:700}
+    .edge {fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+    .edge.live {stroke:#516D89}
+    .edge.draft {stroke:#7A728E;stroke-dasharray:8 6}
+    .edge.order {stroke:#6D7687;stroke-dasharray:2 6}
+    .edge.block {stroke:#A43F33;stroke-dasharray:8 5}
+    .edge.leader {stroke:#B18B50;stroke-dasharray:2 6}
+    .edge-label.draft {fill:#655873}
+    .edge-label.block {fill:#972F22}
+  </style>
+</defs>
+<rect x="0" y="0" width="2180" height="2420" rx="0" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="2180" height="145" rx="0" fill="#EDF2F8" stroke="none" stroke-width="1"/>
+<rect x="0" y="0" width="2180" height="5" rx="0" fill="#406782" stroke="none" stroke-width="1"/>
+<text x="60" y="70" class="header" text-anchor="start">Aurelia · Decision Engine</text>
+<text x="62" y="106" class="sub" text-anchor="start">Przepływ danych, inferencje LLM i mapowania  /  backend/app/service/decision/</text>
+<path d="M 1050 70 L 1085 70" class="edge live" marker-end="url(#live-arrow)" aria-hidden="true"/>
+<text x="1094" y="76" class="muted" text-anchor="start">Dane w kodzie</text>
+<path d="M 1270 70 L 1305 70" class="edge draft" marker-end="url(#draft-arrow)" aria-hidden="true"/>
+<text x="1314" y="76" class="muted" text-anchor="start">Ścieżka niepodpięta / pomocnicza</text>
+<path d="M 1657 70 L 1692 70" class="edge order" marker-end="url(#order-arrow)" aria-hidden="true"/>
+<text x="1701" y="76" class="muted" text-anchor="start">Kolejność wywołań</text>
+<path d="M 1923 70 L 1958 70" class="edge block" marker-end="url(#block-arrow)" aria-hidden="true"/>
+<text x="1967" y="76" class="muted" text-anchor="start">Błąd wykonania</text>
+<rect x="1050" y="96" width="19" height="15" rx="4" fill="#EDF5FC" stroke="#4577A3" stroke-width="1"/>
+<text x="1078" y="109" class="muted" text-anchor="start">Źródło</text>
+<rect x="1270" y="96" width="19" height="15" rx="4" fill="#F2ECFA" stroke="#9366BC" stroke-width="1"/>
+<text x="1298" y="109" class="muted" text-anchor="start">Inferencja LLM</text>
+<rect x="1490" y="96" width="19" height="15" rx="4" fill="#FFF6E3" stroke="#B98535" stroke-width="1"/>
+<text x="1518" y="109" class="muted" text-anchor="start">Mapowanie / enum / Literal</text>
+<rect x="1845" y="96" width="19" height="15" rx="4" fill="#FFF0ED" stroke="#C06557" stroke-width="1"/>
+<text x="1873" y="109" class="muted" text-anchor="start">Blokada</text>
+<text x="60" y="183" class="index" text-anchor="start">01</text>
+<text x="103" y="183" class="section" text-anchor="start">wsm_pipeline(user_input) · kolejność zapisana w kodzie</text>
+<path d="M 60 196 H 1440" stroke="#BFC9D8" stroke-width="1.4"/>
+<text x="1520" y="183" class="index" text-anchor="start"></text>
+<text x="1520" y="183" class="section" text-anchor="start">Uruchomienie i źródła słowników</text>
+<path d="M 1520 196 H 2120" stroke="#BFC9D8" stroke-width="1.4"/>
+<text x="60" y="1217" class="index" text-anchor="start">02</text>
+<text x="103" y="1217" class="section" text-anchor="start">Kryteria i WSM · funkcje dostępne poza pipeline’em</text>
+<path d="M 60 1230 H 1440" stroke="#BFC9D8" stroke-width="1.4"/>
+<text x="1520" y="912" class="index" text-anchor="start"></text>
+<text x="1520" y="912" class="section" text-anchor="start">Pobieranie kandydatów z Neo4j</text>
+<path d="M 1520 925 H 2120" stroke="#BFC9D8" stroke-width="1.4"/>
+<text x="1520" y="1637" class="index" text-anchor="start"></text>
+<text x="1520" y="1637" class="section" text-anchor="start">Analiza obsługiwana przez FastAPI</text>
+<path d="M 1520 1650 H 2120" stroke="#BFC9D8" stroke-width="1.4"/>
+<text x="1520" y="2112" class="index" text-anchor="start"></text>
+<text x="1520" y="2112" class="section" text-anchor="start">Pozostałe typy i szkice</text>
+<path d="M 1520 2125 H 2120" stroke="#BFC9D8" stroke-width="1.4"/>
+<path d="M 270 302 L 270 346" class="edge live" marker-end="url(#live-arrow)" aria-hidden="true"/>
+<path d="M 750 302 L 750 346" class="edge live" marker-end="url(#live-arrow)" aria-hidden="true"/>
+<path d="M 270 486 L 270 532" class="edge live" marker-end="url(#live-arrow)" aria-hidden="true"/>
+<path d="M 750 486 L 750 532" class="edge live" marker-end="url(#live-arrow)" aria-hidden="true"/>
+<path d="M 480 573 L 540 573" class="edge order" marker-end="url(#order-arrow)" aria-label="Po ekstrakcji kontekstu kod ładuje katalog"/>
+<path d="M 960 587 L 1020 587" class="edge live" marker-end="url(#live-arrow)" aria-label="Komplet danych Product"/>
+<path d="M 1230 432 L 1230 532" class="edge live" marker-end="url(#live-arrow)" aria-label="Kontrakt OpenAI używany przez inferencję etykiet"/>
+<path d="M 1020 397 L 1000 397 L 1000 506 L 420 506 L 420 486" class="edge live" marker-end="url(#live-arrow)" aria-label="Ten sam kontrakt OpenAI używany przez ekstrakcję kontekstu"/>
+<path d="M 206 768 L 206 797 L 1051 797 L 1051 768" class="edge live" marker-end="url(#live-arrow)" aria-label="UserSkinContext do modelu etykiet"/>
+<path d="M 107 768 L 107 823 L 607 823 L 607 851" class="edge live" marker-end="url(#live-arrow)" aria-label="Alergeny i wcześniejsze reakcje"/>
+<path d="M 750 768 L 750 851" class="edge live" marker-end="url(#live-arrow)" aria-label="Oryginalny katalog do filtra"/>
+<path d="M 1230 768 L 1230 851" class="edge live" marker-end="url(#live-arrow)" aria-label="Parsowanie ustrukturyzowanego wyniku"/>
+<path d="M 1020 894 L 960 894" class="edge order" marker-end="url(#order-arrow)" aria-label="Filtr działa po drugim LLM i nie konsumuje jego etykiet"/>
+<path d="M 480 948 L 540 948" class="edge live" marker-end="url(#live-arrow)" aria-label="Frazy słownika do filtra"/>
+<path d="M 750 1050 L 750 1078" class="edge live" marker-end="url(#live-arrow)" aria-hidden="true"/>
+<path d="M 750 1184 L 750 1196 L 35 1196 L 35 2088 L 60 2088" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Do podpięcia cleaned_products i kontekst do macierzy"/>
+<path d="M 1435 1100 L 1435 1197 L 1466 1197 L 1466 2088 L 1440 2088" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Brak adaptacji płaskich etykiet LLM do macierzy"/>
+<path d="M 93 1493 L 93 1503 L 50 1503 L 50 1724 L 110 1724 L 110 1743" class="edge live" marker-end="url(#live-arrow)" aria-label="Lookup nazw targetów produktu"/>
+<path d="M 693 1592 L 693 1743" class="edge live" marker-end="url(#live-arrow)" aria-label="Mapowania fit, istotnych efektów i wrażliwości"/>
+<path d="M 1060 1713 L 1060 1729 L 886 1729 L 886 1743" class="edge live" marker-end="url(#live-arrow)" aria-label="Set potencjalnie drażniących aktywnych"/>
+<path d="M 1393 1454 L 1393 1471 L 1454 1471 L 1454 1727 L 1393 1727 L 1393 1743" class="edge live" marker-end="url(#live-arrow)" aria-label="C i m z katalogu"/>
+<path d="M 480 1590 L 505 1590 L 505 1676 L 565 1676 L 565 1743" class="edge live" marker-end="url(#live-arrow)" aria-label="skin_type i skin_sensitivity aktywne w kryterium negatywnym"/>
+<path d="M 270 1985 L 270 2022" class="edge live" marker-end="url(#live-arrow)" aria-hidden="true"/>
+<path d="M 750 2003 L 750 2022" class="edge live" marker-end="url(#live-arrow)" aria-hidden="true"/>
+<path d="M 1230 1985 L 1230 2022" class="edge live" marker-end="url(#live-arrow)" aria-hidden="true"/>
+<path d="M 750 2145 L 750 2193" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Macierz musi zostać przekazana do wsm"/>
+<path d="M 1520 267 L 1469 267 L 1469 198 L 507 198 L 507 266 L 480 266" class="edge block" marker-end="url(#block-arrow)" aria-label="Kod wykonywany przy imporcie blokuje użycie funkcji"/>
+<path d="M 1520 560 L 1501 560 L 1501 809 L 42 809 L 42 899 L 60 899" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Wyłączona ścieżka tworzenia pliku alergenów"/>
+<path d="M 1520 745 L 1480 745 L 1480 1232 L 284 1232 L 284 1253" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Wyłączona ścieżka tworzenia pliku normalized-targets.json"/>
+<path d="M 410 1253 L 410 1244 L 1496 1244 L 1496 1043 L 1520 1043" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Plik normalized-targets.json do pomocniczej inferencji concern"/>
+<path d="M 1820 1116 L 1820 1164" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Klucze concern do wyszukania kandydatów"/>
+<path d="M 1820 1329 L 1820 1372" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Wyniki Neo4j uzupełniane danymi Parquet"/>
+<path d="M 942 768 L 942 837 L 1476 837 L 1476 1488 L 1520 1488" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Ta sama ścieżka pliku Parquet zasila bezpośredni odczyt po nazwie"/>
+<path d="M 480 233 L 491 233 L 491 153 L 2143 153 L 2143 985 L 2120 985" class="edge draft" marker-end="url(#draft-arrow)" aria-label="Tekst wejściowy w osobnym helperze inferencji concern"/>
+<path d="M 1820 1819 L 1820 1854" class="edge live" marker-end="url(#live-arrow)" aria-label="Prompt i kontekst ankiety z bazy"/>
+<path d="M 77 768 L 77 790 L 23 790 L 23 1605 L 60 1605" class="edge leader" aria-label="Enumy i typ reakcji z UserSkinContext"/>
+<path d="M 60 1674 L 48 1674 L 48 1090 L 519 1090 L 519 1009 L 540 1009" class="edge leader" aria-label="SeverityLabels: high dla twardego filtra"/>
+<rect x="874.5" y="493" width="129" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="939" y="506" class="edge-label live" text-anchor="middle">responses.parse</text>
+<rect x="309.0" y="785" width="176" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="397" y="798" class="edge-label live" text-anchor="middle">pełny UserSkinContext</text>
+<rect x="209.0" y="811" width="246" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="332" y="824" class="edge-label live" text-anchor="middle">allergens + previous_reactions</text>
+<rect x="188.5" y="1183" width="301" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="339" y="1196" class="edge-label draft" text-anchor="middle">cleaned_products + ctx · do podpięcia</text>
+<rect x="1143.5" y="1184" width="285" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="1286" y="1197" class="edge-label draft" text-anchor="middle">mapped → etykiety · brak połączenia</text>
+<rect x="119.5" y="1710" width="145" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="192" y="1723" class="edge-label live" text-anchor="middle">klucze kanoniczne</text>
+<rect x="613.0" y="1637" width="160" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="693" y="1650" class="edge-label live" text-anchor="middle">3 odczyty słowników</text>
+<rect x="914.0" y="1716" width="152" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="990" y="1729" class="edge-label live" text-anchor="middle">składnik w zbiorze</text>
+<rect x="1359.5" y="1715" width="43" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="1381" y="1728" class="edge-label live" text-anchor="middle">C, m</text>
+<rect x="788.0" y="2157" width="254" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="915" y="2170" class="edge-label draft" text-anchor="middle">scores · wywołanie do podpięcia</text>
+<rect x="1014.0" y="185" width="254" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="1141" y="198" class="edge-label block" text-anchor="middle">blokuje uruchomienie pipeline’u</text>
+<rect x="1117.5" y="797" width="231" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="1233" y="810" class="edge-label draft" text-anchor="middle">zapis słownika zakomentowany</text>
+<rect x="1147.0" y="1220" width="246" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="1270" y="1233" class="edge-label draft" text-anchor="middle">zapis taksonomii zakomentowany</text>
+<rect x="670.5" y="1231" width="293" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="817" y="1244" class="edge-label draft" text-anchor="middle">ten sam plik normalized-targets.json</text>
+<rect x="1859.5" y="1129" width="121" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="1920" y="1142" class="edge-label draft" text-anchor="middle">klucze concern</text>
+<rect x="1836.5" y="1337" width="199" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="1936" y="1350" class="edge-label draft" text-anchor="middle">id, brand, name, size_ml</text>
+<rect x="882.5" y="824" width="215" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="990" y="837" class="edge-label draft" text-anchor="middle">Parquet (odczyt po nazwie)</text>
+<rect x="1706.5" y="140" width="207" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="1810" y="153" class="edge-label draft" text-anchor="middle">user_input w szkicu Neo4j</text>
+<rect x="1886.5" y="1820" width="137" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="1955" y="1833" class="edge-label live" text-anchor="middle">prompt + ankieta</text>
+<rect x="199.0" y="1077" width="176" height="19" rx="5" fill="#F7F8FC" stroke="none" stroke-width="1"/>
+<text x="287" y="1090" class="edge-label live" text-anchor="middle">SeverityLabels = high</text>
+<g id="user-input" role="group" aria-label="Wywiad użytkownika">
+<rect x="60" y="212" width="420" height="90" rx="13" fill="#EDF5FC" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="61" y="227" width="4" height="60" rx="2" fill="#4577A3" stroke="none" stroke-width="1"/>
+<text x="78" y="235" class="tag" style="fill:#2D5475">WEJŚCIE</text>
+<text x="78" y="263" class="name" text-anchor="start">Wywiad użytkownika</text>
+<text x="78" y="285" class="code" text-anchor="start">user_input: str</text>
+</g>
+<g id="workbook" role="group" aria-label="aurelia-skincare-complete.xlsx">
+<rect x="540" y="212" width="420" height="90" rx="13" fill="#EDF5FC" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="541" y="227" width="4" height="60" rx="2" fill="#4577A3" stroke="none" stroke-width="1"/>
+<text x="558" y="235" class="tag" style="fill:#2D5475">ŹRÓDŁO OFFLINE</text>
+<text x="558" y="263" class="name" text-anchor="start">aurelia-skincare-complete.xlsx</text>
+<text x="558" y="285" class="body" text-anchor="start">Dane katalogowe produktów.</text>
+</g>
+<g id="context-llm" role="group" aria-label="1 · Ekstrakcja kontekstu">
+<rect x="60" y="346" width="420" height="140" rx="13" fill="#F2ECFA" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="61" y="361" width="4" height="110" rx="2" fill="#9366BC" stroke="none" stroke-width="1"/>
+<text x="78" y="369" class="tag" style="fill:#5E3789">LLM</text>
+<text x="78" y="397" class="name" text-anchor="start">1 · Ekstrakcja kontekstu</text>
+<text x="78" y="419" class="code" text-anchor="start">openai_user_skin_context_inference</text>
+<text x="78" y="437" class="code" text-anchor="start">prompt_user_skin_context.txt</text>
+<text x="78" y="471" class="ref" text-anchor="start">llm_utils.py:89</text>
+</g>
+<g id="prep" role="group" aria-label="Przygotowanie katalogu">
+<rect x="540" y="346" width="420" height="140" rx="13" fill="#FFFFFF" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="541" y="361" width="4" height="110" rx="2" fill="#539387" stroke="none" stroke-width="1"/>
+<text x="558" y="369" class="tag" style="fill:#26675D">ETL OFFLINE</text>
+<text x="558" y="397" class="name" text-anchor="start">Przygotowanie katalogu</text>
+<text x="558" y="419" class="body" text-anchor="start">Lowercase, listy INCI i cech, konwersja pH.</text>
+<text x="558" y="438" class="warning" text-anchor="start">Brak wywołania remap_df_names().</text>
+<text x="558" y="471" class="ref" text-anchor="start">data/dataset_prep.py:7,26–69</text>
+</g>
+<g id="openai-contract" role="group" aria-label="Wspólny kontrakt inferencji">
+<rect x="1020" y="212" width="420" height="220" rx="13" fill="#F2ECFA" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1021" y="227" width="4" height="190" rx="2" fill="#9366BC" stroke="none" stroke-width="1"/>
+<text x="1038" y="235" class="tag" style="fill:#5E3789">LLM</text>
+<text x="1038" y="263" class="name" text-anchor="start">Wspólny kontrakt inferencji</text>
+<text x="1038" y="285" class="code" text-anchor="start">OpenAI(api_key=settings.open_ai_key)</text>
+<text x="1038" y="303" class="code" text-anchor="start">model = settings.open_ai_model</text>
+<text x="1038" y="321" class="code" text-anchor="start">responses.parse(input, instructions,</text>
+<text x="1038" y="339" class="code" text-anchor="start">text_format=Schemat)</text>
+<text x="1038" y="357" class="body" text-anchor="start">Wynik: output_parsed. Log: tokeny i latencja.</text>
+<text x="1038" y="376" class="warning" text-anchor="start">Brak output_parsed → LLMOutputParseException.</text>
+<text x="1038" y="417" class="ref" text-anchor="start">desicion_engine.py:250 · llm_utils.py:39–65</text>
+</g>
+<g id="user-context" role="group" aria-label="UserSkinContext">
+<rect x="60" y="532" width="420" height="236" rx="13" fill="#F2ECFA" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="61" y="547" width="4" height="206" rx="2" fill="#9366BC" stroke="none" stroke-width="1"/>
+<text x="78" y="555" class="tag" style="fill:#5E3789">WYNIK LLM · PYDANTIC</text>
+<text x="78" y="583" class="name" text-anchor="start">UserSkinContext</text>
+<text x="78" y="605" class="code" text-anchor="start">skin_concerns: list[str]</text>
+<text x="78" y="623" class="code" text-anchor="start">skin_type: SkinType | None</text>
+<text x="78" y="641" class="code" text-anchor="start">skin_sensitivity: SensitivityLevels</text>
+<text x="78" y="659" class="code" text-anchor="start">allergens: list[AllergenInciTerms]</text>
+<text x="78" y="677" class="code" text-anchor="start">previous_reactions_to_products: list[…]</text>
+<text x="78" y="695" class="body" text-anchor="start">Reakcja: marka, produkt, efekt, cytat, pH,</text>
+<text x="78" y="714" class="body" text-anchor="start">stężenie i severity.</text>
+<text x="78" y="733" class="warning" text-anchor="start">Wrażliwość: null w prompcie, enum w schemacie.</text>
+<text x="78" y="753" class="ref" text-anchor="start">schemas.py:47–87</text>
+</g>
+<g id="catalog" role="group" aria-label="2 · load_products() · @cache">
+<rect x="540" y="532" width="420" height="236" rx="13" fill="#EDF5FC" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="541" y="547" width="4" height="206" rx="2" fill="#4577A3" stroke="none" stroke-width="1"/>
+<text x="558" y="555" class="tag" style="fill:#2D5475">PARQUET → SCHEMAT</text>
+<text x="558" y="583" class="name" text-anchor="start">2 · load_products() · @cache</text>
+<text x="558" y="605" class="code" text-anchor="start">skincare-products-clean.parquet</text>
+<text x="558" y="623" class="code" text-anchor="start">pd.read_parquet → rekordy → Product(**row)</text>
+<text x="558" y="641" class="code" text-anchor="start">→ tuple[Product, …] (model frozen)</text>
+<text x="558" y="659" class="body" text-anchor="start">UUID, marka/nazwa, INCI, targets, suited_for,</text>
+<text x="558" y="678" class="body" text-anchor="start">aktywny składnik i stężenie, pH, cena, oceny.</text>
+<text x="558" y="697" class="body" text-anchor="start">INCI: rstrip kropki + strip, [] → None.</text>
+<text x="558" y="716" class="warning" text-anchor="start">Kolumny product-name i suited-for nie odpowiadają</text>
+<text x="558" y="734" class="warning" text-anchor="start">polom Product → ValidationError.</text>
+<text x="558" y="753" class="ref" text-anchor="start">dataset_queries.py:30–33</text>
+</g>
+<g id="labels-llm" role="group" aria-label="3 · Etykiety negatywne">
+<rect x="1020" y="532" width="420" height="236" rx="13" fill="#F2ECFA" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1021" y="547" width="4" height="206" rx="2" fill="#9366BC" stroke="none" stroke-width="1"/>
+<text x="1038" y="555" class="tag" style="fill:#5E3789">LLM</text>
+<text x="1038" y="583" class="name" text-anchor="start">3 · Etykiety negatywne</text>
+<text x="1038" y="605" class="code" text-anchor="start">assign_negative_labels_to_products</text>
+<text x="1038" y="623" class="code" text-anchor="start">JSON {product_jsons, negative_labels,</text>
+<text x="1038" y="641" class="code" text-anchor="start">user_skin_context}</text>
+<text x="1038" y="659" class="body" text-anchor="start">Katalog przed filtrem + kontekst, oba</text>
+<text x="1038" y="678" class="body" text-anchor="start">serializowane przez model_dump(mode=&#x27;json&#x27;).</text>
+<text x="1038" y="697" class="code" text-anchor="start">schemas.NEGATIVE_EFFECT_LABELS</text>
+<text x="1038" y="715" class="code" text-anchor="start">prompt_negative_product_labels.txt</text>
+<text x="1038" y="733" class="body" text-anchor="start">Prompt: jedna pozycja na parę produkt–etykieta.</text>
+<text x="1038" y="753" class="ref" text-anchor="start">llm_utils.py:68–86 · desicion_engine.py:254–256</text>
+</g>
+<g id="allergen-map" role="group" aria-label="Alergen → frazy INCI">
+<rect x="60" y="851" width="420" height="199" rx="13" fill="#FFF6E3" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="61" y="866" width="4" height="169" rx="2" fill="#B98535" stroke="none" stroke-width="1"/>
+<text x="78" y="874" class="tag" style="fill:#765019">MAPOWANIE</text>
+<text x="78" y="902" class="name" text-anchor="start">Alergen → frazy INCI</text>
+<text x="78" y="924" class="code" text-anchor="start">allergen_inci_terms.json →</text>
+<text x="78" y="942" class="code" text-anchor="start">load_allergen_terms()</text>
+<text x="78" y="960" class="code" text-anchor="start">MappingProxyType[str, tuple[str, …]]</text>
+<text x="78" y="978" class="body" text-anchor="start">strip + lower klucza i każdej frazy.</text>
+<text x="78" y="997" class="code" text-anchor="start">nuts → juglans regia, …</text>
+<text x="78" y="1015" class="body" text-anchor="start">Nieznany klucz → brak fraz. Klucz: nazwa alergenu.</text>
+<text x="78" y="1035" class="ref" text-anchor="start">dataset_queries.py:55–62</text>
+</g>
+<g id="exclude" role="group" aria-label="4 · exclude_negative_products">
+<rect x="540" y="851" width="420" height="199" rx="13" fill="#FFFFFF" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="541" y="866" width="4" height="169" rx="2" fill="#539387" stroke="none" stroke-width="1"/>
+<text x="558" y="874" class="tag" style="fill:#26675D">KOD</text>
+<text x="558" y="902" class="name" text-anchor="start">4 · exclude_negative_products</text>
+<text x="558" y="924" class="body" text-anchor="start">Odrzuć parę (brand, product_name) po strip +</text>
+<text x="558" y="943" class="body" text-anchor="start">lower dla wcześniejszych reakcji high.</text>
+<text x="558" y="962" class="body" text-anchor="start">Gdy są frazy INCI: odrzuć ingredients_unknown</text>
+<text x="558" y="981" class="body" text-anchor="start">lub podciąg w którymkolwiek składniku.</text>
+<text x="558" y="1000" class="warning" text-anchor="start">Kod wywołuje .strip() na inci_terms: list[str].</text>
+<text x="558" y="1018" class="warning" text-anchor="start">Przy severity=high marka/nazwa może być None.</text>
+<text x="558" y="1035" class="ref" text-anchor="start">desicion_engine.py:180–222</text>
+</g>
+<g id="label-result" role="group" aria-label="ProductNegativeLabelModelOutput">
+<rect x="1020" y="851" width="420" height="249" rx="13" fill="#F2ECFA" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1021" y="866" width="4" height="219" rx="2" fill="#9366BC" stroke="none" stroke-width="1"/>
+<text x="1038" y="874" class="tag" style="fill:#5E3789">WYNIK LLM · LITERAL</text>
+<text x="1038" y="902" class="name" text-anchor="start">ProductNegativeLabelModelOutput</text>
+<text x="1038" y="924" class="code" text-anchor="start">mapped: list[{product: Product, label,</text>
+<text x="1038" y="942" class="code" text-anchor="start">reasoning, evidence_source?}]</text>
+<text x="1038" y="960" class="lead" text-anchor="start">label · Literal</text>
+<text x="1038" y="978" class="code" text-anchor="start">dryness · redness · irritation ·</text>
+<text x="1038" y="996" class="code" text-anchor="start">comedogenicity</text>
+<text x="1038" y="1014" class="code" text-anchor="start">allergic_reaction · photosensitivity</text>
+<text x="1038" y="1032" class="code" text-anchor="start">pigmentation_changes · other · unknown</text>
+<text x="1038" y="1050" class="warning" text-anchor="start">Wynik pozostaje lokalny w negative_labels.</text>
+<text x="1038" y="1068" class="warning" text-anchor="start">Brak grupowania etykiet według Product.id.</text>
+<text x="1038" y="1085" class="ref" text-anchor="start">schemas.py:9–40 · desicion_engine.py:254</text>
+</g>
+<g id="no-pipeline-return" role="group" aria-label="cleaned_products">
+<rect x="540" y="1078" width="420" height="106" rx="13" fill="#F1F3F7" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="541" y="1093" width="4" height="76" rx="2" fill="#76829B" stroke="none" stroke-width="1"/>
+<text x="558" y="1101" class="tag" style="fill:#43506D">KONIEC ZAPISANEGO PRZEPŁYWU</text>
+<text x="558" y="1129" class="name" text-anchor="start">cleaned_products</text>
+<text x="558" y="1151" class="body" text-anchor="start">Wynik lokalny. Pipeline zwraca None.</text>
+<text x="558" y="1169" class="ref" text-anchor="start">desicion_engine.py:258–265</text>
+</g>
+<g id="target-map" role="group" aria-label="Surowy target → klucz">
+<rect x="60" y="1253" width="420" height="240" rx="13" fill="#FFF6E3" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="61" y="1268" width="4" height="210" rx="2" fill="#B98535" stroke="none" stroke-width="1"/>
+<text x="78" y="1276" class="tag" style="fill:#765019">MAPOWANIE</text>
+<text x="78" y="1304" class="name" text-anchor="start">Surowy target → klucz</text>
+<text x="78" y="1326" class="code" text-anchor="start">normalized-targets.json → target_map()</text>
+<text x="78" y="1344" class="code" text-anchor="start">original_name → normalized_name</text>
+<text x="78" y="1362" class="body" text-anchor="start">26 aliasów → 23 klucze, np. look of redness →</text>
+<text x="78" y="1381" class="body" text-anchor="start">redness, dullnes → dullness.</text>
+<text x="78" y="1400" class="lead" text-anchor="start">category · Literal</text>
+<text x="78" y="1418" class="code" text-anchor="start">SKIN_CONCERN · SKIN_GOAL</text>
+<text x="78" y="1436" class="code" text-anchor="start">PRODUCT_FUNCTION · OTHER</text>
+<text x="78" y="1454" class="body" text-anchor="start">Lookup pomija category i needs_review.</text>
+<text x="78" y="1478" class="ref" text-anchor="start">desicion_engine.py:86–89 · dataset_schemas.py:11</text>
+</g>
+<g id="negative-maps" role="group" aria-label="Mapowania typu i wrażliwości">
+<rect x="540" y="1253" width="420" height="339" rx="13" fill="#FFF6E3" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="541" y="1268" width="4" height="309" rx="2" fill="#B98535" stroke="none" stroke-width="1"/>
+<text x="558" y="1276" class="tag" style="fill:#765019">MAPOWANIA I ENUMY</text>
+<text x="558" y="1304" class="name" text-anchor="start">Mapowania typu i wrażliwości</text>
+<text x="558" y="1326" class="lead" text-anchor="start">PRODUCT_SUITED_FOR_TO_SKIN_TYPE</text>
+<text x="558" y="1344" class="code" text-anchor="start">all-skin-types / sensitive-skin → każdy</text>
+<text x="558" y="1362" class="code" text-anchor="start">SkinType</text>
+<text x="558" y="1380" class="code" text-anchor="start">dry-skin → {dry} · oily-skin → {oily}</text>
+<text x="558" y="1398" class="code" text-anchor="start">combination-skin → {combination}</text>
+<text x="558" y="1416" class="warning" text-anchor="start">SuitedForValue.all-hair-types: brak klucza.</text>
+<text x="558" y="1434" class="lead" text-anchor="start">SKIN_TYPE_NEGATIVE_EFFECTS</text>
+<text x="558" y="1452" class="code" text-anchor="start">dry → {dryness, irritation}</text>
+<text x="558" y="1470" class="code" text-anchor="start">oily → {comedogenicity}</text>
+<text x="558" y="1488" class="code" text-anchor="start">combination → {dryness, comedogenicity}</text>
+<text x="558" y="1506" class="code" text-anchor="start">normal → ∅</text>
+<text x="558" y="1524" class="lead" text-anchor="start">SKIN_TYPE_IRRITATION_MAPPING</text>
+<text x="558" y="1542" class="code" text-anchor="start">very_high → 0 · high → 0.25 · mild → 0.5</text>
+<text x="558" y="1560" class="code" text-anchor="start">low → 0.75 · unknown → 0.5</text>
+<text x="558" y="1577" class="ref" text-anchor="start">schema_mappings.py:4–25 · dataset_schemas.py:49</text>
+</g>
+<g id="stats" role="group" aria-label="dataset_stats() · @cache">
+<rect x="1020" y="1253" width="420" height="201" rx="13" fill="#EDF5FC" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1021" y="1268" width="4" height="171" rx="2" fill="#4577A3" stroke="none" stroke-width="1"/>
+<text x="1038" y="1276" class="tag" style="fill:#2D5475">DANE</text>
+<text x="1038" y="1304" class="name" text-anchor="start">dataset_stats() · @cache</text>
+<text x="1038" y="1326" class="body" text-anchor="start">Źródło: pełny katalog z load_products().</text>
+<text x="1038" y="1345" class="code" text-anchor="start">C = mean(p.rating dla rating is not None)</text>
+<text x="1038" y="1363" class="code" text-anchor="start">m = median(niezerowe review_count)</text>
+<text x="1038" y="1381" class="body" text-anchor="start">Domyślnie C = 3.0, m = 20.0. Liczy także</text>
+<text x="1038" y="1400" class="body" text-anchor="start">price_min i price_max, bez użycia w WSM.</text>
+<text x="1038" y="1439" class="ref" text-anchor="start">dataset_queries.py:22–47</text>
+</g>
+<g id="context-enums" role="group" aria-label="Typy pól UserSkinContext">
+<rect x="60" y="1517" width="420" height="196" rx="13" fill="#FFF6E3" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="61" y="1532" width="4" height="166" rx="2" fill="#B98535" stroke="none" stroke-width="1"/>
+<text x="78" y="1540" class="tag" style="fill:#765019">MAPOWANIA I ENUMY</text>
+<text x="78" y="1568" class="name" text-anchor="start">Typy pól UserSkinContext</text>
+<text x="78" y="1590" class="lead" text-anchor="start">SkinType · StrEnum (pole opcjonalne)</text>
+<text x="78" y="1608" class="code" text-anchor="start">dry · oily · combination · normal</text>
+<text x="78" y="1626" class="lead" text-anchor="start">SensitivityLevels · StrEnum</text>
+<text x="78" y="1644" class="code" text-anchor="start">very_high · high · mild · low · unknown</text>
+<text x="78" y="1662" class="lead" text-anchor="start">SeverityLabels · Literal</text>
+<text x="78" y="1680" class="code" text-anchor="start">low · moderate · high · unknown</text>
+<text x="78" y="1698" class="ref" text-anchor="start">schemas.py:65–87 · domain_types.py:5</text>
+</g>
+<g id="irritating-map" role="group" aria-label="Potencjalne podrażnienie">
+<rect x="1020" y="1492" width="420" height="221" rx="13" fill="#FFF6E3" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1021" y="1507" width="4" height="191" rx="2" fill="#B98535" stroke="none" stroke-width="1"/>
+<text x="1038" y="1515" class="tag" style="fill:#765019">MAPOWANIE</text>
+<text x="1038" y="1543" class="name" text-anchor="start">Potencjalne podrażnienie</text>
+<text x="1038" y="1565" class="code" text-anchor="start">potentially-irritating-ingredients.json</text>
+<text x="1038" y="1583" class="body" text-anchor="start">Obiekt z listą potentially_irritating_actives, np.</text>
+<text x="1038" y="1602" class="body" text-anchor="start">retinol, salicylic-acid.</text>
+<text x="1038" y="1621" class="warning" text-anchor="start">set(raw) zwraca zbiór kluczy obiektu.</text>
+<text x="1038" y="1639" class="body" text-anchor="start">Sprawdzenie dokładnej wartości</text>
+<text x="1038" y="1658" class="body" text-anchor="start">concentration_ingredient; pole concentration nie</text>
+<text x="1038" y="1677" class="body" text-anchor="start">uczestniczy w tej regule.</text>
+<text x="1038" y="1698" class="ref" text-anchor="start">desicion_engine.py:75–83,150–155</text>
+</g>
+<g id="positive" role="group" aria-label="positive_effect">
+<rect x="60" y="1743" width="420" height="242" rx="13" fill="#FFFFFF" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="61" y="1758" width="4" height="212" rx="2" fill="#539387" stroke="none" stroke-width="1"/>
+<text x="78" y="1766" class="tag" style="fill:#26675D">KRYTERIUM · 0.50</text>
+<text x="78" y="1794" class="name" text-anchor="start">positive_effect</text>
+<text x="78" y="1816" class="code" text-anchor="start">Product.targets → parse_targets(raw)</text>
+<text x="78" y="1834" class="body" text-anchor="start">Split po przecinku → strip, lower i zamiana</text>
+<text x="78" y="1853" class="body" text-anchor="start">myślników na spacje → target_map().</text>
+<text x="78" y="1872" class="code" text-anchor="start">|normalized_targets ∩ set(skin_concerns)|</text>
+<text x="78" y="1890" class="code" text-anchor="start">/ len(skin_concerns)</text>
+<text x="78" y="1908" class="body" text-anchor="start">Brak targets → ∅. Brak problemów lub trafień → 0.</text>
+<text x="78" y="1927" class="warning" text-anchor="start">Brak normalizacji skin_concerns z LLM 1.</text>
+<text x="78" y="1970" class="ref" text-anchor="start">desicion_engine.py:116–127</text>
+</g>
+<g id="negative" role="group" aria-label="negative_effect">
+<rect x="540" y="1743" width="420" height="260" rx="13" fill="#FFFFFF" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="541" y="1758" width="4" height="230" rx="2" fill="#539387" stroke="none" stroke-width="1"/>
+<text x="558" y="1766" class="tag" style="fill:#26675D">KRYTERIUM · 0.30</text>
+<text x="558" y="1794" class="name" text-anchor="start">negative_effect</text>
+<text x="558" y="1816" class="code" text-anchor="start">średnia(fit, unsuited, sensitivity,</text>
+<text x="558" y="1834" class="code" text-anchor="start">irritation)</text>
+<text x="558" y="1852" class="body" text-anchor="start">fit = 1 przy dopasowaniu suited_for, inaczej 0.</text>
+<text x="558" y="1871" class="warning" text-anchor="start">set[SkinType] == SkinType daje False.</text>
+<text x="558" y="1889" class="body" text-anchor="start">unsuited = 0.5 bez typu, 0 przy wspólnych</text>
+<text x="558" y="1908" class="body" text-anchor="start">etykietach z mapą typu, inaczej 1.</text>
+<text x="558" y="1927" class="body" text-anchor="start">sensitivity = liczba z mapy wrażliwości.</text>
+<text x="558" y="1946" class="body" text-anchor="start">irritation = ta sama mapa po trafieniu do zbioru</text>
+<text x="558" y="1965" class="body" text-anchor="start">(fallback 0.7), inaczej 1.</text>
+<text x="558" y="1988" class="ref" text-anchor="start">desicion_engine.py:129–164</text>
+</g>
+<g id="ratings" role="group" aria-label="ratings_effect">
+<rect x="1020" y="1743" width="420" height="242" rx="13" fill="#FFFFFF" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1021" y="1758" width="4" height="212" rx="2" fill="#539387" stroke="none" stroke-width="1"/>
+<text x="1038" y="1766" class="tag" style="fill:#26675D">KRYTERIUM · 0.20</text>
+<text x="1038" y="1794" class="name" text-anchor="start">ratings_effect</text>
+<text x="1038" y="1816" class="code" text-anchor="start">v = Product.review_count</text>
+<text x="1038" y="1834" class="code" text-anchor="start">R = Product.rating</text>
+<text x="1038" y="1852" class="code" text-anchor="start">bayes = (v × R + m × C) / (v + m)</text>
+<text x="1038" y="1870" class="code" text-anchor="start">ratings_effect = (bayes − 1) / 4</text>
+<text x="1038" y="1888" class="body" text-anchor="start">Brak oceny lub liczby recenzji → None.</text>
+<text x="1038" y="1907" class="body" text-anchor="start">Mianownik zależy od liczby recenzji i prioru</text>
+<text x="1038" y="1926" class="body" text-anchor="start">katalogu.</text>
+<text x="1038" y="1970" class="ref" text-anchor="start">desicion_engine.py:168–173</text>
+</g>
+<g id="scores-matrix" role="group" aria-label="build_matrix(products, ctx, stats, negative_labels)">
+<rect x="60" y="2022" width="1380" height="123" rx="13" fill="#F1F3F7" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="61" y="2037" width="4" height="93" rx="2" fill="#76829B" stroke="none" stroke-width="1"/>
+<text x="78" y="2045" class="tag" style="fill:#43506D">MACIERZ KRYTERIÓW · N × 3</text>
+<text x="78" y="2073" class="name" text-anchor="start">build_matrix(products, ctx, stats, negative_labels)</text>
+<text x="78" y="2095" class="body" text-anchor="start">Wiersz = jeden Product. Kolumny w kolejności Scores: positive_effect, negative_effect, ratings_effect. Wyniki w [0, 1], None → np.nan.</text>
+<text x="78" y="2114" class="warning" text-anchor="start">Obecna sygnatura przekazuje ten sam set[str] etykiet do każdego produktu. Konwersja mapped → etykiety produktu i wywołanie z cleaned_products pozostają niepodpięte.</text>
+<text x="78" y="2130" class="ref" text-anchor="start">desicion_engine.py:95–105,224–241</text>
+</g>
+<g id="weighted-sum" role="group" aria-label="wsm(scores, weights) → wektor ocen">
+<rect x="60" y="2193" width="1380" height="130" rx="13" fill="#F1F3F7" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="61" y="2208" width="4" height="100" rx="2" fill="#76829B" stroke="none" stroke-width="1"/>
+<text x="78" y="2216" class="tag" style="fill:#43506D">AGREGACJA · N × 3 @ 3 → N</text>
+<text x="78" y="2244" class="name" text-anchor="start">wsm(scores, weights) → wektor ocen</text>
+<text x="78" y="2266" class="code" text-anchor="start">scores @ weights · WEIGHTS: 0.50 / 0.30 / 0.20 wg CRITERIA · normalize(): w / Σw</text>
+<text x="78" y="2284" class="body" text-anchor="start">np.nan przechodzi do wyniku. Kod demonstracyjny losuje wagi z rozkładu Dirichleta i próbuje wskazać najlepszy indeks przez np.argmax.</text>
+<text x="78" y="2308" class="ref" text-anchor="start">desicion_engine.py:104–114,243–244,268–280</text>
+</g>
+<g id="module-import" role="group" aria-label="Import modułu zatrzymuje wykonanie">
+<rect x="1520" y="212" width="600" height="158" rx="13" fill="#FFF0ED" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1521" y="227" width="4" height="128" rx="2" fill="#C06557" stroke="none" stroke-width="1"/>
+<text x="1538" y="235" class="tag" style="fill:#972F22">BLOKADA 0 · ZANIM RUSZY PIPELINE</text>
+<text x="1538" y="263" class="name" text-anchor="start">Import modułu zatrzymuje wykonanie</text>
+<text x="1538" y="285" class="code" text-anchor="start">Kod na poziomie modułu: scores = np.array([...])</text>
+<text x="1538" y="303" class="body" text-anchor="start">wsm(scores, rng.dirichlet(np.ones(3))) → ValueError w matmul. Do</text>
+<text x="1538" y="322" class="body" text-anchor="start">wywołania wsm_pipeline stąd nie dochodzi.</text>
+<text x="1538" y="355" class="ref" text-anchor="start">desicion_engine.py:268–280</text>
+</g>
+<g id="allergen-generator" role="group" aria-label="Jednorazowe rozwinięcie alergenów">
+<rect x="1520" y="412" width="600" height="196" rx="13" fill="#F1F3F7" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1521" y="427" width="4" height="166" rx="2" fill="#76829B" stroke="none" stroke-width="1"/>
+<text x="1538" y="435" class="tag" style="fill:#43506D">GENERATOR OFFLINE · LLM</text>
+<text x="1538" y="463" class="name" text-anchor="start">Jednorazowe rozwinięcie alergenów</text>
+<text x="1538" y="485" class="code" text-anchor="start">call_once.ALLERGENS → expand_allergens_to_inci_terms</text>
+<text x="1538" y="503" class="code" text-anchor="start">prompt_allergen_inci_terms.txt → AllergenInciTerms</text>
+<text x="1538" y="521" class="body" text-anchor="start">Schemat: allergen: str, inci_terms: list[str]. Normalizacja strip + lower.</text>
+<text x="1538" y="540" class="body" text-anchor="start">Zapis mapy {alergen: frazy INCI} jest zakomentowany w call_once.main().</text>
+<text x="1538" y="559" class="warning" text-anchor="start">Plik promptu opisuje klasyfikację produktów, a helper wysyła wyłącznie nazwę</text>
+<text x="1538" y="577" class="warning" text-anchor="start">alergenu.</text>
+<text x="1538" y="593" class="ref" text-anchor="start">call_once.py:13–44 · llm_utils.py:123–133</text>
+</g>
+<g id="taxonomy-generator" role="group" aria-label="Jednorazowa normalizacja targetów">
+<rect x="1520" y="655" width="600" height="189" rx="13" fill="#F1F3F7" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1521" y="670" width="4" height="159" rx="2" fill="#76829B" stroke="none" stroke-width="1"/>
+<text x="1538" y="678" class="tag" style="fill:#43506D">GENERATOR OFFLINE · LLM</text>
+<text x="1538" y="706" class="name" text-anchor="start">Jednorazowa normalizacja targetów</text>
+<text x="1538" y="728" class="code" text-anchor="start">Excel.targets → split, lower, trim, &#x27;-&#x27; → &#x27; &#x27;, unique</text>
+<text x="1538" y="746" class="code" text-anchor="start">word_dictionary → LLM → NormalizedSkinOutput</text>
+<text x="1538" y="764" class="body" text-anchor="start">Projekt zapisuje mapę aliasów do normalized-targets.json. Wywołanie</text>
+<text x="1538" y="783" class="body" text-anchor="start">modelu i zapis w dataset_prep.py są zakomentowane.</text>
+<text x="1538" y="829" class="ref" text-anchor="start">data/dataset_prep.py:71–131</text>
+</g>
+<g id="graph-inference" role="group" aria-label="infer_skin_concerns(client, user_input)">
+<rect x="1520" y="947" width="600" height="169" rx="13" fill="#F2ECFA" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1521" y="962" width="4" height="139" rx="2" fill="#9366BC" stroke="none" stroke-width="1"/>
+<text x="1538" y="970" class="tag" style="fill:#5E3789">LLM · POMOCNICZA INFERENCJA</text>
+<text x="1538" y="998" class="name" text-anchor="start">infer_skin_concerns(client, user_input)</text>
+<text x="1538" y="1020" class="code" text-anchor="start">JSON {user_prompt, &#x27;normalized-targets.json&#x27;}</text>
+<text x="1538" y="1038" class="body" text-anchor="start">Prompt mapuje opis użytkownika do słownika normalizacji.</text>
+<text x="1538" y="1057" class="code" text-anchor="start">responses.parse → IdentifiedSkinConcerns.skin_concerns</text>
+<text x="1538" y="1075" class="body" text-anchor="start">Wynik: list[str]. Helper przeznaczony dla szkiców Neo4j.</text>
+<text x="1538" y="1101" class="ref" text-anchor="start">llm_utils.py:102–120</text>
+</g>
+<g id="neo4j-query" role="group" aria-label="find_product_by_concern">
+<rect x="1520" y="1164" width="600" height="165" rx="13" fill="#FFFFFF" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1521" y="1179" width="4" height="135" rx="2" fill="#539387" stroke="none" stroke-width="1"/>
+<text x="1538" y="1187" class="tag" style="fill:#26675D">NEO4J · CYPHER</text>
+<text x="1538" y="1215" class="name" text-anchor="start">find_product_by_concern</text>
+<text x="1538" y="1237" class="code" text-anchor="start">(:Product)-[:SKIN_CONCERN]-&gt;(:SkinTarget {key})</text>
+<text x="1538" y="1255" class="body" text-anchor="start">key = strip + lower; wynik zawiera id, brand, name i size_ml.</text>
+<text x="1538" y="1274" class="body" text-anchor="start">Infrastruktura: SkinTarget ma też aliases i category. Kanoniczne klucze są</text>
+<text x="1538" y="1293" class="body" text-anchor="start">w data/skin_targets.json.</text>
+<text x="1538" y="1314" class="ref" text-anchor="start">graph_queries.py:31–42 · data_infrastructure.md:4–17</text>
+</g>
+<g id="graph-candidates" role="group" aria-label="get_product_candidates_by_concern">
+<rect x="1520" y="1372" width="600" height="232" rx="13" fill="#F1F3F7" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1521" y="1387" width="4" height="202" rx="2" fill="#76829B" stroke="none" stroke-width="1"/>
+<text x="1538" y="1395" class="tag" style="fill:#43506D">POZA PIPELINE</text>
+<text x="1538" y="1423" class="name" text-anchor="start">get_product_candidates_by_concern</text>
+<text x="1538" y="1445" class="body" text-anchor="start">Dla każdego concern: Neo4j zwraca kandydatów, a Parquet uzupełnia ich</text>
+<text x="1538" y="1464" class="body" text-anchor="start">dane po product-name == name.</text>
+<text x="1538" y="1483" class="code" text-anchor="start">→ {concern: {product_name: [rekordy katalogu]}}</text>
+<text x="1538" y="1501" class="warning" text-anchor="start">Tu i w decision.py wywołanie infer_skin_concerns pomija argument client. W</text>
+<text x="1538" y="1519" class="warning" text-anchor="start">decision.py jest też szkic LLM rekomendacji umieszczony po continue.</text>
+<text x="1538" y="1589" class="ref" text-anchor="start">build_personalized_graph.py:8–31 · decision.py:38–66</text>
+</g>
+<g id="api-input" role="group" aria-label="Konto → zapisany Questionnaire">
+<rect x="1520" y="1672" width="600" height="147" rx="13" fill="#EDF5FC" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1521" y="1687" width="4" height="117" rx="2" fill="#4577A3" stroke="none" stroke-width="1"/>
+<text x="1538" y="1695" class="tag" style="fill:#2D5475">AKTYWNA ŚCIEŻKA API</text>
+<text x="1538" y="1723" class="name" text-anchor="start">Konto → zapisany Questionnaire</text>
+<text x="1538" y="1745" class="code" text-anchor="start">POST /api/v1/analysis/stream → infer_model(user.id)</text>
+<text x="1538" y="1763" class="body" text-anchor="start">Pobiera ankietę z bazy po user_id. Waliduje question_answers jako</text>
+<text x="1538" y="1782" class="body" text-anchor="start">QuestionnaireAnswers; .value enumów i odpowiedzi budują prompt.</text>
+<text x="1538" y="1804" class="ref" text-anchor="start">api/analysis.py:18–23 · service/analysis/analysis.py:26–43,62–167</text>
+</g>
+<g id="api-output" role="group" aria-label="Stream → SkinAnalysis">
+<rect x="1520" y="1854" width="600" height="220" rx="13" fill="#F2ECFA" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1521" y="1869" width="4" height="190" rx="2" fill="#9366BC" stroke="none" stroke-width="1"/>
+<text x="1538" y="1877" class="tag" style="fill:#5E3789">LLM · NIEZALEŻNA ANALIZA</text>
+<text x="1538" y="1905" class="name" text-anchor="start">Stream → SkinAnalysis</text>
+<text x="1538" y="1927" class="code" text-anchor="start">AsyncOpenAI.responses.stream(text_format=SkinAnalysis)</text>
+<text x="1538" y="1945" class="code" text-anchor="start">concerns: list[str] · short_analysis · full_analysis</text>
+<text x="1538" y="1963" class="body" text-anchor="start">Endpoint wysyła delty tekstu. Osobny POST /analysis/write-new zapisuje</text>
+<text x="1538" y="1982" class="body" text-anchor="start">Analysis pod user_id. GET /analysis/recent-analysis pobiera ostatnią.</text>
+<text x="1538" y="2001" class="body" text-anchor="start">Router analizy wywołuje infer_model bezpośrednio.</text>
+<text x="1538" y="2059" class="ref" text-anchor="start">service/analysis/analysis.py:36–59,172–175 · api/analysis.py:26–65</text>
+</g>
+<g id="unused" role="group" aria-label="Wagi, graf osobisty i pozostałe szkice">
+<rect x="1520" y="2147" width="600" height="181" rx="13" fill="#F1F3F7" stroke="#C8D0DA" stroke-width="1.25"/>
+<rect x="1521" y="2162" width="4" height="151" rx="2" fill="#76829B" stroke="none" stroke-width="1"/>
+<text x="1538" y="2170" class="tag" style="fill:#43506D">BEZ WYWOŁANIA W WSM</text>
+<text x="1538" y="2198" class="name" text-anchor="start">Wagi, graf osobisty i pozostałe szkice</text>
+<text x="1538" y="2220" class="code" text-anchor="start">SeverityWeights · Enum: LOW=-0.1, MODERATE=-0.3,</text>
+<text x="1538" y="2238" class="code" text-anchor="start">HIGH=-0.6, UNKNOWN=None</text>
+<text x="1538" y="2256" class="code" text-anchor="start">PersonalGraph: user_id → dict[SkinTargetKey, Weight]</text>
+<text x="1538" y="2274" class="body" text-anchor="start">SkinTargetKey to Literal kluczy, Weight ∈ [0, 1].</text>
+<text x="1538" y="2293" class="body" text-anchor="start">Pareto: lista nazw kryteriów. Mapy stężeń: puste słowniki.</text>
+<text x="1538" y="2313" class="ref" text-anchor="start">severity_weights.py · personalized_graph.py · pareto.py</text>
+</g>
+<text x="60" y="2376" class="muted" text-anchor="start">Źródła przy węzłach odnoszą się do bieżącej kopii roboczej. Ścieżki API są względem backend/app/, pozostałe względem backend/app/service/decision/.</text>
+<text x="2120" y="2376" class="ref" text-anchor="end">Aurelia  /  backend</text>
+</svg>

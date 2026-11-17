@@ -1,0 +1,135 @@
+{
+  "gluten": [
+    "triticum vulgare",
+    "triticum aestivum",
+    "triticum durum",
+    "hordeum vulgare",
+    "secale cereale",
+    "avena sativa"
+  ],
+  "nuts": [
+    "prunus amygdalus dulcis",
+    "juglans regia",
+    "corylus avellana",
+    "macadamia integrifolia",
+    "anacardium occidentale",
+    "bertholletia excelsa",
+    "arachis hypogaea",
+    "pinus sibirica",
+    "pistacia vera",
+    "oryza sativa bran oil"
+  ],
+  "peanut": [
+    "arachis hypogaea",
+    "arachis hypogaea oil",
+    "arachis hypogaea seed oil",
+    "arachis hypogaea kernel oil",
+    "arachis oil",
+    "peanut"
+  ],
+  "soy": [
+    "glycine soja",
+    "glycine max",
+    "soybean oil",
+    "soybean extract",
+    "soy protein",
+    "soya"
+  ],
+  "milk": [
+    "milk",
+    "lactis",
+    "lactose",
+    "whey",
+    "casein",
+    "caseinate",
+    "lactalbumin",
+    "lactoglobulin",
+    "milk protein",
+    "milk proteins"
+  ],
+  "egg": [
+    "ovum",
+    "ovo",
+    "egg extract",
+    "egg yolk extract",
+    "egg white",
+    "albumen",
+    "lysozyme",
+    "lecithin"
+  ],
+  "lanolin": [
+    "lanolin",
+    "lanolin alcohol",
+    "adeps lanae",
+    "wool wax",
+    "wool alcohols"
+  ],
+  "fragrance": [
+    "parfum",
+    "fragrance",
+    "zapach",
+    "aroma"
+  ],
+  "essential oils": [
+    "citrus aurantium dulcis peel oil",
+    "lavandula angustifolia oil",
+    "mentha piperita oil",
+    "rosmarinus officinalis leaf oil",
+    "eucalyptus globulus leaf oil",
+    "melaleuca alternifolia leaf oil",
+    "pelargonium graveolens oil",
+    "cananga odorata flower oil",
+    "d-limonene",
+    "linalool",
+    "citral",
+    "geraniol",
+    "eugenol",
+    "farnesol",
+    "citronellol",
+    "alpha-isomethyl ionone"
+  ],
+  "propolis": [
+    "propolis"
+  ],
+  "balsam of peru": [
+    "myroxylon pereirae",
+    "balsamum peruvianum",
+    "peru balsam",
+    "myroxylon pereirae resin",
+    "myroxylon pereirae balsam"
+  ],
+  "methylisothiazolinone": [
+    "methylisothiazolinone"
+  ],
+  "formaldehyde releasers": [
+    "diazolidinyl urea",
+    "imidazolidinyl urea",
+    "dmdm hydantoin",
+    "quaternium-15",
+    "bronopol",
+    "sodium hydroxymethylglycinate",
+    "methenamine",
+    "hydroxymethylglycinate"
+  ],
+  "sulfates": [
+    "sodium lauryl sulfate",
+    "sodium laureth sulfate",
+    "ammonium lauryl sulfate",
+    "ammonium laureth sulfate",
+    "sodium c14-16 olefin sulfonate",
+    "sodium cocoyl isethionate",
+    "sodium coco sulfate",
+    "sodium methyl cocoyl taurate",
+    "sodium myreth sulfate",
+    "disodium laureth sulfosuccinate"
+  ],
+  "parabens": [
+    "methylparaben",
+    "ethylparaben",
+    "propylparaben",
+    "butylparaben",
+    "isobutylparaben",
+    "isopropylparaben",
+    "benzylparaben"
+  ]
+}

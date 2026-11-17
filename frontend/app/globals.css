@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --offwhite: #FAFAF8;
+  --text-primary: #171717;
+  --text-secondary: #77736F;
+  --text-tertiary: #B7B4AE;
+  --charcoal: #211E1C;
+  --muted-blue: #95BDD0;
+  --blue: #7497A8;
+  --blue-hover: #5F8193;
+  --ice: #E5EEF2;
+  --peach: #F3DDD0;
+  --champagne: #EBD4BD;
+  --deep-champagne: #B98755;
+  --honey: #C9A16A;
+  --blush: #CBB8B0;
+  --cold-surface: #F0F4F5;
+  --olive: #7E8B74;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-offwhite: var(--offwhite);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-tertiary: var(--text-tertiary);
+  --color-charcoal: var(--charcoal);
+  --color-muted-blue: var(--muted-blue);
+  --color-blue: var(--blue);
+  --color-blue-hover: var(--blue-hover);
+  --color-ice: var(--ice);
+  --color-peach: var(--peach);
+  --color-champagne: var(--champagne);
+  --color-deep-champagne: var(--deep-champagne);
+  --color-honey: var(--honey);
+  --color-blush: var(--blush);
+  --color-cold-surface: var(--cold-surface);
+  --color-olive: var(--olive);
+}
+
+
+body {
+  background: var(--offwhite);
+  color: var(--charcoal);
+  font-family: Arial, Helvetica, sans-serif;
+}

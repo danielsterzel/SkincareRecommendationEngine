@@ -1,0 +1,243 @@
+[
+  {
+    "user_id": "2ad82928-6b9a-5180-afd0-d014c4c4c29b",
+    "expected_targets": [
+      "redness",
+      "dryness",
+      "barrier_support"
+    ],
+    "negated_targets": [
+      "blemishes"
+    ],
+    "uncertain_targets": [],
+    "notes": "Irritation following actives should not be interpreted as a formal diagnosis."
+  },
+  {
+    "user_id": "d22eb1bd-db97-58ac-9187-c37fc1790e5b",
+    "expected_targets": [
+      "hyperpigmentation",
+      "uneven_skin_tone",
+      "uv_protection"
+    ],
+    "negated_targets": [
+      "blemishes"
+    ],
+    "uncertain_targets": [],
+    "notes": "Past acne is context, not a current concern; user describes marks and asks implicitly for usable SPF."
+  },
+  {
+    "user_id": "f0183b0b-2abc-5df3-b642-505463f381ea",
+    "expected_targets": [
+      "signs_of_congestion",
+      "blemishes"
+    ],
+    "negated_targets": [
+      "visible_shine"
+    ],
+    "uncertain_targets": [],
+    "notes": "Shiny T-zone is not the positive aesthetic goal represented by visible_shine."
+  },
+  {
+    "user_id": "ccd10bbf-6b8b-5e95-bf31-fc573ca97f6b",
+    "expected_targets": [
+      "crow's_feet",
+      "dehydration",
+      "early_signs_of_aging"
+    ],
+    "negated_targets": [
+      "advanced_signs_of_aging"
+    ],
+    "uncertain_targets": [],
+    "notes": "Distinguishes early lines from advanced ageing."
+  },
+  {
+    "user_id": "ffa07de7-3fe2-5bf5-bf13-ed21fdabe9d3",
+    "expected_targets": [
+      "dark_circles",
+      "puffiness"
+    ],
+    "negated_targets": [
+      "wrinkles"
+    ],
+    "uncertain_targets": [],
+    "notes": "A good extractor should identify needs without asserting cosmetics will solve them."
+  },
+  {
+    "user_id": "0bc33730-5d76-5888-9770-099695e9b0a7",
+    "expected_targets": [
+      "dullness",
+      "visible_shine"
+    ],
+    "negated_targets": [
+      "blemishes",
+      "dryness"
+    ],
+    "uncertain_targets": [],
+    "notes": "Explicit goal: healthy-looking glow, not excessive oiliness."
+  },
+  {
+    "user_id": "95fab232-784a-5e5a-b28f-49523bd062ca",
+    "expected_targets": [
+      "texture_irregularities",
+      "dryness"
+    ],
+    "negated_targets": [
+      "signs_of_congestion",
+      "blemishes"
+    ],
+    "uncertain_targets": [],
+    "notes": "Texture irregularities need not imply congestion."
+  },
+  {
+    "user_id": "ebb47542-5a0f-588f-8810-cef41fdc27bf",
+    "expected_targets": [
+      "hyperpigmentation",
+      "uneven_skin_tone"
+    ],
+    "negated_targets": [
+      "redness"
+    ],
+    "uncertain_targets": [],
+    "notes": "Explicit exclusion of transient post-exercise redness."
+  },
+  {
+    "user_id": "be0108e8-1f9b-5c0f-9afa-ad25915107ec",
+    "expected_targets": [
+      "uv_protection",
+      "antioxidant_support"
+    ],
+    "negated_targets": [
+      "dryness",
+      "blemishes",
+      "advanced_signs_of_aging"
+    ],
+    "uncertain_targets": [],
+    "notes": "Preventive preference and discomfort with existing SPF; no need to infer existing wrinkles."
+  },
+  {
+    "user_id": "ed8e7bcd-9534-571d-8073-b225e7b19f56",
+    "expected_targets": [
+      "signs_of_congestion",
+      "cleansing"
+    ],
+    "negated_targets": [
+      "blemishes"
+    ],
+    "uncertain_targets": [],
+    "notes": "Black dots may be sebaceous filaments; avoid assuming diagnosis."
+  },
+  {
+    "user_id": "17bb1c4d-5d41-5061-93b1-fa5453bce38d",
+    "expected_targets": [
+      "blemishes",
+      "redness"
+    ],
+    "negated_targets": [],
+    "uncertain_targets": [],
+    "notes": "Historical drying treatment is a tolerance constraint, not current dryness."
+  },
+  {
+    "user_id": "a67ada64-2202-51de-a04e-cf914886ccd4",
+    "expected_targets": [
+      "wrinkles",
+      "advanced_signs_of_aging"
+    ],
+    "negated_targets": [],
+    "uncertain_targets": [],
+    "notes": "Realistic expectations, explicit established wrinkles, simplicity constraint."
+  },
+  {
+    "user_id": "671614f8-3338-5d0a-b1f5-c185ab19eeaa",
+    "expected_targets": [
+      "lip_plumpness"
+    ],
+    "negated_targets": [
+      "dryness",
+      "hyperpigmentation"
+    ],
+    "uncertain_targets": [],
+    "notes": "Aesthetic goal, no invented efficacy claims."
+  },
+  {
+    "user_id": "344357f7-dd62-5bdc-aadd-ab1e9d56c3d4",
+    "expected_targets": [
+      "signs_of_congestion",
+      "cleansing"
+    ],
+    "negated_targets": [
+      "visible_shine"
+    ],
+    "uncertain_targets": [],
+    "notes": "Excess sebum is not represented by visible_shine as a desired outcome; no oily_skin target exists in taxonomy."
+  },
+  {
+    "user_id": "343a193e-1259-5fc1-9c99-c3c006ff6dc7",
+    "expected_targets": [
+      "texture_irregularities"
+    ],
+    "negated_targets": [
+      "hyperpigmentation",
+      "blemishes",
+      "uv_protection"
+    ],
+    "uncertain_targets": [],
+    "notes": "Negation of targeting freckles and explicit non-need for new sunscreen."
+  },
+  {
+    "user_id": "e02ed315-7e59-5be4-8237-a482970a8cab",
+    "expected_targets": [
+      "redness",
+      "barrier_support"
+    ],
+    "negated_targets": [
+      "visible_shine"
+    ],
+    "uncertain_targets": [],
+    "notes": "Could merit medical assessment; extractor should not diagnose seborrheic dermatitis."
+  },
+  {
+    "user_id": "59cf937e-e1b7-55ec-a662-213abe427bc3",
+    "expected_targets": [
+      "dark_circles"
+    ],
+    "negated_targets": [
+      "puffiness"
+    ],
+    "uncertain_targets": [
+      "hyperpigmentation"
+    ],
+    "notes": "Deliberately ambiguous cause; should not infer a specific etiology."
+  },
+  {
+    "user_id": "0cc0c80c-047a-55b5-8ed6-385d69818670",
+    "expected_targets": [
+      "blemishes",
+      "hyperpigmentation"
+    ],
+    "negated_targets": [],
+    "uncertain_targets": [],
+    "notes": "Fragrance sensitivity and episodic nature are constraints/context."
+  },
+  {
+    "user_id": "7b8189c4-a9c4-590e-be85-b450cc10284c",
+    "expected_targets": [
+      "dehydration",
+      "redness",
+      "barrier_support"
+    ],
+    "negated_targets": [],
+    "uncertain_targets": [
+      "texture_irregularities"
+    ],
+    "notes": "Current priority is barrier/comfort; texture is historical or secondary."
+  },
+  {
+    "user_id": "c4531374-0fda-5a1e-a658-bd8cf55eac94",
+    "expected_targets": [
+      "hair"
+    ],
+    "negated_targets": [],
+    "uncertain_targets": [],
+    "notes": "Out-of-face-domain stress test; extractor should not hallucinate hair loss diagnosis."
+  }
+]

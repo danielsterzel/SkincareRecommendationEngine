@@ -123,7 +123,7 @@ export function IntroductionNode() {
         className="flex items-center gap-1.5 text-xs text-secondary"
       >
         <Sparkles size={18} strokeWidth={1.4} className="shrink-0" />
-        <span className="">Personalized to your skin's unique needs</span>
+        <span className="">Personalized to your skin&apos;s unique needs</span>
       </motion.div>
     </div>
   );

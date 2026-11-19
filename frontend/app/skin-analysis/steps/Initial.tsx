@@ -49,7 +49,7 @@ function DermatologistNotice() {
       <div className="flex flex-col gap-4 items-left">
         <h2 className="font-bold text-lg">Your dermatologist comes first.</h2>
         <p className="text-xs text-tertiary max-w-3xl">
-          Following a dermatologist's advice or using prescribed treatments? Let
+          Following a dermatologist&apos;s advice or using prescribed treatments? Let
           us know. Aurelia is designed to complement your care, never replace or
           interfere with it.
         </p>
@@ -65,7 +65,7 @@ function Header() {
         Questions
       </p>
       <h1 className="pt-2 flex gap-2 items-center text-4xl font-medium">
-        It's Great to see You join us <Smile className="w-8 h-8" />
+        It&apos;s Great to see You join us <Smile className="w-8 h-8" />
       </h1>
       <p className="pt-2 w-2xl text-secondary">
         Here we will ask you a couple of questions regarding your skin, current
@@ -98,4 +98,3 @@ function ContinueSkinAnalysis({nextPage}: {nextPage: () => void}) {
     </div>
   );
 }
-

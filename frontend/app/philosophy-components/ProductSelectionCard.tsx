@@ -15,7 +15,7 @@ export function ProductSelectionCard() {
       </h4>
       <p className="absolute bottom-6 left-6 text-white/70 text-xs">
         Aurelia picks out all the products that help you achieve your skin goal
-        and to ensure your skin's healthiness
+        and to ensure your skin&apos;s healthiness
       </p>
     </div>
   );

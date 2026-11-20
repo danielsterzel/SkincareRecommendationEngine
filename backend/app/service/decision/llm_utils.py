@@ -47,7 +47,11 @@ def parse_with_logging[T: BaseModel](
 
     start = time.perf_counter()
     response = client.responses.parse(
-        model=model, input=input_, instructions=instructions, text_format=text_format
+        model=model,
+        input=input_,
+        instructions=instructions,
+        text_format=text_format,
+        temperature=0,
     )
 
     latency_ms = (time.perf_counter() - start) * 1000

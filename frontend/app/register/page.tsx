@@ -35,7 +35,7 @@ export default function Register() {
   useEffect(() => {
     if(user)
       {
-        router.replace("/skin-analysis")
+        router.replace("/initial-analysis")
         return
       }
     

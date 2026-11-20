@@ -27,7 +27,7 @@ function AureliaProcess() {
         indicator="01"
         header="Understand your skin"
         paragraph="Tell us about your skin, concerns and your preferences"
-        link="/skin-analysis"
+        link="/initial-analysis"
       />
 
       {/* tutaj zrobie taki duzy ogolny graf

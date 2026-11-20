@@ -48,3 +48,15 @@ body {
   color: var(--charcoal);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.animated-dots::after {
+  content: "";
+  animation: dots 1.5s steps(1, end) infinite;
+}
+
+@keyframes dots {
+  0% {content: ".";}
+  33% {content: "..";}
+  66% {content: "...";}
+  100% {content: ".";}
+}

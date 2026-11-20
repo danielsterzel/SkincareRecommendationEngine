@@ -18,7 +18,7 @@ export default function Login() {
     mutationFn: executeLogin,
     onSuccess: () => {
       toast.success("Welcome again!");
-      router.replace("/skin-analysis");
+      router.replace("/initial-analysis");
     },
     onError: () => {
       toast.error("Something went wrong", {
@@ -32,7 +32,7 @@ export default function Login() {
   useEffect(() => {
 
     if (user) {
-      router.replace("/skin-analysis");
+      router.replace("/initial-analysis");
     }
   }, [user, router]);
 

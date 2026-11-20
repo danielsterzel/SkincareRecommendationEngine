@@ -6,8 +6,6 @@ from app.schemas.configured_schema import ConfiguredSchema
 from uuid import UUID
 from datetime import datetime
 
-from app.schemas.questionnaire import QuestionnaireAnswers
-
 EmailString = Annotated[
     EmailStr, StringConstraints(min_length=6, max_length=320, strip_whitespace=True)
 ]
@@ -36,7 +34,6 @@ class UserSchema(ConfiguredSchema):
     email_verified: bool
     last_login_at: datetime | None
     oauth_accounts: list[OAuthAccountSchema] = Field(default_factory=list)
-    questionnaire: QuestionnaireAnswers | None
 
 
 class OAuthAccountSchema(ConfiguredSchema):

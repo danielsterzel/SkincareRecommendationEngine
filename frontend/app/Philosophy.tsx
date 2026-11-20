@@ -189,7 +189,7 @@ function PersonalSection() {
                       />
                     </div>
                     <div className="flex flex-col gap-3">
-                      <em className="text-xl">{skinProgress[idx].heading}</em>
+                  <em className="text-xl">{skinProgress[idx].heading}</em>
                       
                       <ul className="flex flex-col gap-2">
                         {skinProgress[idx].comments.map((comment) => (

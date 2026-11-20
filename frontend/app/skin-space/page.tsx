@@ -317,7 +317,7 @@ function CurrentRoutine() {
           >
             daily ritual
           </p>
-          <h1 className="text-xl ">Today's routine</h1>
+          <h1 className="text-xl ">Today&apos;s routine</h1>
         </div>
 
         <div className="max-w-md gap-4 flex justify-between">

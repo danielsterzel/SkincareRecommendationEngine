@@ -28,6 +28,7 @@ from openai import OpenAI
 from pydantic import BaseModel, Field, ConfigDict
 
 from app.core.settings import settings
+from app.schemas.initial_analysis import MockProductSchema, UserSkinInformationInput
 from app.service.decision.dataset_schemas import Product
 from app.service.decision.llm_utils import (
     assign_negative_labels_to_products,
@@ -99,11 +100,14 @@ class Scores(BaseModel):
     positive_effect: float = Field(ge=0.0, le=1.0)  # 1 - best
     negative_effect: float = Field(ge=0.0, le=1.0)  # 1 - lowest risk
     # price_effect: float | None = Field(ge=0.0, le=1.0)
-    ratings_effect: float | None = Field(ge=0.0, le=1.0)
+    # ratings_effect: float | None = Field(ge=0.0, le=1.0)
 
 
 CRITERIA = tuple(Scores.model_fields.keys())
-WEIGHTS = {"positive_effect": 0.5, "negative_effect": 0.3, "ratings_effect": 0.2}
+WEIGHTS = {
+    "positive_effect": 0.625,
+    "negative_effect": 0.375,
+}  # , "ratings_effect": 0.2}
 
 
 assert len(CRITERIA) == len(WEIGHTS)
@@ -167,12 +171,14 @@ def rate_negative_effect(
     return (fit + unsuited + skin_sensitivity + irritation_score) / 4.0
 
 
-def rate_product_on_ratings(product: Product, stats: DatasetStats) -> float | None:
-    if product.rating is None or product.review_count is None:
-        return None
-    v, m = product.review_count, stats.prior_weight
-    bayes = (v * product.rating + m * stats.rating_mean) / (v + m)
-    return (bayes - 1) / 4
+#
+# def rate_product_on_ratings(product: Product, stats: DatasetStats) -> float | None:
+#     if product.rating is None or product.review_count is None:
+#         return None
+#     v, m = product.review_count, stats.prior_weight
+#     bayes = (v * product.rating + m * stats.rating_mean) / (v + m)
+#     return (bayes - 1) / 4
+#
 
 
 def exclude_negative_products(
@@ -221,7 +227,6 @@ def exclude_negative_products(
 def build_matrix(
     products: list[Product],
     ctx: UserSkinContext,
-    stats: DatasetStats,
     negative_labels: list[ProductNegativeLabel],
 ) -> np.ndarray:
     rows = []
@@ -234,7 +239,7 @@ def build_matrix(
         s = Scores(
             positive_effect=rate_positive_effect(p, ctx.skin_concerns),
             negative_effect=rate_negative_effect(p, ctx, product_labels),
-            ratings_effect=rate_product_on_ratings(p, stats),
+            # ratings_effect=rate_product_on_ratings(p, stats),
         )
 
         row = [np.nan if (value := getattr(s, c)) is None else value for c in CRITERIA]
@@ -248,10 +253,16 @@ def wsm(scores: np.ndarray, weights: np.ndarray) -> np.ndarray:
     return scores @ weights
 
 
-def wsm_pipeline(user_input: str):
-    client = OpenAI(api_key=settings.open_ai_key)
-    ctx = openai_user_skin_context_inference(client, user_input)
-
+async def wsm_pipeline(user_input: UserSkinInformationInput, client: OpenAI):
+    # message: beginning analyzing
+    yield {"type": "status", "message": "Analyzing your skin..."}
+    ctx = openai_user_skin_context_inference(client, user_input.model_dump_json())
+    # summarized user preferences
+    yield {
+        "type": "context",
+        "message": f"Targeted concerns: {ctx.skin_concerns}"
+        + f"selected skin type: {ctx.skin_type}",
+    }
     products = [
         p for p in load_products() if parse_targets(p.targets) & set(ctx.skin_concerns)
     ]
@@ -259,18 +270,25 @@ def wsm_pipeline(user_input: str):
     products = exclude_negative_products(products, ctx)
 
     if not products:
-        return []
+        yield {
+            "type": "completed",
+            "message": "No viable products found in our database",
+            "data": [],
+        }
 
     negative_labels = assign_negative_labels_to_products(
         client=client,
         products=products,
         user_skin_context=ctx,
     )
+    yield {
+        "type": "negative_effects",
+        "message": "Derived potential negative effects of your products...",
+    }
 
     matrix = build_matrix(
         products,
         ctx,
-        dataset_stats(),
         negative_labels.mapped,
     )
 
@@ -314,22 +332,43 @@ def wsm_pipeline(user_input: str):
         encoding="utf-8",
     )
 
-    return [(product, score) for product, score, _ in ranking]
+    yield {
+        "type": "completed",
+        "message": "Proposed products for your skin",
+        "data": [
+            MockProductSchema(
+                brand=product.brand, name=product.product_name, wsm_score=score
+            ).model_dump(mode="json")
+            for product, score, _ in ranking[:10]
+        ],
+    }
 
 
 TEST_DATA = Path("data/test_data")
 
 
 def main() -> None:
+
+    # TODO:
+    # -Produkt musi być przeznaczony do właściwego obszaru ciała.
+    # -Przy aktualnie podrażnionej skórze i wyraźnej chęci unikania kwasów wykluczamy produkty złuszczające.
+    # -Dopiero pozostałe produkty trafiają do WSM.
+
     products = load_products()
     print(f"Loaded products: {len(products)}")
 
     users = json.loads((TEST_DATA / "aurelia_user_texts_20.json").read_text())
 
-    results = wsm_pipeline(users[0]["text"])
+    for i, user in enumerate(users[:5], start=1):
+        print(f"\n{'=' * 60}")
+        print(f"SCENARIO {i}/5")
+        print(f"USER: {user['text']}")
+        print("=" * 60)
 
-    for rank, (product, score) in enumerate(results[:10], 1):
-        print(f"{rank}. {product.brand} - " f"{product.product_name}: {score:.4f}")
+        results = wsm_pipeline(user["text"])
+
+        for rank, (product, score) in enumerate(results[:10], start=1):
+            print(f"{rank}. {product.brand} - " f"{product.product_name}: {score:.4f}")
 
 
 if __name__ == "__main__":

@@ -15,13 +15,10 @@ function refreshOnce(): Promise<string>
     return refreshPromise
 }
 
-type AuthFetchOptions = Omit<RequestInit, "body"> & {
-    body?: string
-}
 
 export async function authFetch(
     path: string,
-    options: AuthFetchOptions = {},
+    options: RequestInit = {},
 ): Promise<Response> {
 
 

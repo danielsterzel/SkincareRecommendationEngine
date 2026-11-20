@@ -169,7 +169,7 @@ export default function Home() {
         </div>
       </div>
 
-      <Philosophy/>
+      {/* <Philosophy/> */}
       {/* <SectionSeparator text="Aurelia - the process" />
       <section id="how-it-works">
         <How />

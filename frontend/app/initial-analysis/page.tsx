@@ -13,6 +13,9 @@ import {
   UserSkinInformationInput,
 } from "@/lib/initial-analysis/analysis-schemas";
 import { streamAnalysis } from "@/lib/initial-analysis/analysis-api";
+import { AnalysisHeading } from "../components/initial-analysis/AnalysisHeading";
+import { SkinConcerns } from "../components/initial-analysis/SkinConcerns";
+import { SkinType } from "../components/initial-analysis/SkinType";
 
 export default function InitialAnalysis() {
   const [showBeginOverlay, setShowBeginOverlay] = useState(true);
@@ -43,7 +46,8 @@ export default function InitialAnalysis() {
     },
 
     onSuccess: () => toast.success("Successfully analyzed your skin"),
-    onError: (e) => toast.error("Something went wrong", {description: `${e.message}`}),
+    onError: (e) =>
+      toast.error("Something went wrong", { description: `${e.message}` }),
   });
   return (
     <ProtectedRoute>
@@ -61,139 +65,19 @@ export default function InitialAnalysis() {
             key="analysis"
             className="relative min-h-screen flex flex-col items-center justify-center"
           >
-            <div className="flex flex-col items-left gap-8">
-              <div
-                className="flex items-center gap-6  py-2 w-64
-         rounded-full"
-              >
-                <div className="p-2 border border-indigo-600 rounded-full">
-                  <ScanFace
-                    className="size-12 text-indigo-600"
-                    strokeWidth={1.0}
-                  />
-                </div>
-                <div className="flex flex-col items-left">
-                  <p className="text-secondary uppercase tracking-widest text-xs">
-                    Initial Steps
-                  </p>
-                  <h1 className="text-5xl tracking-tight">Analysis</h1>
-                </div>
-              </div>
+            <div className="flex flex-col items-center gap-8">
+              <AnalysisHeading />
+              <SkinConcerns
+                concerns={concerns}
+                updateConcerns={updateConcerns}
+              />
 
-              <div className="flex flex-col">
-                <h2 className="tracking-tight text-2xl">Quick Look</h2>
-                <p className="text-secondary text-sm">
-                  Does any of this apply to you?
-                </p>
-              </div>
 
-              <div className="w-full flex items-center gap-3">
-                <div className="grid grid-rows-2 gap-2">
-                  <div className="flex items-center gap-1">
-                    <SkinProblemBadge
-                      selected={concerns.includes("redness")}
-                      problem="Redness"
-                      skinTargets={["Skin", "Tone"]}
-                      includeProblem={() => updateConcerns("redness")}
-                    />
-                    <SkinProblemBadge
-                      selected={concerns.includes("dryness")}
-                      problem="Dryness"
-                      skinTargets={["Hydration"]}
-                      includeProblem={() => updateConcerns("dryness")}
-                    />
-                    <SkinProblemBadge
-                      selected={concerns.includes("acne")}
-                      problem="Acne"
-                      skinTargets={["Skin", "Texture"]}
-                      includeProblem={() => updateConcerns("acne")}
-                    />
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <SkinProblemBadge
-                      selected={concerns.includes("dark-spots")}
-                      problem="Dark Spots"
-                      skinTargets={["Skin", "Tone"]}
-                      includeProblem={() => updateConcerns("dark-spots")}
-                    />
-                    <SkinProblemBadge
-                      selected={concerns.includes("clogged-pores")}
-                      problem="Clogged Pores"
-                      skinTargets={["Skin", "Texture"]}
-                      includeProblem={() => updateConcerns("clogged-pores")}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col items-left gap-8">
-                <div className="">
-                  <h4 className="text-2xl tracking-tight">
-                    Which Skin Type applies to you?
-                  </h4>
-                  <div className="text-secondary text-xs">
-                    Not sure? You can always check this{" "}
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="https://www.britishskinfoundation.org.uk/resources/identifying-your-skin-type-a-guide-by-dr-jonathan-kentley"
-                      className="underline cursor-pointer"
-                    >
-                      source
-                    </a>{" "}
-                    or skip this
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 text-xs ">
-                  <ChooseSkinType
-                    type="Dry"
-                    isChoosenAlready={choosenSkinType == "dry"}
-                    chooseType={() => setChoosenSkinType("dry")}
-                  />
-                  <ChooseSkinType
-                    type="Normal"
-                    isChoosenAlready={choosenSkinType == "normal"}
-                    chooseType={() => setChoosenSkinType("normal")}
-                  />
-                  <ChooseSkinType
-                    type="Combination"
-                    isChoosenAlready={choosenSkinType == "combination"}
-                    chooseType={() => setChoosenSkinType("combination")}
-                  />
-                  <ChooseSkinType
-                    type="Oily"
-                    isChoosenAlready={choosenSkinType == "oily"}
-                    chooseType={() => setChoosenSkinType("oily")}
-                  />
-                  <AnimatePresence>
-                    {choosenSkinType !== null && (
-                      <motion.button
-                        key="clear-selection"
-                        initial={{
-                          opacity: 0,
-                          scale: 0.5,
-                          filter: "blur(8px)",
-                        }}
-                        animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, scale: 0.5, filter: "blur(8px)" }}
-                        transition={{
-                          duration: 0.3,
-                          ease: "easeOut",
-                        }}
-                        onClick={() => {
-                          setChoosenSkinType(null);
-                          toast.success("Selection Cleared");
-                        }}
-                        className="relative group cursor-pointer rounded-full h-5 w-5 bg-primary text-white flex items-center justify-center"
-                      >
-                        <X className="w-3 h-3" />
-                        <div className="text-xs text-primary border border-neutral-200 absolute bottom-full left-1/2 -translate-x-1/2  translate-y-1 whitespace-nowrap rounded-md mb-3 px-3 py-1.5 bg-white opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-out">
-                          Clear Selection
-                        </div>
-                      </motion.button>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
+              <SkinType
+                choosenSkinType={choosenSkinType}
+                setChoosenSkinType={setChoosenSkinType}
+              />
+              
               <AnimatePresence mode="wait">
                 {initialAnalysisMutation.isPending ? (
                   <motion.div
@@ -286,74 +170,6 @@ export default function InitialAnalysis() {
       </AnimatePresence>
       <SoftGlowBg />
     </ProtectedRoute>
-  );
-}
-
-function ChooseSkinType({
-  type,
-  isChoosenAlready,
-  chooseType,
-}: {
-  type: string;
-  isChoosenAlready: boolean;
-  chooseType: () => void;
-}) {
-  return (
-    <button
-      disabled={isChoosenAlready}
-      onClick={() => chooseType()}
-      className={`cursor-pointer rounded-lg w-32 h-8 py-2
-        transition-colors duration-300 
-         uppercase text-secondary 
-        ${isChoosenAlready ? "bg-primary text-white " : "bg-transparent"}
-        text-center border-[0.5px] border-neutral-400`}
-    >
-      {type}
-    </button>
-  );
-}
-
-function SkinProblemBadge({
-  problem,
-  skinTargets,
-  includeProblem,
-  selected,
-}: {
-  problem: string;
-  skinTargets: string[];
-  includeProblem: () => void;
-  selected: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={includeProblem}
-      aria-pressed={selected}
-      className={`py-2 w-36 shadow-sm border-[0.5px] border-neutral-400
-      transition-colors duration-300 cursor-pointer rounded-full
-      flex flex-col items-center justify-center
-      ${
-        selected
-          ? "bg-charcoal text-white"
-          : "bg-offwhite text-primary hover:bg-neutral-200/50"
-      }
-    `}
-    >
-      <h3 className="text-xs">{problem}</h3>
-      <div className="flex items-center gap-[2px] tracking-widest text-secondary text-[10px]">
-        {skinTargets.map((skinTargetPart, idx) => {
-          if (idx === skinTargets.length - 1) {
-            return <p key={idx}>{skinTargetPart}</p>;
-          }
-          return (
-            <div key={idx} className="flex items-center gap-0.5">
-              <p>{skinTargetPart}</p>
-              <div className="w-[2px] h-[2px] rounded-full bg-neutral-500" />
-            </div>
-          );
-        })}
-      </div>
-    </button>
   );
 }
 

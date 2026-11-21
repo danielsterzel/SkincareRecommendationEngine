@@ -4,4 +4,5 @@ export type SkinProblemMock =
   | "dryness"
   | "acne"
   | "dark-spots"
-  | "clogged-pores";
+  | "clogged-pores"
+  | "other";

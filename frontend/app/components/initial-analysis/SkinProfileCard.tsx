@@ -9,6 +9,11 @@ import { cn } from "@/lib/cn";
 import { ArrowButton } from "../ArrowActiveComponents";
 import { AnimatePresence, motion } from "motion/react";
 import { AnimatedCheck, DrawnCheck } from "./AnimatedCheck";
+import {
+  ANALYSIS_STEPS,
+  getStepIndex,
+  type AnalysisStep,
+} from "@/lib/initial-analysis/analysis-steps";
 
 const FEATURE_LABELS_MAP: Record<SkinFeature, string> = {
   tone: "Tone",
@@ -24,12 +29,18 @@ const PROGRESS_LABELS = [
   "Start building your skin profile", // 0
   "Your profile is taking shape", // 1
   "Almost done, one more to go", // 2
-  "Your skin profile is complete", // 5
+  "Your skin profile is complete", // 3
 ];
 
-const TOTAL_PROFILE_STEPS = 3;
+const TOTAL_PROFILE_STEPS = ANALYSIS_STEPS.length;
 
-export function SkinProfileCard() {
+export function SkinProfileCard({
+  currentStep,
+  hasConcerns,
+}: {
+  currentStep: AnalysisStep;
+  hasConcerns: boolean;
+}) {
   return (
     <Card className="flex flex-col gap-5 bg-linear-[165deg] from-indigo-50 to-stone-50 p-7 border-[0.5px] border-indigo-300 ">
       <div className="w-full flex justify-between items-center">
@@ -47,38 +58,32 @@ export function SkinProfileCard() {
         <ProfileStatus />
       </div>
       <div>
-        <ProfileCompletionProgress />
+        <ProfileCompletionProgress
+          currentStep={currentStep}
+          hasConcerns={hasConcerns}
+        />
       </div>
     </Card>
   );
 }
-function ProfileCompletionProgress() {
-  const { skinProfile } = useSkinProfile();
-
-  const completedFields =
-    Number(
-      skinProfile.skinType !== undefined && skinProfile.skinType !== "not-sure",
-    ) +
-    Number(
-      Object.entries(skinProfile).some(
-        ([key, value]) =>
-          key !== "skinType" &&
-          key !== "other" &&
-          (Array.isArray(value) ? value.length > 0 : value !== undefined),
-      ),
-    ) +
-    Number(isFilled(skinProfile.other));
+function ProfileCompletionProgress({
+  currentStep,
+  hasConcerns,
+}: {
+  currentStep: AnalysisStep;
+  hasConcerns: boolean;
+}) {
+  const completedFields = getStepIndex(currentStep);
+  const isLastStep = currentStep === "additional-details";
+  const canBuildRoutine = isLastStep && hasConcerns;
   const label = PROGRESS_LABELS[completedFields];
 
-  const buildRoutineDisabled = !Object.values(skinProfile).some(
-    (value) => Array.isArray(value) && value.length > 0,
-  );
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center text-sm">
         <h4 className="font-semibold">Profile coverage</h4>
         <span className="text-neutral-600">
-          {completedFields} of {TOTAL_PROFILE_STEPS} aread filled
+          {completedFields} of {TOTAL_PROFILE_STEPS} areas filled
         </span>
       </div>
       <div className="flex w-full gap-1.5">
@@ -99,7 +104,7 @@ function ProfileCompletionProgress() {
 
       <ArrowButton
         aria-label="Build my Routine"
-        disabled={buildRoutineDisabled}
+        disabled={!canBuildRoutine}
         onClick={() => {}}
         className="disabled:opacity-40 disabled:cursor-not-allowed mt-12 self-center w-full max-w-xs px-2 py-2 font-semibold rounded-full bg-primary text-white"
       >

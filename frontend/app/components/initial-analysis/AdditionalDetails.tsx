@@ -1,13 +1,12 @@
 "use client";
-import {motion, AnimatePresence} from "motion/react";
-import {MessageCircleMoreIcon, LoaderCircle} from "lucide-react"
+import { motion, AnimatePresence } from "motion/react";
+import { MessageCircleMoreIcon, LoaderCircle } from "lucide-react";
 import { useInitialAnalysis } from "@/lib/hooks/useInitialAnalysis";
 import { useSkinProfile } from "./SkinProfileContext";
 
 export function AdditionalDetails() {
-
-    const analysis = useInitialAnalysis()
-    const {skinProfile, setFeature} = useSkinProfile()
+  const analysis = useInitialAnalysis();
+  const { skinProfile, setFeature } = useSkinProfile();
   return (
     <AnimatePresence mode="wait">
       {analysis.isPending ? (
@@ -63,24 +62,39 @@ export function AdditionalDetails() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -12 }}
-          className="w-full text-xs rounded-3xl border border-neutral-300 bg-white px-4 py-2 transition-colors focus-within:border-neutral-400 shadow-md duration-200"
+          className="flex flex-col gap-4"
         >
-          <div className="flex items-center gap-0.5">
-            <MessageCircleMoreIcon className="w-3 text-secondary h-3 shrink-0" />
-            <span className="font-medium text-secondary text-xs">
-              Anything else we should know?
-            </span>
+          <div className="flex items-center justify-between">
+            <h2 className="tracking-tight text-xl font-semibold cursor-default">
+              Anything else you'd like to share?
+            </h2>
+            <span className="text-secondary text-xs">This is Optional</span>
           </div>
-          <textarea
-            rows={1}
-            value={skinProfile.other ?? ""}
-            onChange={(e) => {
-              setFeature("other", e.target.value);
-            }}
-            placeholder="Type here additional details about your skin or any allergies you might have"
-            spellCheck={false}
-            className="mt-3 block field-sizing-content overflow-y-auto max-h-48 min-h-12  [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full  resize-none focus:outline-none"
-          />
+          <div className="w-full text-xs rounded-3xl border-[0.5px] border-neutral-300 bg-white px-4 py-2 transition-colors focus-within:border-neutral-400 duration-200">
+            <textarea
+              rows={1}
+              value={skinProfile.other ?? ""}
+              onChange={(e) => {
+                setFeature("other", e.target.value);
+              }}
+              placeholder="e.g. I'm allergic to fragrance and I use retinol at night"
+              spellCheck={false}
+              className="mt-3 block field-sizing-content overflow-y-auto max-h-24 min-h-12  [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full  resize-none focus:outline-none"
+            />
+          </div>
+
+          <div className="w-full mt-4">
+            <h3 className="text-lg font-semibold">Our Summary</h3>
+            <div className="w-full h-full min-h-[100px] flex flex-col gap-3 items-center justify-center">
+              <MessageCircleMoreIcon
+                className="w-7 h-7 text-secondary"
+                strokeWidth={1.4}
+              />
+              <span className="text-secondary text-xs">
+                Here will be our summary of all the details you have provided
+              </span>
+            </div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

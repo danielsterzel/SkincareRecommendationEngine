@@ -1,6 +1,6 @@
 "use client";
 
-import { ScanFace, X, LoaderCircle, MessageCircleMoreIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -21,6 +21,20 @@ import { Card } from "../base-components/Card";
 import { SkinProfileCard } from "../components/initial-analysis/SkinProfileCard";
 import type { SkinProfile } from "@/lib/initial-analysis/analysis-types";
 import { useSkinProfile } from "../components/initial-analysis/SkinProfileContext";
+import { AdditionalDetails } from "../components/initial-analysis/AdditionalDetails";
+import { cn } from "@/lib/cn";
+import {
+  ANALYSIS_STEPS,
+  AnalysisNavigation,
+  getStepIndex,
+  type AnalysisStep,
+} from "@/lib/initial-analysis/analysis-steps";
+
+const stepVariants = {
+  enter: (direction: 1 | -1) => ({ opacity: 0, x: direction * 24 }),
+  center: { opacity: 1, x: 0 },
+  exit: (direction: 1 | -1) => ({ opacity: 0, x: direction * -24 }),
+};
 
 export default function InitialAnalysis() {
   const [showBeginOverlay, setShowBeginOverlay] = useState(true);
@@ -29,15 +43,22 @@ export default function InitialAnalysis() {
   const [userChatInput, setUserChatInput] = useState("");
   const [fetchedProductList, setFetchedProductList] = useState<Product[]>();
   const [streamMessage, setStreamMessage] = useState("");
-  const [currentStep, setCurrentStep] = useState<
-    "skin-concerns" | "skin-type" | "additional-details"
-  >("skin-concerns");
+  const [currentStep, setCurrentStep] = useState<AnalysisStep>("skin-concerns");
+  const { previous: previousStep, next: nextStep } =
+    AnalysisNavigation[currentStep];
+  const continueBlocked =
+    currentStep === "skin-concerns" && concerns.length === 0;
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const goToStep = (step: AnalysisStep, dir: 1 | -1) => {
+    setDirection(dir);
+    setCurrentStep(step);
+  };
   const {
     skinProfile,
-    toggleFeature: updateFeature,
+    toggleFeature,
     setFeature,
     resetProfile,
-} = useSkinProfile();
+  } = useSkinProfile();
   const updateConcerns = (concern: SkinProblemMock) => {
     setConcerns((prev) =>
       prev.includes(concern)
@@ -45,23 +66,6 @@ export default function InitialAnalysis() {
         : [...prev, concern],
     );
   };
-  const initialAnalysisMutation = useMutation({
-    mutationFn: async (input: UserSkinInformationInput) => {
-      for await (const event of streamAnalysis(input)) {
-        setStreamMessage(event.message);
-
-        if (event.type === "completed") {
-          return event.data;
-        }
-      }
-
-      throw new Error("Analysis ended without completion");
-    },
-
-    onSuccess: () => toast.success("Successfully analyzed your skin"),
-    onError: (e) =>
-      toast.error("Something went wrong", { description: `${e.message}` }),
-  });
   return (
     <ProtectedRoute>
       <AnimatePresence mode="wait">
@@ -84,26 +88,46 @@ export default function InitialAnalysis() {
             >
               <Header />
               <div className="grid grid-cols-2">
-                <AnimatePresence mode="wait">
-                  <motion.div className="min-w-0 w-full px-10 py-8 flex flex-col items-start gap-6">
-                    {currentStep === "skin-concerns" && (
-                      <>
-                        <AnalysisHeading />
+                {/* fixed height (not min-h): steps differ in height, and a growing column would stretch the whole card on every step change */}
+                <div className="min-w-0 w-full h-[560px] px-10 pt-8 pb-6 flex flex-col">
+                  <AnalysisHeading
+                    step={getStepIndex(currentStep) + 1}
+                    totalSteps={ANALYSIS_STEPS.length}
+                  />
+                  <AnimatePresence
+                    mode="wait"
+                    custom={direction}
+                    initial={false}
+                  >
+                    <motion.div
+                      key={currentStep}
+                      custom={direction}
+                      variants={stepVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="w-full flex-1 flex flex-col justify-center gap-6 py-8"
+                    >
+                      {currentStep === "skin-concerns" && (
                         <SkinConcerns
                           concerns={concerns}
                           updateConcerns={updateConcerns}
                         />
-                      </>
-                    )}
-                    {currentStep === "skin-type" && (
-                      <SkinType
-                        choosenSkinType={choosenSkinType}
-                        setChoosenSkinType={setChoosenSkinType}
-                      />
-                    )}
+                      )}
+                      {currentStep === "skin-type" && (
+                        <SkinType
+                          choosenSkinType={choosenSkinType}
+                          setChoosenSkinType={setChoosenSkinType}
+                        />
+                      )}
+                      {currentStep === "additional-details" && (
+                        <AdditionalDetails />
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
 
-                    
-                    {/* {!initialAnalysisMutation.isPending &&
+                  {/* {!initialAnalysisMutation.isPending &&
                     !initialAnalysisMutation.isSuccess && (
                       <button
                         onClick={() => {
@@ -120,10 +144,57 @@ export default function InitialAnalysis() {
                         Send
                       </button>
                     )} */}
-                  </motion.div>
-                </AnimatePresence>
+                  <div className="w-full mt-auto pt-6  flex items-center justify-between">
+                    <button
+                      type="button"
+                      disabled={!previousStep}
+                      aria-hidden={!previousStep}
+                      onClick={() => previousStep && goToStep(previousStep, -1)}
+                      className={cn(
+                        "cursor-pointer flex h-11 text-secondary items-center text-xs gap-2 font-medium transition-colors hover:text-primary",
+                        !previousStep && "invisible",
+                      )}
+                    >
+                      <ArrowLeft size={16} />
+                      Back
+                    </button>
+
+                    <div className="flex items-center gap-4">
+                      <AnimatePresence>
+                        {continueBlocked && (
+                          <motion.span
+                            initial={{ opacity: 0, x: 6 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 6 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="text-xs text-secondary"
+                          >
+                            Select at least one concern
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                      <button
+                        type="button"
+                        disabled={!nextStep || continueBlocked}
+                        aria-hidden={!nextStep}
+                        onClick={() => nextStep && goToStep(nextStep, 1)}
+                        className={cn(
+                          "cursor-pointer flex h-11 items-center gap-2 text-primary text-xs font-medium transition-opacity disabled:opacity-40 disabled:cursor-not-allowed",
+                          !nextStep && "invisible",
+                        )}
+                      >
+                        Continue
+                        <ArrowRight size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="mx-auto w-full max-w-6xl p-6">
-                  <SkinProfileCard />
+                  <SkinProfileCard
+                    currentStep={currentStep}
+                    hasConcerns={concerns.length > 0}
+                  />
                 </div>
 
                 <div />

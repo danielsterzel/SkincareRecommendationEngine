@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 
-import { Navbar } from "./Navbar";
+import { Navbar } from "./navbar";
 
 import { StepByStep } from "./components/landing/StepByStep";
 import { SkinPlaquet } from "./components/SkinPlaquet";

@@ -22,6 +22,7 @@ interface SkinProfileContextValue {
     feature: K,
     answer: SkinProfile[K],
   ) => void;
+  clearFeature: (feature: SkinFeature) => void;
   resetProfile: () => void;
 }
 type ArrayFeature = {
@@ -74,13 +75,20 @@ export function SkinProfileProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  function clearFeature(feature: SkinFeature): void {
+    setSkinProfile((prev) => {
+      const { [feature]: _removed, ...rest } = prev;
+      return rest;
+    });
+  }
+
   function resetProfile(): void {
     setSkinProfile({});
   }
 
   return (
     <SkinProfileContext.Provider
-      value={{ skinProfile, toggleFeature: toggleFeature, toggleArrayFeature: toggleArrayFeature, setFeature, resetProfile }}
+      value={{ skinProfile, toggleFeature: toggleFeature, toggleArrayFeature: toggleArrayFeature, setFeature, clearFeature, resetProfile }}
     >
       {children}
     </SkinProfileContext.Provider>

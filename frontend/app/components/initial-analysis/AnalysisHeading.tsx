@@ -7,17 +7,14 @@ export function AnalysisHeading() {
           <ScanFace className="size-7 text-indigo-600" strokeWidth={1.3} />
         </div>
         <div className="w-full flex flex-col items-left">
-          <p className="text-secondary uppercase tracking-[0.18rem] text-xs">
+          <p className="text-secondary uppercase tracking-[0.18rem] text-[10px]">
             Initial Analysis
           </p>
-          <h1 className="text-5xl tracking-tight font-semibold">
+          <h1 className="text-4xl -tracking-[0.06em] font-semibold">
             Let's look at your skin
           </h1>
         </div>
       </div>
-      <p className="text-md text-neutral-500">
-        Two quick questions. You can change your answers later
-      </p>
     </div>
   );
 }

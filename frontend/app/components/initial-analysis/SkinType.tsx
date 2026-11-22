@@ -4,6 +4,20 @@ import { Skin } from "@/lib/initial-analysis/analysis-types";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "sonner";
 import { X } from "lucide-react";
+import { cn } from "@/lib/cn";
+import { useSkinProfile } from "./SkinProfileContext";
+
+type SkinOption = { id: Skin; label: string; hint: string };
+const TYPES: SkinOption[] = [
+  { id: "dry", label: "Dry", hint: "Feels tight, may flake" },
+  { id: "normal", label: "Normal", hint: "Balanced, rarely shiny" },
+  {
+    id: "combination",
+    label: "Combination",
+    hint: "Oily T-zone, drier cheeks",
+  },
+  { id: "oily", label: "Oily", hint: "Shiny within a few hours" },
+];
 
 export function SkinType({
   choosenSkinType,
@@ -12,47 +26,82 @@ export function SkinType({
   choosenSkinType: Skin | null;
   setChoosenSkinType: (skinType: Skin | null) => void;
 }) {
+  const selectedType = TYPES.find((t) => choosenSkinType === t.id);
+  const { toggleFeature: toggleFeature } = useSkinProfile();
+
   return (
-    <div className="flex flex-col items-left gap-8">
-      <div className="">
-        <h4 className="text-2xl tracking-tight">
-          Which Skin Type applies to you?
-        </h4>
-        <div className="text-secondary text-xs">
-          Not sure? You can always check this{" "}
+    <fieldset className="w-full m-0 border-0 p-0 flex flex-col gap-3">
+      <div className="flex items-center justify-between">
+        <legend className="mb-3.5  text-xl font-semibold">
+          What's your skin type?
+        </legend>
+        <span className="text-secondary text-xs">
+          Not sure?{" "}
           <a
             target="_blank"
             rel="noopener noreferrer"
             href="https://www.britishskinfoundation.org.uk/resources/identifying-your-skin-type-a-guide-by-dr-jonathan-kentley"
             className="underline cursor-pointer"
           >
-            source
-          </a>{" "}
-          or skip this
-        </div>
+            How to tell
+          </a>
+        </span>
       </div>
 
-      <div className="flex items-center gap-4 text-xs ">
-        <ChooseSkinType
-          type="Dry"
-          isChoosenAlready={choosenSkinType == "dry"}
-          chooseType={() => setChoosenSkinType("dry")}
-        />
-        <ChooseSkinType
-          type="Normal"
-          isChoosenAlready={choosenSkinType == "normal"}
-          chooseType={() => setChoosenSkinType("normal")}
-        />
-        <ChooseSkinType
-          type="Combination"
-          isChoosenAlready={choosenSkinType == "combination"}
-          chooseType={() => setChoosenSkinType("combination")}
-        />
-        <ChooseSkinType
-          type="Oily"
-          isChoosenAlready={choosenSkinType == "oily"}
-          chooseType={() => setChoosenSkinType("oily")}
-        />
+      <div className="w-full grid grid-cols-4 rounded-full bg-ink/5 p-1">
+        {TYPES.map((t) => {
+          const selected = choosenSkinType === t.id;
+          return (
+            <label
+              key={t.id}
+              className="relative flex min-h-11 items-center justify-center rounded-full text-sm"
+            >
+              {selected && (
+                <motion.span
+                  layoutId="skin-pill"
+                  transition={{ type: "spring", stiffness: 400, damping: 40 }}
+                  style={{ borderRadius: 9999 }}
+                  className="absolute inset-0 bg-white shadow-md "
+                />
+              )}
+              <input
+                type="radio"
+                name="skin-type"
+                value={t.id}
+                checked={choosenSkinType === t.id}
+                onChange={() => {
+                  toggleFeature("skinType", t.id);
+                  setChoosenSkinType(t.id);
+                }}
+                className="absolute inset-0 z-10 opacity-0 cursor-pointer "
+              />
+              <span
+                className={cn(
+                  "relative transition-colors",
+                  selected ? "font-semibold text-primary" : "text-ink/80",
+                )}
+              >
+                {t.label}
+              </span>
+            </label>
+          );
+        })}
+      </div>
+      <div className="flex items-center justify-between h-5" aria-live="polite">
+        <AnimatePresence mode="wait">
+          {selectedType && (
+            <motion.span
+              key={selectedType.id}
+              initial={{ opacity: 0, y: 6, filter: "blur(4px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -6, filter: "blur(4px)" }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="block text-neutral-500 text-sm"
+            >
+              {selectedType.hint}
+            </motion.span>
+          )}
+        </AnimatePresence>
         <AnimatePresence>
           {choosenSkinType !== null && (
             <motion.button
@@ -70,6 +119,7 @@ export function SkinType({
               }}
               onClick={() => {
                 setChoosenSkinType(null);
+                toggleFeature("skinType", "not-sure")
                 toast.success("Selection Cleared");
               }}
               className="relative group cursor-pointer rounded-full h-5 w-5 bg-primary text-white flex items-center justify-center"
@@ -82,30 +132,6 @@ export function SkinType({
           )}
         </AnimatePresence>
       </div>
-    </div>
-  );
-}
-
-function ChooseSkinType({
-  type,
-  isChoosenAlready,
-  chooseType,
-}: {
-  type: string;
-  isChoosenAlready: boolean;
-  chooseType: () => void;
-}) {
-  return (
-    <button
-      disabled={isChoosenAlready}
-      onClick={() => chooseType()}
-      className={`cursor-pointer rounded-lg w-32 h-8 py-2
-        transition-colors duration-300 
-         uppercase text-secondary 
-        ${isChoosenAlready ? "bg-primary text-white " : "bg-white"}
-        text-center border-[0.5px] border-neutral-400`}
-    >
-      {type}
-    </button>
+    </fieldset>
   );
 }

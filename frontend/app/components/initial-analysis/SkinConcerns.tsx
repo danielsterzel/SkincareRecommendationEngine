@@ -1,7 +1,8 @@
 "use client";
 import { type SkinProblemMock } from "@/lib/initial-analysis/analysis-types";
-import { Check } from "lucide-react";
+import { AnimatedCheck } from "./AnimatedCheck";
 import { motion } from "motion/react";
+import { useSkinProfile } from "./SkinProfileContext";
 export function SkinConcerns({
   concerns,
   updateConcerns,
@@ -9,56 +10,79 @@ export function SkinConcerns({
   concerns: SkinProblemMock[];
   updateConcerns: (concern: SkinProblemMock) => void;
 }) {
+  const { skinProfile, toggleFeature, toggleArrayFeature } = useSkinProfile();
+
   return (
-    <div className="max-w-[600px] flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <h2 className="tracking-tight text-2xl font-semibold cursor-default">
+        <h2 className="tracking-tight text-xl font-semibold cursor-default">
           What are you noticing?
         </h2>
-        <p className="text-secondary text-sm cursor-default">Select all that apply</p>
+        <p className="text-secondary text-xs cursor-default">
+          Select all that apply
+        </p>
       </div>
 
       <div className="w-full flex items-center gap-3">
-        <div className="grid grid-rows-2 gap-2">
-          <div className="flex items-center gap-1">
+        <div className="w-full grid grid-rows-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <SkinProblemBadge
               selected={concerns.includes("redness")}
               problem="Redness"
               skinTargets={["Skin", "Tone"]}
-              includeProblem={() => updateConcerns("redness")}
+              includeProblem={() => {
+                toggleArrayFeature("tone", "redness");
+                updateConcerns("redness");
+              }}
             />
             <SkinProblemBadge
               selected={concerns.includes("dryness")}
               problem="Dryness"
               skinTargets={["Hydration"]}
-              includeProblem={() => updateConcerns("dryness")}
+              includeProblem={() => {
+                toggleFeature("hydration", "dry");
+                updateConcerns("dryness");
+              }}
             />
             <SkinProblemBadge
               selected={concerns.includes("acne")}
               problem="Acne"
               skinTargets={["Skin", "Texture"]}
-              includeProblem={() => updateConcerns("acne")}
+              includeProblem={() => {
+                toggleArrayFeature("texture", "pimply")
+                updateConcerns("acne");
+              }}
             />
           </div>
-          <div className="flex items-center gap-1">
+          <div className="grid grid-cols-3 gap-2">
             <SkinProblemBadge
               selected={concerns.includes("dark-spots")}
               problem="Dark Spots"
               skinTargets={["Skin", "Tone"]}
-              includeProblem={() => updateConcerns("dark-spots")}
+              includeProblem={() => {
+                toggleArrayFeature("tone", "discolored");
+                updateConcerns("dark-spots");
+              }}
             />
             <SkinProblemBadge
               selected={concerns.includes("clogged-pores")}
               problem="Clogged Pores"
               skinTargets={["Skin", "Texture"]}
-              includeProblem={() => updateConcerns("clogged-pores")}
+              includeProblem={() => {
+                toggleArrayFeature("texture", "bumpy")
+                updateConcerns("clogged-pores")}
+            }
             />
             <SkinProblemBadge
               type="secondary"
               selected={concerns.includes("other")}
-              problem="None of these"
-              skinTargets={["Nothing in particular"]}
-              includeProblem={() => updateConcerns("other")}
+              problem="Something else"
+              skinTargets={["Not listed here"]}
+              includeProblem={() => {
+                toggleFeature("other", "Other")
+                updateConcerns("other")
+
+              }}
             />
           </div>
         </div>
@@ -85,7 +109,7 @@ function SkinProblemBadge({
       type="button"
       onClick={includeProblem}
       aria-pressed={selected}
-      className={`py-3 w-48 shadow-sm 
+      className={`py-3 w-full min-w-0 shadow-sm 
         
       ${type === "secondary" ? "border-[0.5px] border-dashed border-neutral-400" : "border-[0.5px] border-neutral-400"}   
       transition-colors duration-300 cursor-pointer rounded-2xl
@@ -111,32 +135,7 @@ function SkinProblemBadge({
             })}
           </div>
         </div>
-        <div
-          className={`flex items-center justify-center w-3 h-3 shrink-0 rounded-full border transition-colors duration-300 ${selected ? "bg-primary border-primary" : "bg-white border-neutral-400"}`}
-        >
-          <motion.svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-2 h-2 text-white"
-          >
-            <motion.path
-              d="M5 12l4 4L19 6"
-              initial={false}
-              animate={{
-                pathLength: selected ? 1 : 0,
-                opacity: selected ? 1 : 0,
-              }}
-              transition={{
-                duration: 0.3,
-                ease: "easeInOut",
-              }}
-            />
-          </motion.svg>
-        </div>
+        <AnimatedCheck checked={selected} />
       </div>
     </motion.button>
   );

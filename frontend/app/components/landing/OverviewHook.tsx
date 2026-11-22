@@ -1,5 +1,5 @@
 "use client";
-import { ArrowButton } from "../ArrowButton";
+import { ArrowLink } from "../ArrowActiveComponents";
 import { motion } from "motion/react";
 
 export function OverviewHook() {
@@ -57,15 +57,15 @@ export function OverviewHook() {
           transition={{ duration: 0.3, delay: 0.7, ease: "easeOut" }}
           className="flex items-center gap-3"
         >
-          <ArrowButton
+          <ArrowLink
             href="initial-analysis"
             className="inline-flex  shrink-0
                  items-center gap-2 whitespace-nowrap 
                  rounded-full bg-charcoal px-6 py-3  font-medium text-white shadow-md"
           >
             Build my routine
-          </ArrowButton>
-          <ArrowButton
+          </ArrowLink>
+          <ArrowLink
             href="#step-by-step"
             onClick={clearBrowserSection}
             className="rounded-full
@@ -73,7 +73,7 @@ export function OverviewHook() {
                   shadow-md text-secondary bg-white px-6 py-3 "
           >
             How it works
-          </ArrowButton>
+          </ArrowLink>
         </motion.div>
       </div>
     </div>

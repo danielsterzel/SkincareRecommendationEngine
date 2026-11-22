@@ -1,6 +1,6 @@
 "use client";
 
-import { ScanFace, X, LoaderCircle } from "lucide-react";
+import { ScanFace, X, LoaderCircle, MessageCircleMoreIcon } from "lucide-react";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -16,6 +16,11 @@ import { streamAnalysis } from "@/lib/initial-analysis/analysis-api";
 import { AnalysisHeading } from "../components/initial-analysis/AnalysisHeading";
 import { SkinConcerns } from "../components/initial-analysis/SkinConcerns";
 import { SkinType } from "../components/initial-analysis/SkinType";
+import { Aurelia } from "../Aurelia";
+import { Card } from "../base-components/Card";
+import { SkinProfileCard } from "../components/initial-analysis/SkinProfileCard";
+import type { SkinProfile } from "@/lib/initial-analysis/analysis-types";
+import { useSkinProfile } from "../components/initial-analysis/SkinProfileContext";
 
 export default function InitialAnalysis() {
   const [showBeginOverlay, setShowBeginOverlay] = useState(true);
@@ -24,7 +29,15 @@ export default function InitialAnalysis() {
   const [userChatInput, setUserChatInput] = useState("");
   const [fetchedProductList, setFetchedProductList] = useState<Product[]>();
   const [streamMessage, setStreamMessage] = useState("");
-
+  const [currentStep, setCurrentStep] = useState<
+    "skin-concerns" | "skin-type" | "additional-details"
+  >("skin-concerns");
+  const {
+    skinProfile,
+    toggleFeature: updateFeature,
+    setFeature,
+    resetProfile,
+} = useSkinProfile();
   const updateConcerns = (concern: SkinProblemMock) => {
     setConcerns((prev) =>
       prev.includes(concern)
@@ -65,106 +78,57 @@ export default function InitialAnalysis() {
             key="analysis"
             className="relative min-h-screen flex flex-col items-center justify-center"
           >
-            <div className="flex flex-col items-center gap-8">
-              <AnalysisHeading />
-              <SkinConcerns
-                concerns={concerns}
-                updateConcerns={updateConcerns}
-              />
-
-
-              <SkinType
-                choosenSkinType={choosenSkinType}
-                setChoosenSkinType={setChoosenSkinType}
-              />
-              
-              <AnimatePresence mode="wait">
-                {initialAnalysisMutation.isPending ? (
-                  <motion.div
-                    key="loading"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    className="min-w-[800px] h-20 flex items-center justify-center gap-4"
-                  >
-                    <LoaderCircle className="size-5 animate-spin text-indigo-600" />
-
-                    <motion.p
-                      key={streamMessage}
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-sm text-secondary"
-                    >
-                      {streamMessage || "Starting analysis..."}
-                    </motion.p>
-                  </motion.div>
-                ) : initialAnalysisMutation.isSuccess ? (
-                  <motion.div
-                    key="products"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="w-full max-w-[800px] flex flex-col gap-4"
-                  >
-                    <h3 className="text-xl tracking-tight">
-                      Your recommended products
-                    </h3>
-
-                    {initialAnalysisMutation.data.length === 0 ? (
-                      <p className="text-sm text-secondary">
-                        No matching products found.
-                      </p>
-                    ) : (
-                      initialAnalysisMutation.data.map((product, index) => (
-                        <div
-                          key={`${product.brand}-${product.name}-${index}`}
-                          className="p-4 rounded-xl border border-neutral-200"
-                        >
-                          <p className="text-xs text-secondary">
-                            {product.brand}
-                          </p>
-                          <h4>{product.name}</h4>
-                          <p className="text-xs text-secondary">
-                            WSM Score: {product.wsm_score.toFixed(3)}
-                          </p>
-                        </div>
-                      ))
+            <Card
+              className="w-full max-w-6xl bg-white  
+            rounded-[32px] overflow-hidden"
+            >
+              <Header />
+              <div className="grid grid-cols-2">
+                <AnimatePresence mode="wait">
+                  <motion.div className="min-w-0 w-full px-10 py-8 flex flex-col items-start gap-6">
+                    {currentStep === "skin-concerns" && (
+                      <>
+                        <AnalysisHeading />
+                        <SkinConcerns
+                          concerns={concerns}
+                          updateConcerns={updateConcerns}
+                        />
+                      </>
                     )}
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="textarea"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                  >
-                    <textarea
-                      value={userChatInput}
-                      onChange={(e) => setUserChatInput(e.target.value)}
-                      placeholder="Type here additional details about your skin..."
-                      spellCheck={false}
-                      className="shadow-xs min-w-[800px] h-16 border-[0.5px] border-neutral-400 py-[18px] rounded-full resize-none outline-none px-6"
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            {!initialAnalysisMutation.isPending &&
-              !initialAnalysisMutation.isSuccess && (
-                <button
-                  onClick={() => {
-                    setStreamMessage("");
+                    {currentStep === "skin-type" && (
+                      <SkinType
+                        choosenSkinType={choosenSkinType}
+                        setChoosenSkinType={setChoosenSkinType}
+                      />
+                    )}
 
-                    initialAnalysisMutation.mutate({
-                      concerns: { concerns },
-                      skinType: choosenSkinType,
-                      additional_detail: userChatInput,
-                    });
-                  }}
-                  className="mt-4 text-lg cursor-pointer transition-transform duration-200 rounded-2xl hover:scale-[1.02] px-4 py-1.5 bg-primary text-white"
-                >
-                  Send
-                </button>
-              )}
+                    
+                    {/* {!initialAnalysisMutation.isPending &&
+                    !initialAnalysisMutation.isSuccess && (
+                      <button
+                        onClick={() => {
+                          setStreamMessage("");
+
+                          initialAnalysisMutation.mutate({
+                            concerns: { concerns },
+                            skinType: choosenSkinType,
+                            additional_detail: userChatInput,
+                          });
+                        }}
+                        className="mt-4 text-lg cursor-pointer transition-transform duration-200 rounded-2xl hover:scale-[1.02] px-4 py-1.5 bg-primary text-white"
+                      >
+                        Send
+                      </button>
+                    )} */}
+                  </motion.div>
+                </AnimatePresence>
+                <div className="mx-auto w-full max-w-6xl p-6">
+                  <SkinProfileCard />
+                </div>
+
+                <div />
+              </div>
+            </Card>
           </motion.div>
         )}
       </AnimatePresence>
@@ -230,5 +194,17 @@ function SoftGlowBg() {
         backgroundSize: "auto, auto, 20px 20px",
       }}
     />
+  );
+}
+
+function Header() {
+  return (
+    <div className="w-full">
+      <div className="px-10 py-2 w-full flex justify-between">
+        <Aurelia className="text-lg tracking-widest" />
+        <div className="flex items-center"></div>
+      </div>
+      <div className="bg-neutral-500 h-[0.5px] w-full" />
+    </div>
   );
 }

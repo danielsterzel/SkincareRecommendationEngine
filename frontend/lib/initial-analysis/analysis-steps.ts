@@ -11,7 +11,6 @@ type AnalysisDirections = {
   next: AnalysisStep | null;
 };
 
-// previous/next derived from ANALYSIS_STEPS order, so adding a step = one line above
 export const AnalysisNavigation = Object.fromEntries(
   ANALYSIS_STEPS.map((step, i) => [
     step,

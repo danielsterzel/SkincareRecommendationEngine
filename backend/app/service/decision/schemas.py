@@ -3,7 +3,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 from app.service.decision.domain_types import OptString, SeverityLabels
-
+from app.schemas.initial_analysis import CurrentRoutineItem
 from app.service.decision.dataset_schemas import Product
 
 NEGATIVE_EFFECT_LABELS = {
@@ -103,9 +103,14 @@ class SensitivityLevels(StrEnum):
 
 class UserSkinContext(BaseModel):
     skin_concerns: list[SkinConcern]
+    goals: list[str] = Field(description="What the user wants to achieve, as short phrases e.g. 'even out skin tone', 'less shine', 'more gloss'. Empty list if not mentioned")
+    current_routine: list[CurrentRoutineItem]
     allergens: list[AllergenInciTerms]
     skin_sensitivity: SensitivityLevels
     previous_reactions_to_products: list[PreviousReactionToProduct] = Field(
         default_factory=list
     )
     skin_type: SkinType | None = None
+    note: str = Field(
+        description="1-2 friendly sentences for the user summarizing their skin. No medical advice or product recommendations."
+    )

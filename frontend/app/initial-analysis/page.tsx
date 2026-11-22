@@ -88,7 +88,6 @@ export default function InitialAnalysis() {
             >
               <Header />
               <div className="grid grid-cols-2">
-                {/* fixed height (not min-h): steps differ in height, and a growing column would stretch the whole card on every step change */}
                 <div className="min-w-0 w-full h-[560px] px-10 pt-8 pb-6 flex flex-col">
                   <AnalysisHeading
                     step={getStepIndex(currentStep) + 1}
@@ -134,7 +133,7 @@ export default function InitialAnalysis() {
                           setStreamMessage("");
 
                           initialAnalysisMutation.mutate({
-                            concerns: { concerns },
+                            concerns,
                             skinType: choosenSkinType,
                             additional_detail: userChatInput,
                           });

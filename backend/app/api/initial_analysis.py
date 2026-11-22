@@ -1,4 +1,3 @@
-import json
 from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, status, Depends
@@ -31,17 +30,13 @@ async def parse(
     async def stream():
         async for event in wsm_pipeline(user_input=data, client=openai):
 
-            log_content = f"TYPE: {event.get("type")}\n"
-            log_content += f"MESSAGE: {event.get("message", "INVALID_MESSAGE")}\n"
-            event_data = event.get("data", "SKIP")
-
-            if event_data != "SKIP":
-                if len(event_data) == 0:
-                    log_content += f"NO PRODUCTS FOUND\n"
+            log_content = f"TYPE: {event.type}\nMESSAGE: {event.message}\n"
+            if isinstance(event, ia.CompletedEvent) and not event.data:
+                log_content += "NO PRODUCTS FOUND\n"
 
             with ANALYSIS_API_LOG_FILE.open("a", encoding="utf-8") as f:
                 f.write(log_content + "\n")
-            yield f"data: {json.dumps(event)}\n\n"
+            yield f"data: {event.model_dump_json(by_alias=True)}\n\n"
 
     ANALYSIS_API_LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     return StreamingResponse(stream(), media_type="text/event-stream")

@@ -151,8 +151,6 @@ function SkinTypeDescription({
 }: {
   selectedType: SkinOption | undefined;
 }) {
-  // Every variant is rendered into the same grid cell, stacked on top of each other.
-  // The cell takes the height of the tallest one, so switching never resizes anything.
   return (
     <div className="mt-2 grid" aria-live="polite">
       <motion.div

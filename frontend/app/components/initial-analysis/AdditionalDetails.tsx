@@ -50,7 +50,7 @@ export function AdditionalDetails() {
                 <p className="text-xs text-secondary">{product.brand}</p>
                 <h4>{product.name}</h4>
                 <p className="text-xs text-secondary">
-                  WSM Score: {product.wsm_score.toFixed(3)}
+                  WSM Score: {product.wsmScore.toFixed(3)}
                 </p>
               </div>
             ))

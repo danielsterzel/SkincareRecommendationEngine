@@ -2,12 +2,8 @@ import z from "zod";
 
 import { SkinProblemMock, Skin} from "./analysis-types";
 
-export const skinConcerns = z.object({
-    concerns: z.array(z.custom<SkinProblemMock>())
-})
-
 export const userSkinInformationInput = z.object({
-    concerns: skinConcerns,
+    concerns: z.array(z.custom<SkinProblemMock>()),
     skinType: z.custom<Skin | null>(),
     additional_detail: z.string()
 })
@@ -15,7 +11,16 @@ export const userSkinInformationInput = z.object({
 export const productSchema = z.object({
   brand: z.string(),
   name: z.string(),
-  wsm_score: z.number().gt(0).max(1),
+  wsmScore: z.number().gt(0).max(1),
+});
+
+
+export const quickSummarySchema = z.object({
+  identifiedConcerns: z.array(z.string()),
+  goals: z.array(z.string()),
+  avoid: z.array(z.string()),
+  currentRoutine: z.array(z.string()),
+  note: z.string(),
 });
 
 
@@ -40,7 +45,7 @@ export const analysisEvent = z.discriminatedUnion("type", [
 ]);
 
 export type UserSkinInformationInput = z.infer<typeof userSkinInformationInput>;
-export type SkinConcerns = z.infer<typeof skinConcerns>;
+export type QuickSummary = z.infer<typeof quickSummarySchema>;
 
 export type AnalysisEvent = z.infer<typeof analysisEvent>;
 export type Product = z.infer<typeof productSchema>;

@@ -12,6 +12,8 @@
 FOR NOW WE SKIP ALL PRODUCTS WITH TARGETS == NONE
 """
 
+from collections.abc import AsyncIterator
+
 from typing import Annotated
 
 # optimization algorithms (routine making):
@@ -28,7 +30,15 @@ from openai import OpenAI
 from pydantic import BaseModel, Field, ConfigDict
 
 from app.core.settings import settings
-from app.schemas.initial_analysis import MockProductSchema, UserSkinInformationInput
+from app.schemas.initial_analysis import (
+    AnalysisEvent,
+    CompletedEvent,
+    ContextEvent,
+    MockProductSchema,
+    NegativeEffectsEvent,
+    StatusEvent,
+    UserSkinInformationInput,
+)
 from app.service.decision.dataset_schemas import Product
 from app.service.decision.llm_utils import (
     assign_negative_labels_to_products,
@@ -253,16 +263,17 @@ def wsm(scores: np.ndarray, weights: np.ndarray) -> np.ndarray:
     return scores @ weights
 
 
-async def wsm_pipeline(user_input: UserSkinInformationInput, client: OpenAI):
+async def wsm_pipeline(
+    user_input: UserSkinInformationInput, client: OpenAI
+) -> AsyncIterator[AnalysisEvent]:
     # message: beginning analyzing
-    yield {"type": "status", "message": "Analyzing your skin..."}
+    yield StatusEvent(message="Analyzing your skin...")
     ctx = openai_user_skin_context_inference(client, user_input.model_dump_json())
     # summarized user preferences
-    yield {
-        "type": "context",
-        "message": f"Targeted concerns: {ctx.skin_concerns}"
-        + f"selected skin type: {ctx.skin_type}",
-    }
+    yield ContextEvent(
+        message=f"Targeted concerns: {', '.join(ctx.skin_concerns)}. "
+        + f"Selected skin type: {ctx.skin_type or 'unknown'}"
+    )
     products = [
         p for p in load_products() if parse_targets(p.targets) & set(ctx.skin_concerns)
     ]
@@ -270,21 +281,19 @@ async def wsm_pipeline(user_input: UserSkinInformationInput, client: OpenAI):
     products = exclude_negative_products(products, ctx)
 
     if not products:
-        yield {
-            "type": "completed",
-            "message": "No viable products found in our database",
-            "data": [],
-        }
+        yield CompletedEvent(
+            message="No viable products found in our database", data=[]
+        )
+        return
 
     negative_labels = assign_negative_labels_to_products(
         client=client,
         products=products,
         user_skin_context=ctx,
     )
-    yield {
-        "type": "negative_effects",
-        "message": "Derived potential negative effects of your products...",
-    }
+    yield NegativeEffectsEvent(
+        message="Derived potential negative effects of your products..."
+    )
 
     matrix = build_matrix(
         products,
@@ -332,16 +341,15 @@ async def wsm_pipeline(user_input: UserSkinInformationInput, client: OpenAI):
         encoding="utf-8",
     )
 
-    yield {
-        "type": "completed",
-        "message": "Proposed products for your skin",
-        "data": [
+    yield CompletedEvent(
+        message="Proposed products for your skin",
+        data=[
             MockProductSchema(
                 brand=product.brand, name=product.product_name, wsm_score=score
-            ).model_dump(mode="json")
+            )
             for product, score, _ in ranking[:10]
         ],
-    }
+    )
 
 
 TEST_DATA = Path("data/test_data")

@@ -10,10 +10,12 @@ from typing import Mapping, Annotated
 
 RetinolConcentration = Annotated[float, Field(ge=0.01, le=1.0)]
 
+
 class RetinolType(StrEnum):
     RETINYL_PALMITE = "retinyl_palmite"
     RETINOL = "retinol"
     RETINALDEHYDE = "retinaldehyde"
-    RETINAL_ACETATE=""
+    RETINAL_ACETATE = ""
+
 
 RetinolTypeToConcentration: Mapping[RetinolType, RetinolConcentration] = {}

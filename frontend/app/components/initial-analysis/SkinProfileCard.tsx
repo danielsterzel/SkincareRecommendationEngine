@@ -6,7 +6,6 @@ import type {
 } from "@/lib/initial-analysis/analysis-types";
 import { useSkinProfile } from "./SkinProfileContext";
 import { cn } from "@/lib/cn";
-import { ArrowButton } from "../ArrowActiveComponents";
 import { AnimatePresence, motion } from "motion/react";
 import { AnimatedCheck, DrawnCheck } from "./AnimatedCheck";
 import {
@@ -32,17 +31,16 @@ const PROGRESS_LABELS = [
   "Your skin profile is complete", // 3
 ];
 
-const TOTAL_PROFILE_STEPS = ANALYSIS_STEPS.length;
+// Only the steps before "summary" collect answers; the rest just show results
+const TOTAL_PROFILE_STEPS = ANALYSIS_STEPS.indexOf("summary");
 
 export function SkinProfileCard({
   currentStep,
-  hasConcerns,
 }: {
   currentStep: AnalysisStep;
-  hasConcerns: boolean;
 }) {
   return (
-    <Card className="flex flex-col gap-5 bg-linear-[165deg] from-indigo-50 to-stone-50 p-7 border-[0.5px] border-indigo-300 ">
+    <Card className="h-full flex flex-col gap-5 bg-linear-[165deg] from-indigo-50 to-stone-50 p-7 border-[0.5px] border-indigo-300 ">
       <div className="w-full flex justify-between items-center">
         <span className="text-sm font-semibold text-neutral-600 ">
           Skin profile
@@ -58,24 +56,20 @@ export function SkinProfileCard({
         <ProfileStatus />
       </div>
       <div>
-        <ProfileCompletionProgress
-          currentStep={currentStep}
-          hasConcerns={hasConcerns}
-        />
+        <ProfileCompletionProgress currentStep={currentStep} />
       </div>
     </Card>
   );
 }
 function ProfileCompletionProgress({
   currentStep,
-  hasConcerns,
 }: {
   currentStep: AnalysisStep;
-  hasConcerns: boolean;
 }) {
-  const completedFields = getStepIndex(currentStep);
-  const isLastStep = currentStep === "additional-details";
-  const canBuildRoutine = isLastStep && hasConcerns;
+  const completedFields = Math.min(
+    getStepIndex(currentStep),
+    TOTAL_PROFILE_STEPS,
+  );
   const label = PROGRESS_LABELS[completedFields];
 
   return (
@@ -101,15 +95,6 @@ function ProfileCompletionProgress({
         })}
       </div>
       <span className="text-xs text-neutral-600 font-medium">{label}</span>
-
-      <ArrowButton
-        aria-label="Build my Routine"
-        disabled={!canBuildRoutine}
-        onClick={() => {}}
-        className="disabled:opacity-40 disabled:cursor-not-allowed mt-12 self-center w-full max-w-xs px-2 py-2 font-semibold rounded-full bg-primary text-white"
-      >
-        Build my Routine
-      </ArrowButton>
     </div>
   );
 }

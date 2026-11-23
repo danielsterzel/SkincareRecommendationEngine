@@ -103,7 +103,9 @@ class SensitivityLevels(StrEnum):
 
 class UserSkinContext(BaseModel):
     skin_concerns: list[SkinConcern]
-    goals: list[str] = Field(description="What the user wants to achieve, as short phrases e.g. 'even out skin tone', 'less shine', 'more gloss'. Empty list if not mentioned")
+    goals: list[str] = Field(
+        description="What the user wants to achieve, as short phrases e.g. 'even out skin tone', 'less shine', 'more gloss'. Empty list if not mentioned"
+    )
     current_routine: list[CurrentRoutineItem]
     allergens: list[AllergenInciTerms]
     skin_sensitivity: SensitivityLevels

@@ -1,6 +1,7 @@
 import { authFetch } from "../auth/auth-fetch";
 import {
   analysisEvent,
+  quickSummarySchema,
   type AnalysisEvent,
   type UserSkinInformationInput,
 } from "./analysis-schemas";
@@ -57,3 +58,15 @@ export async function* streamAnalysis(
   }
 }
 
+export async function fetchQuickSummary(data: UserSkinInformationInput) {
+  const headers: RequestInit = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+  const response = await authFetch(`/initial-analysis/quick-summary`, headers);
+  if (!response.ok) {
+    throw new Error(`Couldn't fetch QuickSummary ${response.status}`);
+  }
+  return quickSummarySchema.parse(await response.json());
+}

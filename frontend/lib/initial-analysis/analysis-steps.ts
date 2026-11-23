@@ -2,6 +2,8 @@ export const ANALYSIS_STEPS = [
   "skin-concerns",
   "skin-type",
   "additional-details",
+  "summary",
+  "routine"
 ] as const;
 
 export type AnalysisStep = (typeof ANALYSIS_STEPS)[number];

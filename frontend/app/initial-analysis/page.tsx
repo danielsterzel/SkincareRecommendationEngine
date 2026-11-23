@@ -29,6 +29,11 @@ import {
   getStepIndex,
   type AnalysisStep,
 } from "@/lib/initial-analysis/analysis-steps";
+import { useQuickSummary } from "@/lib/hooks/useQuickSummary";
+import { QuickSummaryStep } from "../components/initial-analysis/QuickSummaryStep";
+import { ArrowButton } from "../components/ArrowActiveComponents";
+import { Routine } from "../components/initial-analysis/Routine";
+import { useInitialAnalysis } from "@/lib/hooks/useInitialAnalysis";
 
 const stepVariants = {
   enter: (direction: 1 | -1) => ({ opacity: 0, x: direction * 24 }),
@@ -53,12 +58,8 @@ export default function InitialAnalysis() {
     setDirection(dir);
     setCurrentStep(step);
   };
-  const {
-    skinProfile,
-    toggleFeature,
-    setFeature,
-    resetProfile,
-  } = useSkinProfile();
+  const { skinProfile, toggleFeature, setFeature, resetProfile } =
+    useSkinProfile();
   const updateConcerns = (concern: SkinProblemMock) => {
     setConcerns((prev) =>
       prev.includes(concern)
@@ -66,6 +67,37 @@ export default function InitialAnalysis() {
         : [...prev, concern],
     );
   };
+  const summary = useQuickSummary();
+  const isSummaryStep = currentStep === "summary";
+  const isRoutineStep = currentStep === "routine";
+  const [summaryConfirmed, setSummaryConfirmed] = useState(false);
+  const canBuildRoutine =
+    concerns.length > 0 && summary.isSuccess && summaryConfirmed;
+  const analysis = useInitialAnalysis();
+
+  const buildRoutine = () => {
+    analysis.mutate({
+      concerns,
+      skinType: choosenSkinType,
+      additional_detail: skinProfile.other ?? "",
+    });
+    goToStep("routine", 1);
+  };
+
+  const goNext = () => {
+    if (!nextStep) return;
+    // Leaving the details step: (re)generate the summary with the latest answers
+    if (currentStep === "additional-details") {
+      setSummaryConfirmed(false);
+      summary.mutate({
+        concerns,
+        skinType: choosenSkinType,
+        additional_detail: skinProfile.other ?? "",
+      });
+    }
+    goToStep(nextStep, 1);
+  };
+
   return (
     <ProtectedRoute>
       <AnimatePresence mode="wait">
@@ -88,7 +120,13 @@ export default function InitialAnalysis() {
             >
               <Header />
               <div className="grid grid-cols-2">
-                <div className="min-w-0 w-full h-[560px] px-10 pt-8 pb-6 flex flex-col">
+                <div
+                  className={cn(
+                    "min-w-0 w-full h-[560px] px-10 pt-8 pb-6 flex flex-col",
+                    // Results take the whole card: centered column, no profile card
+                    isRoutineStep && "col-span-2 max-w-5xl mx-auto",
+                  )}
+                >
                   <AnalysisHeading
                     step={getStepIndex(currentStep) + 1}
                     totalSteps={ANALYSIS_STEPS.length}
@@ -106,7 +144,7 @@ export default function InitialAnalysis() {
                       animate="center"
                       exit="exit"
                       transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="w-full flex-1 flex flex-col justify-center gap-6 py-8"
+                      className="w-full flex-1 min-h-0 flex flex-col justify-center gap-6 py-4"
                     >
                       {currentStep === "skin-concerns" && (
                         <SkinConcerns
@@ -121,36 +159,29 @@ export default function InitialAnalysis() {
                         />
                       )}
                       {currentStep === "additional-details" && (
-                        <AdditionalDetails />
+                        <AdditionalDetails onSubmitSummary={goNext} />
+                      )}
+                      {currentStep === "summary" && (
+                        <QuickSummaryStep
+                          summary={summary}
+                          confirmed={summaryConfirmed}
+                          onConfirm={() => setSummaryConfirmed(true)}
+                          onEdit={() => goToStep("additional-details", -1)}
+                        />
+                      )}
+                      {currentStep === "routine" && (
+                        <Routine analysis={analysis} />
                       )}
                     </motion.div>
                   </AnimatePresence>
-
-                  {/* {!initialAnalysisMutation.isPending &&
-                    !initialAnalysisMutation.isSuccess && (
-                      <button
-                        onClick={() => {
-                          setStreamMessage("");
-
-                          initialAnalysisMutation.mutate({
-                            concerns,
-                            skinType: choosenSkinType,
-                            additional_detail: userChatInput,
-                          });
-                        }}
-                        className="mt-4 text-lg cursor-pointer transition-transform duration-200 rounded-2xl hover:scale-[1.02] px-4 py-1.5 bg-primary text-white"
-                      >
-                        Send
-                      </button>
-                    )} */}
-                  <div className="w-full mt-auto pt-6  flex items-center justify-between">
+                  <div className="w-full shrink-0 mt-auto pt-6 flex items-center justify-between">
                     <button
                       type="button"
                       disabled={!previousStep}
                       aria-hidden={!previousStep}
                       onClick={() => previousStep && goToStep(previousStep, -1)}
                       className={cn(
-                        "cursor-pointer flex h-11 text-secondary items-center text-xs gap-2 font-medium transition-colors hover:text-primary",
+                        "cursor-pointer flex h-11 px-4 -ml-4 rounded-full text-secondary items-center text-sm gap-2 font-medium transition-colors hover:text-primary hover:bg-black/5",
                         !previousStep && "invisible",
                       )}
                     >
@@ -172,31 +203,39 @@ export default function InitialAnalysis() {
                           </motion.span>
                         )}
                       </AnimatePresence>
-                      <button
-                        type="button"
-                        disabled={!nextStep || continueBlocked}
-                        aria-hidden={!nextStep}
-                        onClick={() => nextStep && goToStep(nextStep, 1)}
-                        className={cn(
-                          "cursor-pointer flex h-11 items-center gap-2 text-primary text-xs font-medium transition-opacity disabled:opacity-40 disabled:cursor-not-allowed",
-                          !nextStep && "invisible",
-                        )}
-                      >
-                        Continue
-                        <ArrowRight size={16} />
-                      </button>
+                      {isSummaryStep ? (
+                        <ArrowButton
+                          aria-label="Build my Routine"
+                          disabled={!canBuildRoutine}
+                          onClick={buildRoutine}
+                          className="h-11 px-6 rounded-full bg-primary text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          Build my Routine
+                        </ArrowButton>
+                      ) : (
+                        <button
+                          type="button"
+                          disabled={!nextStep || continueBlocked}
+                          aria-hidden={!nextStep}
+                          onClick={goNext}
+                          className={cn(
+                            "cursor-pointer flex h-11 px-6 rounded-full bg-primary text-white items-center gap-2 text-sm font-semibold transition-[opacity,transform] duration-200 hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100",
+                            !nextStep && "invisible",
+                          )}
+                        >
+                          Continue
+                          <ArrowRight size={16} />
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
 
-                <div className="mx-auto w-full max-w-6xl p-6">
-                  <SkinProfileCard
-                    currentStep={currentStep}
-                    hasConcerns={concerns.length > 0}
-                  />
-                </div>
-
-                <div />
+                {!isRoutineStep && (
+                  <div className="w-full h-[560px] p-6">
+                    <SkinProfileCard currentStep={currentStep} />
+                  </div>
+                )}
               </div>
             </Card>
           </motion.div>

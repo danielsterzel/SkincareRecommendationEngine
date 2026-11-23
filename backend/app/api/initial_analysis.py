@@ -8,7 +8,10 @@ from app.core.openai_client import get_openai_client
 from app.core.auth import get_verified_user
 from app.models.user import User
 import app.schemas.initial_analysis as ia
+from app.schemas.initial_analysis import QuickSummary
 from app.service.decision.desicion_engine import wsm_pipeline
+from app.service.decision.llm_utils import openai_user_skin_context_inference
+from app.service.decision.summary import to_quick_summary
 from logging import getLogger
 from pathlib import Path
 
@@ -40,3 +43,14 @@ async def parse(
 
     ANALYSIS_API_LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     return StreamingResponse(stream(), media_type="text/event-stream")
+
+
+@router.post("/quick-summary", response_model=QuickSummary)
+async def quick_summary(
+    user: Annotated[User, Depends(get_verified_user)],
+    openai: Annotated[OpenAI, Depends(get_openai_client)],
+    data: ia.UserSkinInformationInput,
+) -> QuickSummary:
+    ctx = openai_user_skin_context_inference(openai, data.model_dump_json())
+
+    return to_quick_summary(ctx)

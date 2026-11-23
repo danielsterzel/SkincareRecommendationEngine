@@ -1,10 +1,37 @@
-import pandas as pd
+import re
+import uuid
 from pathlib import Path
 
-from pandas.core.interchange.dataframe_protocol import DataFrame
+import pandas as pd
+
+# Rows have no unique natural key (some products are duplicated), so ids are
+# carried over by row position. These columns guard against a reordered sheet.
+ID_GUARD_COLUMNS = ["brand", "product-name", "source-url"]
 
 
-def remap_df_names(df: DataFrame) -> DataFrame:
+def attach_stable_ids(df: pd.DataFrame, previous_path: Path) -> pd.DataFrame:
+    """Reuse product ids from the previous parquet so regenerating keeps them stable."""
+    if not previous_path.exists():
+        return df.assign(id=[str(uuid.uuid4()) for _ in range(len(df))])
+
+    previous = pd.read_parquet(previous_path)
+    if "id" not in previous.columns:
+        raise RuntimeError(f"{previous_path.name} has no 'id' column to carry over")
+
+    same_rows = len(previous) == len(df) and (
+        previous[ID_GUARD_COLUMNS].fillna("").to_numpy()
+        == df[ID_GUARD_COLUMNS].fillna("").to_numpy()
+    ).all()
+    if not same_rows:
+        raise RuntimeError(
+            "Source rows changed (added, removed or reordered), so product ids "
+            "can't be carried over by position. Map them explicitly first."
+        )
+
+    return df.assign(id=previous["id"].to_numpy())
+
+
+def remap_df_names(df: pd.DataFrame) -> pd.DataFrame:
     df = df.rename(
         columns={
             "product-name": "product_name",
@@ -29,11 +56,45 @@ df["review-count"] = df["review-count"].astype("Int64")
 df["last-verified"] = pd.to_datetime(df["last-verified"], errors="coerce").dt.strftime(
     "%d-%m-%Y"
 )
+# Commas between two digits belong to chemical names (e.g. "1,2-hexanediol"),
+# so only split on commas that don't have a digit on both sides.
+INGREDIENT_SEPARATOR = r"(?<!\d),|,(?!\d)"
+
+# Some source lists use other separators instead of commas:
+#   "•" / "●" bullets, and ". " (avene lists).
+# ". " is skipped where the dot is part of a name or an annotation:
+#   "fd&c yellow no. 6", "ext. violet 2", "(fil. z70034188/1)",
+#   "silica. fil 1822.v00", "benzyl alcohol. [il176v8]", "limonene. (182/036)".
+BULLET_SEPARATOR = r"\s*[•●]\s*"
+DOT_SEPARATOR = r"(?<!\bno)(?<!\bext)\.\s+(?![\[(])(?!fil[\s.])(?!z\d)"
+# " - " is a separator only in lists that really use it ("aqua / water - propanediol - ...").
+# Lists with 1-2 hits are broken spaced-out names like "bi s - e t h y lhe ...".
+DASH_SEPARATOR = " - "
+MIN_DASH_SEPARATORS = 3
+
+
+def normalize_separators(text: str) -> str:
+    """Rewrite the odd separators to commas, so a single split handles every list."""
+    if not isinstance(text, str):
+        return text
+    text = re.sub(BULLET_SEPARATOR, ", ", text)
+    text = re.sub(DOT_SEPARATOR, ", ", text)
+    if text.count(DASH_SEPARATOR) >= MIN_DASH_SEPARATORS:
+        text = text.replace(DASH_SEPARATOR, ", ")
+    return text
+
+
 df["ingredients"] = (
     df["ingredients"]
     .str.lower()
-    .str.split(",")
-    .apply(lambda items: [s.strip() for s in items] if isinstance(items, list) else [])
+    .str.replace("1, 2-hexanediol", "1,2-hexanediol", regex=False)  # typo in source data
+    .apply(normalize_separators)
+    .str.split(INGREDIENT_SEPARATOR, regex=True)
+    .apply(
+        lambda items: [s.strip().rstrip(".").strip() for s in items if s.strip(" .")]
+        if isinstance(items, list)
+        else []
+    )
 )
 
 df["ph"] = (
@@ -66,7 +127,9 @@ for col in cols:
 # print(df[df['concentration'] > 1.0])
 # print(df[df['concentration'] < 0.0])
 
-df.to_parquet("skincare-products-clean.parquet", index=False)
+OUTPUT_PATH = DATA_DIR / "skincare-products-clean.parquet"
+df = attach_stable_ids(df, OUTPUT_PATH)
+df.to_parquet(OUTPUT_PATH, index=False)
 
 word_dictionary = (
     df["targets"]

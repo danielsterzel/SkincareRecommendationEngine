@@ -61,18 +61,22 @@ export function ArrowButton({
   );
 }
 
+
 export function ArrowLink({
   href,
   children,
   className = "",
+  onClick,
 }: {
   href: string;
   children: React.ReactNode;
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }) {
   return (
     <MotionLink
       href={href}
+      onClick={onClick}
       initial="rest"
       animate="rest"
       whileHover="hover"

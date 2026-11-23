@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --offwhite: #FAFAF8;
+  --offwhite: #F6F2EC;
   --text-primary: #171717;
   --text-secondary: #77736F;
   --text-tertiary: #B7B4AE;
@@ -57,9 +57,4 @@ body {
   33% {content: "..";}
   66% {content: "...";}
   100% {content: ".";}
-}
-
-.bg-texture {
-  background-color: rgb(30 26 25 / .13);   /* kolor linii */
-  mask: url("/topo.svg") center / cover no-repeat;
 }

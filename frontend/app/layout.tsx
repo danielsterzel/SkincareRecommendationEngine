@@ -20,7 +20,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${jakarta.className} h-full antialiased scroll-smooth`}>
       <body className="relative isolate flex min-h-full flex-col bg-offwhite text-charcoal">
-        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-texture" />
         <Providers>
           {children}
           <AppToaster />

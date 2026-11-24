@@ -21,7 +21,7 @@ export function Routine({ analysis }: { analysis: InitialAnalysis }) {
         {/* TODO: recommended tips */}
         <aside className="flex flex-col gap-3">
           <h3 className="text-sm font-semibold">Recommended tips</h3>
-          <div className="flex-1 rounded-2xl border-[0.5px] border-dashed border-neutral-300 bg-zinc-50 flex items-center justify-center p-4 text-center text-xs text-secondary">
+          <div className="flex-1 rounded-2xl border-[0.5px] border-dashed border-neutral-300 bg-stone-50 flex items-center justify-center p-4 text-center text-xs text-secondary">
             Tips will appear here
           </div>
         </aside>
@@ -65,7 +65,7 @@ export function Routine({ analysis }: { analysis: InitialAnalysis }) {
   // Pending: show each status message from the stream as it arrives
   return (
     <div className="w-full flex items-center justify-center gap-3">
-      <LoaderCircle className="size-5 animate-spin text-indigo-600" />
+      <LoaderCircle className="size-5 animate-spin text-primary" />
       <motion.p
         key={analysis.streamMessage}
         initial={{ opacity: 0, y: 5 }}

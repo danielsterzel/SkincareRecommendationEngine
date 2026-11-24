@@ -59,10 +59,14 @@ export function HeroImage() {
               loading="eager"
               className="object-cover object-[center_35%]"
             />
-            <SkinPlaquet />
+            <SkinPlaquet badge={<StepBadge
+                  num={2}
+                  className="border-transparent bg-white font-medium text-primary"
+                />} />
           </div>
           <div className="flex flex-col gap-3 px-2 pb-1">
             <div className="mt-4 flex items-center gap-2">
+              <StepBadge num={3} />
               <motion.div
                 animate={{ rotate: 180 }}
                 transition={{
@@ -160,9 +164,14 @@ function ChoosenProductsForYou() {
   );
 }
 
-function StepBadge({ num }: { num: number }) {
+function StepBadge({ num, className }: { num: number; className?: string }) {
   return (
-    <span className="w-6 p-1 h-6 text-xs text-secondary flex justify-center items-center rounded-full border border-neutral-300">
+    <span
+      className={cn(
+        "w-6 p-1 h-6 text-xs text-secondary flex justify-center items-center rounded-full border border-neutral-300",
+        className,
+      )}
+    >
       {" "}
       {num}{" "}
     </span>

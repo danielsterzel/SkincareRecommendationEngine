@@ -196,7 +196,7 @@ function SkinTypeCard({ type, active }: { type: SkinOption; active: boolean }) {
       )}
     >
       <div className="flex flex-col gap-1">
-        <span className="text-[10px] uppercase tracking-[0.18rem] text-indigo-600 font-medium">
+        <span className="text-[10px] uppercase tracking-[0.18rem] text-primary font-medium">
           {isNotSure ? "Quick test" : `${type.label} skin`}
         </span>
         <p className="text-xs text-neutral-600 leading-relaxed">
@@ -211,12 +211,12 @@ function SkinTypeCard({ type, active }: { type: SkinOption; active: boolean }) {
             initial={false}
             animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: 4 }}
             transition={{ delay: active ? 0.05 * i + 0.15 : 0, duration: 0.2 }}
-            className="flex items-center gap-1.5 rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] text-neutral-700"
+            className="flex items-center gap-1.5 rounded-full bg-stone-100 px-2.5 py-0.5 text-[11px] text-neutral-700"
           >
             {isNotSure ? (
-              <span className="text-indigo-600 font-semibold">{i + 1}.</span>
+              <span className="text-primary font-semibold">{i + 1}.</span>
             ) : (
-              <span className="w-1 h-1 rounded-full bg-indigo-500" />
+              <span className="w-1 h-1 rounded-full bg-stone-1000" />
             )}
             {trait}
           </motion.li>

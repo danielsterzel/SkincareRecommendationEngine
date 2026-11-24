@@ -101,7 +101,7 @@ export default function SkinSpace() {
                       onClick={() => {
                         imageInputRef.current?.click();
                       }}
-                      className="text-cyan-600 cursor-pointer"
+                      className="text-primary underline underline-offset-2 cursor-pointer"
                     >
                       Upload
                     </span>{" "}

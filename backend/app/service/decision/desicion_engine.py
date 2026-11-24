@@ -98,7 +98,8 @@ def normalize_ingredient_name(name: str) -> str:
 def load_irritating_ingredients() -> frozenset[str]:
     raw = json.loads(POTENTIALLY_IRRITATING_INGREDIENTS.read_text(encoding="utf-8"))
     return frozenset(
-        normalize_ingredient_name(name) for name in raw["potentially_irritating_actives"]
+        normalize_ingredient_name(name)
+        for name in raw["potentially_irritating_actives"]
     )
 
 
@@ -174,7 +175,10 @@ def rate_negative_effect(
     def irritates(p: Product, ctx: UserSkinContext) -> float:
 
         active = p.concentration_ingredient
-        if active and normalize_ingredient_name(active) in load_irritating_ingredients():
+        if (
+            active
+            and normalize_ingredient_name(active) in load_irritating_ingredients()
+        ):
             return SKIN_TYPE_IRRITATION_MAPPING.get(ctx.skin_sensitivity, 0.7)
 
         return 1.0

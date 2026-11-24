@@ -14,7 +14,13 @@ const INSIGHTS: SkinInsight[] = [
   { icon: Sun, text: "Keep using SPF to protect your barrier" },
 ];
 
-export function SkinPlaquet({ className }: { className?: string }) {
+export function SkinPlaquet({
+  className,
+  badge,
+}: {
+  className?: string;
+  badge?: React.ReactNode;
+}) {
   return (
     <aside
       aria-labelledby="skinspace-preview-title"
@@ -24,9 +30,12 @@ export function SkinPlaquet({ className }: { className?: string }) {
       )}
     >
       <div className="mb-3 flex items-center justify-between gap-2 text-[11px] leading-4">
-        <p id="skinspace-preview-title" className="font-semibold">
-          My SkinSpace
-        </p>
+        <div className="flex items-center gap-2">
+          {badge}
+          <p id="skinspace-preview-title" className="font-semibold">
+            My SkinSpace
+          </p>
+        </div>
         <p className="text-charcoal/75">Sample data</p>
       </div>
       <motion.ul

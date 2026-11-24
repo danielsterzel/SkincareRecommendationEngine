@@ -40,14 +40,14 @@ export function SkinProfileCard({
   currentStep: AnalysisStep;
 }) {
   return (
-    <Card className="h-full flex flex-col gap-5 bg-linear-[165deg] from-indigo-50 to-stone-50 p-7 border-[0.5px] border-indigo-300 ">
+    <Card className="h-full flex flex-col gap-5 bg-linear-[165deg] from-white to-stone-50 p-7 border-[0.5px] border-neutral-300 ">
       <div className="w-full flex justify-between items-center">
         <span className="text-sm font-semibold text-neutral-600 ">
           Skin profile
         </span>
         <div className="flex items-center gap-1">
-          <span className="w-1 h-1 rounded-full bg-indigo-600" />
-          <span className="text-indigo-600 text-xs font-medium">
+          <span className="w-1 h-1 rounded-full bg-charcoal" />
+          <span className="text-primary text-xs font-medium">
             Updates live
           </span>
         </div>
@@ -88,7 +88,7 @@ function ProfileCompletionProgress({
               key={index}
               className={cn(
                 "h-1 flex-1 rounded-full transition-colors duration-300 bg-neutral-200",
-                progressBarFill && "bg-indigo-500",
+                progressBarFill && "bg-stone-1000",
               )}
             />
           );
@@ -141,7 +141,7 @@ function ProfileStatus() {
                 >
                   {parsedAnswer}
                   {parsedAnswer === "All clear" && (
-                    <DrawnCheck className="text-indigo-600" />
+                    <DrawnCheck className="text-primary" />
                   )}
                 </motion.span>
               </AnimatePresence>

@@ -117,7 +117,7 @@ function Summary({ quickSummary }: { quickSummary: QuickSummary }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="w-fit bg-linear-to-r from-indigo-500 to-violet-500 pb-0.5 bg-clip-text text-transparent uppercase text-xs">
+      <span className="w-fit pb-0.5 text-secondary uppercase text-xs">
         Our Summary
       </span>
       <h3 className="text-xl font-semibold">Check if everything is in order</h3>
@@ -148,7 +148,7 @@ function SummaryCard({
   if (items.length === 0) return null;
 
   return (
-    <Card className="flex flex-col p-4 bg-zinc-100">
+    <Card className="flex flex-col p-4 bg-stone-100">
       <div className="flex items-center justify-between">
         <Icon className="w-3 h-3" />
         <span className="text-xs text-secondary">{category}</span>

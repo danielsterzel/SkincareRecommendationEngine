@@ -6,6 +6,7 @@ from app.service.decision.llm_utils import expand_allergens_to_inci_terms
 import json
 from pathlib import Path
 from functools import cache
+
 DATA_PATH = Path(__file__).resolve().parent / "data" / "allergen_inci_terms.json"
 
 client = OpenAI(api_key=settings.open_ai_key)
@@ -28,13 +29,17 @@ ALLERGENS = [
     "parabens",
 ]
 
-ACTIVE_INGREDIENTS_PATH = Path(__file__).resolve().parent / "data" / "active-ingredients-register.json"
+ACTIVE_INGREDIENTS_PATH = (
+    Path(__file__).resolve().parent / "data" / "active-ingredients-register.json"
+)
+
 
 @cache
 def load_active_ingredients():
     """normalized to INCI labels"""
-    raw_json = json.loads(ACTIVE_INGREDIENTS_PATH.read_text(encoding='utf-8'))
-    return list(raw_json['active_ingredients'])
+    raw_json = json.loads(ACTIVE_INGREDIENTS_PATH.read_text(encoding="utf-8"))
+    return list(raw_json["active_ingredients"])
+
 
 def main() -> None:
     # client = OpenAI(api_key=settings.open_ai_key)
@@ -50,12 +55,12 @@ def main() -> None:
     # print(arr)
     print("================ concentration uniques ================")
     print(df["concentration-ingredient"].unique())
-    print('\n\n')
+    print("\n\n")
     print("================ INCI ================")
-    print(df['inci'])
-    print('\n\n')
+    print(df["inci"])
+    print("\n\n")
     print("================ Ingredients ================")
-    print(df['ingredients'])
+    print(df["ingredients"])
 
     active_ingredients = set(load_active_ingredients())
 
@@ -71,11 +76,10 @@ def main() -> None:
         .any()
         .sum()
     )
-    uniques = (df['ingredients'].explode().dropna().str.strip().str.lower().unique())
+    uniques = df["ingredients"].explode().dropna().str.strip().str.lower().unique()
     print(f"Unique ingredients count: {len(uniques)}")
     Path("data/unique_ingredients.json").write_text(
-        json.dumps(sorted(uniques), indent=2, ensure_ascii=False),
-        encoding='utf-8'
+        json.dumps(sorted(uniques), indent=2, ensure_ascii=False), encoding="utf-8"
     )
 
     print(f"total matches: {product_matches}")

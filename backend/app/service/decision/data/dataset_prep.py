@@ -18,10 +18,13 @@ def attach_stable_ids(df: pd.DataFrame, previous_path: Path) -> pd.DataFrame:
     if "id" not in previous.columns:
         raise RuntimeError(f"{previous_path.name} has no 'id' column to carry over")
 
-    same_rows = len(previous) == len(df) and (
-        previous[ID_GUARD_COLUMNS].fillna("").to_numpy()
-        == df[ID_GUARD_COLUMNS].fillna("").to_numpy()
-    ).all()
+    same_rows = (
+        len(previous) == len(df)
+        and (
+            previous[ID_GUARD_COLUMNS].fillna("").to_numpy()
+            == df[ID_GUARD_COLUMNS].fillna("").to_numpy()
+        ).all()
+    )
     if not same_rows:
         raise RuntimeError(
             "Source rows changed (added, removed or reordered), so product ids "
@@ -87,13 +90,17 @@ def normalize_separators(text: str) -> str:
 df["ingredients"] = (
     df["ingredients"]
     .str.lower()
-    .str.replace("1, 2-hexanediol", "1,2-hexanediol", regex=False)  # typo in source data
+    .str.replace(
+        "1, 2-hexanediol", "1,2-hexanediol", regex=False
+    )  # typo in source data
     .apply(normalize_separators)
     .str.split(INGREDIENT_SEPARATOR, regex=True)
     .apply(
-        lambda items: [s.strip().rstrip(".").strip() for s in items if s.strip(" .")]
-        if isinstance(items, list)
-        else []
+        lambda items: (
+            [s.strip().rstrip(".").strip() for s in items if s.strip(" .")]
+            if isinstance(items, list)
+            else []
+        )
     )
 )
 

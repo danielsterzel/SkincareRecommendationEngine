@@ -287,7 +287,7 @@ function SoftGlowBg() {
         backgroundImage: `
       radial-gradient(
         ellipse at 15% 10%,
-        rgba(100, 150, 255, 0.12),
+        rgba(243, 221, 208, 0.35),
         transparent 55%
       ),
       radial-gradient(

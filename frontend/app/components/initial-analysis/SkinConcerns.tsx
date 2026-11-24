@@ -140,7 +140,7 @@ function SkinProblemBadge({
       ${type === "secondary" ? "border-[0.5px] border-dashed border-neutral-400" : "border-[0.5px] border-neutral-400"}   
       transition-colors duration-300 cursor-pointer rounded-2xl
       flex flex-col items-center justify-center bg-white
-      text-primary hover:bg-zinc-200
+      text-primary hover:bg-stone-200
       ${selected && `border-primary`}
     `}
     >
@@ -268,7 +268,7 @@ function ConcernExplainer({
             )}
           >
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] uppercase tracking-[0.18rem] text-indigo-600 font-medium">
+              <span className="text-[10px] uppercase tracking-[0.18rem] text-primary font-medium">
                 {concern === "other"
                   ? info.label
                   : `How to spot ${info.label.toLowerCase()}`}
@@ -287,9 +287,9 @@ function ConcernExplainer({
                     delay: active ? 0.04 * i + 0.1 : 0,
                     duration: 0.2,
                   }}
-                  className="flex items-center gap-1.5 rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] text-neutral-700"
+                  className="flex items-center gap-1.5 rounded-full bg-stone-100 px-2.5 py-0.5 text-[11px] text-neutral-700"
                 >
-                  <span className="w-1 h-1 rounded-full bg-indigo-500" />
+                  <span className="w-1 h-1 rounded-full bg-stone-1000" />
                   {sign}
                 </motion.li>
               ))}

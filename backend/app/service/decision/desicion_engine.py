@@ -275,13 +275,20 @@ def wsm(scores: np.ndarray, weights: np.ndarray) -> np.ndarray:
     return scores @ weights
 
 
+def drop_size_variants(products: list[Product]) -> list[Product]:
+    unique: dict[tuple[str, str, tuple[str, ...]], Product] = {}
+    for p in products:
+        unique.setdefault((p.brand, p.product_name, tuple(p.ingredients or ())), p)
+    return list(unique.values())
+
+
 async def wsm_pipeline(
     user_input: UserSkinInformationInput, client: OpenAI
 ) -> AsyncIterator[AnalysisEvent]:
-    # message: beginning analyzing
     yield StatusEvent(message="Analyzing your skin...")
+
     ctx = openai_user_skin_context_inference(client, user_input.model_dump_json())
-    # summarized user preferences
+
     yield ContextEvent(
         message=f"Targeted concerns: {', '.join(ctx.skin_concerns)}. "
         + f"Selected skin type: {ctx.skin_type or 'unknown'}"
@@ -290,7 +297,7 @@ async def wsm_pipeline(
         p for p in load_products() if parse_targets(p.targets) & set(ctx.skin_concerns)
     ]
 
-    products = exclude_negative_products(products, ctx)
+    products = drop_size_variants(exclude_negative_products(products, ctx))
 
     if not products:
         yield CompletedEvent(

@@ -59,3 +59,50 @@ I have dark circles under my eyes even when I get enough sleep. In the morning, 
 |---------------------|-----------|-------------------|-------|
 | The Ordinary Caffeine Solution 5% + EGCG Eye Serum | 0.813 | | GPT-5.4 mini |
 | The Ordinary Multi-Peptide Eye Serum | 0.813 | | GPT-5.4 mini |
+---
+
+## LLM-as-a-Judge
+
+Recommendations are evaluated automatically by an LLM judge (`backend/app/service/judge/`).
+The judge runs in two steps:
+
+1. **Extraction judge** – compares the user's input with the `UserSkinContext` extracted by the
+   pipeline model (concerns, goals, skin type, sensitivity, allergens, previous reactions, routine).
+2. **Product judge** – scores every recommended product on the same 0/1/2 scale as the manual
+   evaluation above, using ingredients, targets and application area from the dataset.
+
+Run it from `backend/`:
+
+```bash
+uv run python -m app.service.judge.evaluation
+```
+
+Results are saved to `backend/app/service/judge/results/`.
+
+### Run 2026-11-25
+
+Pipeline model: GPT-5.4 mini · Judge model: Claude Haiku 5.5 · 3 test cases
+
+| Case | Extraction score | Extraction match | Products 2 / 1 / 0 | Judge tokens (in / out) | Judge latency |
+|------|------------------|------------------|--------------------|-------------------------|---------------|
+| Redness + dryness after actives | 1 | 62% | 2 / 6 / 2 | 6821 / 3513 | 18.6 s |
+| Post-acne marks + uneven tone | 2 | 88% | 5 / 5 / 0 | 7664 / 4808 | 22.0 s |
+| Clogged pores + breakouts | 1 | 72% | 5 / 5 / 0 | 6120 / 3712 | 17.5 s |
+
+Total judge cost for the run: about $0.01.
+
+**Issues in the engine found by the judge:**
+
+- The same product appears twice in the ranking (for example *Niacinamide 10% + Zinc 1%*,
+  *Rice Lipids + Ectoin Microemulsion*).
+- Products for the wrong body area are recommended for facial concerns (lip serum, eye cream,
+  body lotion). Filtering by `application_area` is still missing.
+- Exfoliating acids are recommended to a user who explicitly stopped using acids.
+- Extraction adds `visible_shine` for a user who said their oily T-zone does not bother them
+  (matches the gold label in `aurelia_user_texts_20_gold.json`).
+
+**Known judge mistakes:**
+
+- Flags missing details that are implied by common sense, for example that SPF is applied in the
+  morning.
+- Sometimes assumes the user's gender in the report.

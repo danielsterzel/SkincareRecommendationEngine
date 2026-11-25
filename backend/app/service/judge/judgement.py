@@ -1,5 +1,4 @@
 import json
-import time
 
 from anthropic import Anthropic
 from openai import OpenAI
@@ -12,7 +11,6 @@ from app.schemas.initial_analysis import (
 )
 from app.schemas.initial_analysis import SkinProblemMock
 from typing import Annotated, Literal
-from abc import ABC, abstractmethod
 
 from app.service.decision.dataset_queries import products_by_key
 from app.service.decision.desicion_engine import wsm_pipeline
@@ -24,6 +22,7 @@ from app.service.decision.schemas import (
     PreviousReactionToProduct,
 )
 from app.service.decision.schemas import UserSkinContext
+from app.service.decision.llm_utils import _parse_with_usage
 from pathlib import Path
 from app.schemas.initial_analysis import CompletedEvent
 
@@ -96,8 +95,8 @@ class ProductRecommendationJudgeResult(BaseModel):
 class JudgeRun[T: BaseModel](BaseModel):
     result: T
     model: str
-    input_tokens: int
-    output_tokens: int
+    input_tokens: int | None
+    output_tokens: int | None
     latency_ms: float
 
 
@@ -150,8 +149,9 @@ def pair_context_input(
         ),
     )
 
-class Judge(ABC):
+class Judge:
     model: str
+    client: Anthropic | OpenAI
 
     def judge_extraction(
         self, case: ExtractionJudgeCase
@@ -199,22 +199,20 @@ class Judge(ABC):
     def _run[T: BaseModel](
         self, prompt: str, model_input: str, structured_output: type[T]
     ) -> JudgeRun[T]:
-        start = time.perf_counter()
-        result, input_tokens, output_tokens = self._call_model(
-            prompt=prompt, model_input=model_input, structured_output=structured_output
+        call = _parse_with_usage(
+            self.client,
+            model=self.model,
+            input_=model_input,
+            instructions=prompt,
+            text_format=structured_output,
         )
         return JudgeRun[structured_output](
-            result=result,
-            model=self.model,
-            input_tokens=input_tokens,
-            output_tokens=output_tokens,
-            latency_ms=(time.perf_counter() - start) * 1000,
+            result=call.parsed,
+            model=call.model,
+            input_tokens=call.input_tokens,
+            output_tokens=call.output_tokens,
+            latency_ms=call.latency_ms,
         )
-
-    @abstractmethod
-    def _call_model[T: BaseModel](
-        self, prompt: str, model_input: str, structured_output: type[T]
-    ) -> tuple[T, int, int]: ...
 
 
 class ClaudeJudge(Judge):
@@ -222,50 +220,11 @@ class ClaudeJudge(Judge):
         self.model = model
         self.client = client
 
-    def _call_model[T: BaseModel](
-        self, prompt: str, model_input: str, structured_output: type[T]
-    ) -> tuple[T, int, int]:
-        response = self.client.messages.parse(
-            model=self.model,
-            max_tokens=16000,
-            system=prompt,
-            messages=[{"role": "user", "content": model_input}],
-            output_format=structured_output,
-        )
-
-        if response.stop_reason == "refusal" or response.parsed_output is None:
-            raise ValueError(f"Judge returned no result: {response.stop_reason}")
-
-        return (
-            response.parsed_output,
-            response.usage.input_tokens,
-            response.usage.output_tokens,
-        )
-
 
 class OpenAIJudge(Judge):
     def __init__(self, *, client: OpenAI, model: str = settings.open_ai_model):
         self.model = model
         self.client = client
-
-    def _call_model[T: BaseModel](
-        self, prompt: str, model_input: str, structured_output: type[T]
-    ) -> tuple[T, int, int]:
-        response = self.client.responses.parse(
-            model=self.model,
-            instructions=prompt,
-            input=model_input,
-            text_format=structured_output,
-        )
-
-        if response.output_parsed is None or response.usage is None:
-            raise ValueError(f"Judge returned no result: {response.status}")
-
-        return (
-            response.output_parsed,
-            response.usage.input_tokens,
-            response.usage.output_tokens,
-        )
 
 
 # user input prefixed with "selected", llm inference prefixed with mapped

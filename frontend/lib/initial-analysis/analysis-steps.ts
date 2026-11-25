@@ -1,6 +1,7 @@
 export const ANALYSIS_STEPS = [
   "skin-concerns",
   "skin-type",
+  "skin-sensitivity",
   "additional-details",
   "summary",
   "routine"

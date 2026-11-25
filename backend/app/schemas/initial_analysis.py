@@ -9,12 +9,16 @@ SkinProblemMock = Literal[
 ]
 SkinType = Literal["dry", "normal", "combination", "oily", "not-sure"]
 
+class ProductReason(ConfiguredSchema):
+    label: str
+    matches_profile: bool
 
 class MockProductSchema(ConfiguredSchema):
     """This is not the dataset Product model, rather the app Product representation"""
 
     brand: str
     name: str
+    reasons: list[ProductReason]
     wsm_score: float = Field(le=1.0, gt=0.0)
 
 

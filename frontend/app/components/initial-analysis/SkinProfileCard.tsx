@@ -7,7 +7,7 @@ import type {
 import { useSkinProfile } from "./SkinProfileContext";
 import { cn } from "@/lib/cn";
 import { AnimatePresence, motion } from "motion/react";
-import { AnimatedCheck, DrawnCheck } from "./AnimatedCheck";
+import { AnimatedCheck, NoFillAnimatedCheck } from "./AnimatedCheck";
 import {
   ANALYSIS_STEPS,
   getStepIndex,
@@ -88,7 +88,7 @@ function ProfileCompletionProgress({
               key={index}
               className={cn(
                 "h-1 flex-1 rounded-full transition-colors duration-300 bg-neutral-200",
-                progressBarFill && "bg-stone-1000",
+                progressBarFill && "bg-primary",
               )}
             />
           );
@@ -108,10 +108,10 @@ function ProfileStatus() {
     if (answer == null) return "All clear";
     if (Array.isArray(answer)) {
       if (answer.length === 0) return "All clear";
-      return answer.map((a) => a.replaceAll("-", " ")).join(", ");
+      return answer.map((a) => a.replace(/[-_]/g, " ")).join(", ");
     }
     if (typeof answer === "boolean") return answer ? "Yes" : "No";
-    return String(answer).replaceAll("-", " ");
+    return String(answer).replace(/[-_]/g, " ");
   }
 
   return (
@@ -141,7 +141,7 @@ function ProfileStatus() {
                 >
                   {parsedAnswer}
                   {parsedAnswer === "All clear" && (
-                    <DrawnCheck className="text-primary" />
+                    <NoFillAnimatedCheck className="text-primary" />
                   )}
                 </motion.span>
               </AnimatePresence>

@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -34,6 +35,7 @@ import { QuickSummaryStep } from "../components/initial-analysis/QuickSummarySte
 import { ArrowButton } from "../components/ArrowActiveComponents";
 import { Routine } from "../components/initial-analysis/Routine";
 import { useInitialAnalysis } from "@/lib/hooks/useInitialAnalysis";
+import { SkinSensitivity } from "../components/initial-analysis/SkinSensitivity";
 
 const stepVariants = {
   enter: (direction: 1 | -1) => ({ opacity: 0, x: direction * 24 }),
@@ -45,9 +47,6 @@ export default function InitialAnalysis() {
   const [showBeginOverlay, setShowBeginOverlay] = useState(true);
   const [choosenSkinType, setChoosenSkinType] = useState<Skin | null>(null);
   const [concerns, setConcerns] = useState<SkinProblemMock[]>([]);
-  const [userChatInput, setUserChatInput] = useState("");
-  const [fetchedProductList, setFetchedProductList] = useState<Product[]>();
-  const [streamMessage, setStreamMessage] = useState("");
   const [currentStep, setCurrentStep] = useState<AnalysisStep>("skin-concerns");
   const { previous: previousStep, next: nextStep } =
     AnalysisNavigation[currentStep];
@@ -158,6 +157,7 @@ export default function InitialAnalysis() {
                           setChoosenSkinType={setChoosenSkinType}
                         />
                       )}
+                      {currentStep === 'skin-sensitivity' && (<SkinSensitivity />)}
                       {currentStep === "additional-details" && (
                         <AdditionalDetails onSubmitSummary={goNext} />
                       )}
@@ -311,7 +311,15 @@ function Header() {
     <div className="w-full">
       <div className="px-10 py-2 w-full flex justify-between">
         <Aurelia className="text-lg tracking-widest" />
-        <div className="flex items-center"></div>
+        <div className="flex items-center">
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 text-sm text-secondary hover:text-primary duration-300"
+          >
+            <ArrowLeft size={14} />
+            Return to home
+          </Link>
+        </div>
       </div>
       <div className="bg-neutral-500 h-[0.5px] w-full" />
     </div>

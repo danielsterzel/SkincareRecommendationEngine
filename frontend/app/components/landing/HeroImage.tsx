@@ -100,6 +100,7 @@ const PRODUCTS: ChoosenProductHero[] = [
     product: {
       brand: "The Ordinary",
       name: "Multi-Peptide + HA Serum",
+      reasons: [],
       wsmScore: 0.94,
     },
     category: "peptide",
@@ -108,6 +109,7 @@ const PRODUCTS: ChoosenProductHero[] = [
     product: {
       brand: "CeraVe",
       name: "Moisturising Cream",
+      reasons: [],
       wsmScore: 0.9,
     },
     category: "moisturizer",
@@ -116,6 +118,7 @@ const PRODUCTS: ChoosenProductHero[] = [
     product: {
       brand: "La Roche-Posay",
       name: "Anthelios UVmune SPF",
+      reasons: [],
       wsmScore: 0.87,
     },
     category: "spf",

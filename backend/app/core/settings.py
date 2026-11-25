@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     open_ai_key: str
     open_ai_model: str
 
+    claude_api_key: str
+
     neo4j_db: str
     neo4j_db_password: str
 

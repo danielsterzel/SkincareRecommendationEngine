@@ -181,15 +181,6 @@ function DiscoverAurelia() {
     text-sm flex items-center gap-2 max-sm:gap-1.5 max-sm:px-2 max-sm:text-xs"
     >
       Build my routine
-      <div className="flex items-center justify-center w-fit rounded-full p-2 bg-stone-700 max-sm:p-1.5">
-      <ArrowUpRight
-        className="
-      transition-transform duration-300
-      group-hover:translate-x-0.5 group-hover:-translate-y-0.5
-      w-3.5 h-3.5 shrink-0"
-        strokeWidth={2}
-      />
-      </div>
     </Link>
   );
 }

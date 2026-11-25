@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --offwhite: #FAFAF8;
+  --offwhite: #F6F2EC;
   --text-primary: #171717;
   --text-secondary: #77736F;
   --text-tertiary: #B7B4AE;
@@ -29,24 +29,22 @@
   --color-secondary: var(--text-secondary);
   --color-tertiary: var(--text-tertiary);
   --color-charcoal: var(--charcoal);
-  --color-muted-blue: var(--muted-blue);
-  --color-blue: var(--blue);
-  --color-blue-hover: var(--blue-hover);
-  --color-ice: var(--ice);
-  --color-peach: var(--peach);
-  --color-champagne: var(--champagne);
-  --color-deep-champagne: var(--deep-champagne);
-  --color-honey: var(--honey);
-  --color-blush: var(--blush);
-  --color-cold-surface: var(--cold-surface);
-  --color-olive: var(--olive);
+  --color-ivory: #F8F7F4;   /* tło strony */
+  --color-ink:   #1E1A19;   /* tekst */
+  --color-stone: #6E6863;   /* tekst drugorzędny */
+  --color-sage:  #A7B3B1;   /* tło zdjęcia */
+  --color-blush: #E2BEAC;   /* policzki */
+  --color-gold:  #B08D57;   /* kolczyki, jedyny akcent */
+
+  --radius-card: 22px;
+
+  --ease-soft: cubic-bezier(.22,1, .36, 1);
 }
 
 
 body {
   background: var(--offwhite);
   color: var(--charcoal);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .animated-dots::after {

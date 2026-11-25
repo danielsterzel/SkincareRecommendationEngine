@@ -81,6 +81,9 @@ def products_by_brand() -> dict[str, tuple[Product, ...]]:  # tuple to make sure
 
     return {brand: tuple(ps) for brand, ps in grouped.items()}
 
+@cache
+def products_by_key() -> dict[tuple[str, str], Product]:
+    return {(p.brand, p.product_name): p for p in load_products()}
 
 def get_product(product_id: UUID) -> Product | None:
     return products_by_id().get(product_id)

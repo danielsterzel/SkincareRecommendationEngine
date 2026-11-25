@@ -1,6 +1,6 @@
 "use client";
 
-import { ScanFace, X, LoaderCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -13,6 +13,33 @@ import {
   UserSkinInformationInput,
 } from "@/lib/initial-analysis/analysis-schemas";
 import { streamAnalysis } from "@/lib/initial-analysis/analysis-api";
+import { AnalysisHeading } from "../components/initial-analysis/AnalysisHeading";
+import { SkinConcerns } from "../components/initial-analysis/SkinConcerns";
+import { SkinType } from "../components/initial-analysis/SkinType";
+import { Aurelia } from "../Aurelia";
+import { Card } from "../base-components/Card";
+import { SkinProfileCard } from "../components/initial-analysis/SkinProfileCard";
+import type { SkinProfile } from "@/lib/initial-analysis/analysis-types";
+import { useSkinProfile } from "../components/initial-analysis/SkinProfileContext";
+import { AdditionalDetails } from "../components/initial-analysis/AdditionalDetails";
+import { cn } from "@/lib/cn";
+import {
+  ANALYSIS_STEPS,
+  AnalysisNavigation,
+  getStepIndex,
+  type AnalysisStep,
+} from "@/lib/initial-analysis/analysis-steps";
+import { useQuickSummary } from "@/lib/hooks/useQuickSummary";
+import { QuickSummaryStep } from "../components/initial-analysis/QuickSummaryStep";
+import { ArrowButton } from "../components/ArrowActiveComponents";
+import { Routine } from "../components/initial-analysis/Routine";
+import { useInitialAnalysis } from "@/lib/hooks/useInitialAnalysis";
+
+const stepVariants = {
+  enter: (direction: 1 | -1) => ({ opacity: 0, x: direction * 24 }),
+  center: { opacity: 1, x: 0 },
+  exit: (direction: 1 | -1) => ({ opacity: 0, x: direction * -24 }),
+};
 
 export default function InitialAnalysis() {
   const [showBeginOverlay, setShowBeginOverlay] = useState(true);
@@ -21,7 +48,18 @@ export default function InitialAnalysis() {
   const [userChatInput, setUserChatInput] = useState("");
   const [fetchedProductList, setFetchedProductList] = useState<Product[]>();
   const [streamMessage, setStreamMessage] = useState("");
-
+  const [currentStep, setCurrentStep] = useState<AnalysisStep>("skin-concerns");
+  const { previous: previousStep, next: nextStep } =
+    AnalysisNavigation[currentStep];
+  const continueBlocked =
+    currentStep === "skin-concerns" && concerns.length === 0;
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const goToStep = (step: AnalysisStep, dir: 1 | -1) => {
+    setDirection(dir);
+    setCurrentStep(step);
+  };
+  const { skinProfile, toggleFeature, setFeature, resetProfile } =
+    useSkinProfile();
   const updateConcerns = (concern: SkinProblemMock) => {
     setConcerns((prev) =>
       prev.includes(concern)
@@ -29,22 +67,37 @@ export default function InitialAnalysis() {
         : [...prev, concern],
     );
   };
-  const initialAnalysisMutation = useMutation({
-    mutationFn: async (input: UserSkinInformationInput) => {
-      for await (const event of streamAnalysis(input)) {
-        setStreamMessage(event.message);
+  const summary = useQuickSummary();
+  const isSummaryStep = currentStep === "summary";
+  const isRoutineStep = currentStep === "routine";
+  const [summaryConfirmed, setSummaryConfirmed] = useState(false);
+  const canBuildRoutine =
+    concerns.length > 0 && summary.isSuccess && summaryConfirmed;
+  const analysis = useInitialAnalysis();
 
-        if (event.type === "completed") {
-          return event.data;
-        }
-      }
+  const buildRoutine = () => {
+    analysis.mutate({
+      concerns,
+      skinType: choosenSkinType,
+      additional_detail: skinProfile.other ?? "",
+    });
+    goToStep("routine", 1);
+  };
 
-      throw new Error("Analysis ended without completion");
-    },
+  const goNext = () => {
+    if (!nextStep) return;
+    // Leaving the details step: (re)generate the summary with the latest answers
+    if (currentStep === "additional-details") {
+      setSummaryConfirmed(false);
+      summary.mutate({
+        concerns,
+        skinType: choosenSkinType,
+        additional_detail: skinProfile.other ?? "",
+      });
+    }
+    goToStep(nextStep, 1);
+  };
 
-    onSuccess: () => toast.success("Successfully analyzed your skin"),
-    onError: (e) => toast.error("Something went wrong", {description: `${e.message}`}),
-  });
   return (
     <ProtectedRoute>
       <AnimatePresence mode="wait">
@@ -61,299 +114,135 @@ export default function InitialAnalysis() {
             key="analysis"
             className="relative min-h-screen flex flex-col items-center justify-center"
           >
-            <div className="flex flex-col items-left gap-8">
-              <div
-                className="flex items-center gap-6  py-2 w-64
-         rounded-full"
-              >
-                <div className="p-2 border border-indigo-600 rounded-full">
-                  <ScanFace
-                    className="size-12 text-indigo-600"
-                    strokeWidth={1.0}
-                  />
-                </div>
-                <div className="flex flex-col items-left">
-                  <p className="text-secondary uppercase tracking-widest text-xs">
-                    Initial Steps
-                  </p>
-                  <h1 className="text-5xl tracking-tight">Analysis</h1>
-                </div>
-              </div>
-
-              <div className="flex flex-col">
-                <h2 className="tracking-tight text-2xl">Quick Look</h2>
-                <p className="text-secondary text-sm">
-                  Does any of this apply to you?
-                </p>
-              </div>
-
-              <div className="w-full flex items-center gap-3">
-                <div className="grid grid-rows-2 gap-2">
-                  <div className="flex items-center gap-1">
-                    <SkinProblemBadge
-                      selected={concerns.includes("redness")}
-                      problem="Redness"
-                      skinTargets={["Skin", "Tone"]}
-                      includeProblem={() => updateConcerns("redness")}
-                    />
-                    <SkinProblemBadge
-                      selected={concerns.includes("dryness")}
-                      problem="Dryness"
-                      skinTargets={["Hydration"]}
-                      includeProblem={() => updateConcerns("dryness")}
-                    />
-                    <SkinProblemBadge
-                      selected={concerns.includes("acne")}
-                      problem="Acne"
-                      skinTargets={["Skin", "Texture"]}
-                      includeProblem={() => updateConcerns("acne")}
-                    />
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <SkinProblemBadge
-                      selected={concerns.includes("dark-spots")}
-                      problem="Dark Spots"
-                      skinTargets={["Skin", "Tone"]}
-                      includeProblem={() => updateConcerns("dark-spots")}
-                    />
-                    <SkinProblemBadge
-                      selected={concerns.includes("clogged-pores")}
-                      problem="Clogged Pores"
-                      skinTargets={["Skin", "Texture"]}
-                      includeProblem={() => updateConcerns("clogged-pores")}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col items-left gap-8">
-                <div className="">
-                  <h4 className="text-2xl tracking-tight">
-                    Which Skin Type applies to you?
-                  </h4>
-                  <div className="text-secondary text-xs">
-                    Not sure? You can always check this{" "}
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="https://www.britishskinfoundation.org.uk/resources/identifying-your-skin-type-a-guide-by-dr-jonathan-kentley"
-                      className="underline cursor-pointer"
-                    >
-                      source
-                    </a>{" "}
-                    or skip this
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 text-xs ">
-                  <ChooseSkinType
-                    type="Dry"
-                    isChoosenAlready={choosenSkinType == "dry"}
-                    chooseType={() => setChoosenSkinType("dry")}
-                  />
-                  <ChooseSkinType
-                    type="Normal"
-                    isChoosenAlready={choosenSkinType == "normal"}
-                    chooseType={() => setChoosenSkinType("normal")}
-                  />
-                  <ChooseSkinType
-                    type="Combination"
-                    isChoosenAlready={choosenSkinType == "combination"}
-                    chooseType={() => setChoosenSkinType("combination")}
-                  />
-                  <ChooseSkinType
-                    type="Oily"
-                    isChoosenAlready={choosenSkinType == "oily"}
-                    chooseType={() => setChoosenSkinType("oily")}
-                  />
-                  <AnimatePresence>
-                    {choosenSkinType !== null && (
-                      <motion.button
-                        key="clear-selection"
-                        initial={{
-                          opacity: 0,
-                          scale: 0.5,
-                          filter: "blur(8px)",
-                        }}
-                        animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, scale: 0.5, filter: "blur(8px)" }}
-                        transition={{
-                          duration: 0.3,
-                          ease: "easeOut",
-                        }}
-                        onClick={() => {
-                          setChoosenSkinType(null);
-                          toast.success("Selection Cleared");
-                        }}
-                        className="relative group cursor-pointer rounded-full h-5 w-5 bg-primary text-white flex items-center justify-center"
-                      >
-                        <X className="w-3 h-3" />
-                        <div className="text-xs text-primary border border-neutral-200 absolute bottom-full left-1/2 -translate-x-1/2  translate-y-1 whitespace-nowrap rounded-md mb-3 px-3 py-1.5 bg-white opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-out">
-                          Clear Selection
-                        </div>
-                      </motion.button>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
-              <AnimatePresence mode="wait">
-                {initialAnalysisMutation.isPending ? (
-                  <motion.div
-                    key="loading"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                    className="min-w-[800px] h-20 flex items-center justify-center gap-4"
-                  >
-                    <LoaderCircle className="size-5 animate-spin text-indigo-600" />
-
-                    <motion.p
-                      key={streamMessage}
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-sm text-secondary"
-                    >
-                      {streamMessage || "Starting analysis..."}
-                    </motion.p>
-                  </motion.div>
-                ) : initialAnalysisMutation.isSuccess ? (
-                  <motion.div
-                    key="products"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="w-full max-w-[800px] flex flex-col gap-4"
-                  >
-                    <h3 className="text-xl tracking-tight">
-                      Your recommended products
-                    </h3>
-
-                    {initialAnalysisMutation.data.length === 0 ? (
-                      <p className="text-sm text-secondary">
-                        No matching products found.
-                      </p>
-                    ) : (
-                      initialAnalysisMutation.data.map((product, index) => (
-                        <div
-                          key={`${product.brand}-${product.name}-${index}`}
-                          className="p-4 rounded-xl border border-neutral-200"
-                        >
-                          <p className="text-xs text-secondary">
-                            {product.brand}
-                          </p>
-                          <h4>{product.name}</h4>
-                          <p className="text-xs text-secondary">
-                            WSM Score: {product.wsm_score.toFixed(3)}
-                          </p>
-                        </div>
-                      ))
-                    )}
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="textarea"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
-                  >
-                    <textarea
-                      value={userChatInput}
-                      onChange={(e) => setUserChatInput(e.target.value)}
-                      placeholder="Type here additional details about your skin..."
-                      spellCheck={false}
-                      className="shadow-xs min-w-[800px] h-16 border-[0.5px] border-neutral-400 py-[18px] rounded-full resize-none outline-none px-6"
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            {!initialAnalysisMutation.isPending &&
-              !initialAnalysisMutation.isSuccess && (
-                <button
-                  onClick={() => {
-                    setStreamMessage("");
-
-                    initialAnalysisMutation.mutate({
-                      concerns: { concerns },
-                      skinType: choosenSkinType,
-                      additional_detail: userChatInput,
-                    });
-                  }}
-                  className="mt-4 text-lg cursor-pointer transition-transform duration-200 rounded-2xl hover:scale-[1.02] px-4 py-1.5 bg-primary text-white"
+            <Card
+              className="w-full max-w-6xl bg-white  
+            rounded-[32px] overflow-hidden"
+            >
+              <Header />
+              <div className="grid grid-cols-2">
+                <div
+                  className={cn(
+                    "min-w-0 w-full h-[560px] px-10 pt-8 pb-6 flex flex-col",
+                    // Results take the whole card: centered column, no profile card
+                    isRoutineStep && "col-span-2 max-w-5xl mx-auto",
+                  )}
                 >
-                  Send
-                </button>
-              )}
+                  <AnalysisHeading
+                    step={getStepIndex(currentStep) + 1}
+                    totalSteps={ANALYSIS_STEPS.length}
+                  />
+                  <AnimatePresence
+                    mode="wait"
+                    custom={direction}
+                    initial={false}
+                  >
+                    <motion.div
+                      key={currentStep}
+                      custom={direction}
+                      variants={stepVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="w-full flex-1 min-h-0 flex flex-col justify-center gap-6 py-4"
+                    >
+                      {currentStep === "skin-concerns" && (
+                        <SkinConcerns
+                          concerns={concerns}
+                          updateConcerns={updateConcerns}
+                        />
+                      )}
+                      {currentStep === "skin-type" && (
+                        <SkinType
+                          choosenSkinType={choosenSkinType}
+                          setChoosenSkinType={setChoosenSkinType}
+                        />
+                      )}
+                      {currentStep === "additional-details" && (
+                        <AdditionalDetails onSubmitSummary={goNext} />
+                      )}
+                      {currentStep === "summary" && (
+                        <QuickSummaryStep
+                          summary={summary}
+                          confirmed={summaryConfirmed}
+                          onConfirm={() => setSummaryConfirmed(true)}
+                          onEdit={() => goToStep("additional-details", -1)}
+                        />
+                      )}
+                      {currentStep === "routine" && (
+                        <Routine analysis={analysis} />
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
+                  <div className="w-full shrink-0 mt-auto pt-6 flex items-center justify-between">
+                    <button
+                      type="button"
+                      disabled={!previousStep}
+                      aria-hidden={!previousStep}
+                      onClick={() => previousStep && goToStep(previousStep, -1)}
+                      className={cn(
+                        "cursor-pointer flex h-11 px-4 -ml-4 rounded-full text-secondary items-center text-sm gap-2 font-medium transition-colors hover:text-primary hover:bg-black/5",
+                        !previousStep && "invisible",
+                      )}
+                    >
+                      <ArrowLeft size={16} />
+                      Back
+                    </button>
+
+                    <div className="flex items-center gap-4">
+                      <AnimatePresence>
+                        {continueBlocked && (
+                          <motion.span
+                            initial={{ opacity: 0, x: 6 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 6 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="text-xs text-secondary"
+                          >
+                            Select at least one concern
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                      {isSummaryStep ? (
+                        <ArrowButton
+                          aria-label="Build my Routine"
+                          disabled={!canBuildRoutine}
+                          onClick={buildRoutine}
+                          className="h-11 px-6 rounded-full bg-primary text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          Build my Routine
+                        </ArrowButton>
+                      ) : (
+                        <button
+                          type="button"
+                          disabled={!nextStep || continueBlocked}
+                          aria-hidden={!nextStep}
+                          onClick={goNext}
+                          className={cn(
+                            "cursor-pointer flex h-11 px-6 rounded-full bg-primary text-white items-center gap-2 text-sm font-semibold transition-[opacity,transform] duration-200 hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100",
+                            !nextStep && "invisible",
+                          )}
+                        >
+                          Continue
+                          <ArrowRight size={16} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {!isRoutineStep && (
+                  <div className="w-full h-[560px] p-6">
+                    <SkinProfileCard currentStep={currentStep} />
+                  </div>
+                )}
+              </div>
+            </Card>
           </motion.div>
         )}
       </AnimatePresence>
       <SoftGlowBg />
     </ProtectedRoute>
-  );
-}
-
-function ChooseSkinType({
-  type,
-  isChoosenAlready,
-  chooseType,
-}: {
-  type: string;
-  isChoosenAlready: boolean;
-  chooseType: () => void;
-}) {
-  return (
-    <button
-      disabled={isChoosenAlready}
-      onClick={() => chooseType()}
-      className={`cursor-pointer rounded-lg w-32 h-8 py-2
-        transition-colors duration-300 
-         uppercase text-secondary 
-        ${isChoosenAlready ? "bg-primary text-white " : "bg-transparent"}
-        text-center border-[0.5px] border-neutral-400`}
-    >
-      {type}
-    </button>
-  );
-}
-
-function SkinProblemBadge({
-  problem,
-  skinTargets,
-  includeProblem,
-  selected,
-}: {
-  problem: string;
-  skinTargets: string[];
-  includeProblem: () => void;
-  selected: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={includeProblem}
-      aria-pressed={selected}
-      className={`py-2 w-36 shadow-sm border-[0.5px] border-neutral-400
-      transition-colors duration-300 cursor-pointer rounded-full
-      flex flex-col items-center justify-center
-      ${
-        selected
-          ? "bg-charcoal text-white"
-          : "bg-offwhite text-primary hover:bg-neutral-200/50"
-      }
-    `}
-    >
-      <h3 className="text-xs">{problem}</h3>
-      <div className="flex items-center gap-[2px] tracking-widest text-secondary text-[10px]">
-        {skinTargets.map((skinTargetPart, idx) => {
-          if (idx === skinTargets.length - 1) {
-            return <p key={idx}>{skinTargetPart}</p>;
-          }
-          return (
-            <div key={idx} className="flex items-center gap-0.5">
-              <p>{skinTargetPart}</p>
-              <div className="w-[2px] h-[2px] rounded-full bg-neutral-500" />
-            </div>
-          );
-        })}
-      </div>
-    </button>
   );
 }
 
@@ -398,7 +287,7 @@ function SoftGlowBg() {
         backgroundImage: `
       radial-gradient(
         ellipse at 15% 10%,
-        rgba(100, 150, 255, 0.12),
+        rgba(243, 221, 208, 0.35),
         transparent 55%
       ),
       radial-gradient(
@@ -414,5 +303,17 @@ function SoftGlowBg() {
         backgroundSize: "auto, auto, 20px 20px",
       }}
     />
+  );
+}
+
+function Header() {
+  return (
+    <div className="w-full">
+      <div className="px-10 py-2 w-full flex justify-between">
+        <Aurelia className="text-lg tracking-widest" />
+        <div className="flex items-center"></div>
+      </div>
+      <div className="bg-neutral-500 h-[0.5px] w-full" />
+    </div>
   );
 }

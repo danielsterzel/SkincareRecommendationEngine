@@ -6,7 +6,7 @@ import type {
   SkinProfile,
   SkinFeature,
 } from "@/lib/initial-analysis/analysis-types";
-import { FaceAngry } from "lucide-react";
+
 
 interface SkinProfileContextValue {
   skinProfile: Partial<SkinProfile>;

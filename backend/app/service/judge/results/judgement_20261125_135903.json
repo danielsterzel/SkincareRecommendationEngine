@@ -1,0 +1,2160 @@
+{
+  "summary": {
+    "cases_total": 20,
+    "cases_failed": 1,
+    "extraction_avg_percent_match": 78.53,
+    "products_avg_percent_match": 49.15,
+    "products_count": 165
+  },
+  "cases": [
+    {
+      "user_id": "2ad82928-6b9a-5180-afd0-d014c4c4c29b",
+      "text": "Od jakichś dwóch miesięcy mam czerwone policzki i skóra piecze po zwykłym myciu. Jednocześnie przy nosie robią mi się suche skórki, mimo że nakładam krem. Wcześniej używałem retinolu co drugi dzień i kwasu kilka razy w tygodniu, ale już odstawiłem oba. Nie chcę kolejnego mocnego serum, raczej czegoś, co pozwoli skórze dojść do siebie. Pryszczy praktycznie nie mam.",
+      "mapping": {
+        "selected_additional_detail": "Od jakichś dwóch miesięcy mam czerwone policzki i skóra piecze po zwykłym myciu. Jednocześnie przy nosie robią mi się suche skórki, mimo że nakładam krem. Wcześniej używałem retinolu co drugi dzień i kwasu kilka razy w tygodniu, ale już odstawiłem oba. Nie chcę kolejnego mocnego serum, raczej czegoś, co pozwoli skórze dojść do siebie. Pryszczy praktycznie nie mam.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "redness",
+            "dryness",
+            "barrier_support"
+          ],
+          "mapped_goals": [
+            "calm redness",
+            "reduce burning after cleansing",
+            "improve dryness around the nose",
+            "support skin recovery"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "high"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [
+            "{\n\"brand\": null,\n\"product_name\": \"retinol\",\n\"concentration_ingredient\": null,\n\"concentration\": null,\n\"suited_for\": null,\n\"ph\": null,\n\"effect\": \"skin burning after cleansing and redness\",\n\"severity\": \"moderate\",\n\"original_text\": \"Od jakichś dwóch miesięcy mam czerwone policzki i skóra piecze po zwykłym myciu. Jednocześnie przy nosie robią mi się suche skórki, mimo że nakładam krem. Wcześniej używałem retinolu co drugi dzień i kwasu kilka razy w tygodniu, ale już odstawiłem oba.\"\n}",
+            "{\n\"brand\": null,\n\"product_name\": \"kwas\",\n\"concentration_ingredient\": null,\n\"concentration\": null,\n\"suited_for\": null,\n\"ph\": null,\n\"effect\": \"skin burning after cleansing and redness\",\n\"severity\": \"moderate\",\n\"original_text\": \"Od jakichś dwóch miesięcy mam czerwone policzki i skóra piecze po zwykłym myciu. Jednocześnie przy nosie robią mi się suche skórki, mimo że nakładam krem. Wcześniej używałem retinolu co drugi dzień i kwasu kilka razy w tygodniu, ale już odstawiłem oba.\"\n}"
+          ],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 1,
+          "percent_match": 55.0,
+          "evaluation_rapport": "Concerns and goals match the input well: redness (red cheeks), dryness (flaky patches near the nose despite moisturizer), barrier_support/recovery (wants skin to recover, no strong serum), and goals that mirror the stated burning, dryness and recovery. The 'other' selection is acceptable. Problems: (1) mapped_sensitivity 'high' is not stated; burning after plain washing and redness after retinol/acid use suggest irritation or a compromised barrier, but the user never says their skin is sensitive, so this is an over-derivation (the guidelines treat this exact inference as incorrect). 'Moderate' or unspecified would be safer. (2) Previous reactions: the user never says retinol or acid caused the symptoms, only that they used them earlier and stopped. The model asserts a causal link and assigns an effect and a 'moderate' severity, neither of which is in the input. The symptoms are attributed to specific products without support, and the effect text duplicates the same symptoms for both products. (3) The previously used retinol and acid (frequency: every other day and several times a week) were put in reactions rather than in mapped_routine, which is left empty; they could be listed as past/discontinued routine items. (4) Allergens are correctly empty. Overall, the concerns are accurate, but the sensitivity, causal reaction and severity inferences are unsupported and the routine information is misplaced."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1593,
+        "output_tokens": 487,
+        "latency_ms": 5751.787500019418
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "rice lipids + ectoin microemulsion",
+              "score_category": 2,
+              "percent_match": 92.0,
+              "reason": "A face moisturizer targeting dryness, barrier support and look of redness, with ectoin, glycerin, allantoin and lipids and no actives or acids. It suits recovery after stopping retinol and acid, and it has no strong fragrance."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "pha 5% exfoliating lip serum",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "A lip product with an exfoliating acid (gluconolactone plus citric, malic and tartaric acids), so it is the wrong area and wrong function. Exfoliation is the opposite of what a user with burning, red skin who just stopped acids needs."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "soothing & barrier support serum",
+              "score_category": 1,
+              "percent_match": 72.0,
+              "reason": "A face product targeting barrier support and redness with niacinamide, matching the goals. However, no ingredient list is provided, so I cannot verify the absence of irritants. It is also a serum, though a gentle one rather than a strong active serum."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising cream",
+              "score_category": 0,
+              "percent_match": 20.0,
+              "reason": "This is a body product, and it contains chemical UV filters (ethylhexyl salicylate, butyl methoxydibenzoylmethane and others) plus a salicylate. These are unusual and potentially irritating for burning, red facial skin, so it is not suitable for the face."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising lotion",
+              "score_category": 0,
+              "percent_match": 20.0,
+              "reason": "A body lotion with the same formula, including UV filters and ethylhexyl salicylate. It is the wrong area for the facial concerns and may irritate reactive skin."
+            },
+            {
+              "brand": "avène",
+              "product_name": "intensive skin restorative serum",
+              "score_category": 2,
+              "percent_match": 85.0,
+              "reason": "A simple, soothing formula with thermal spring water, panthenol, glycerin and betaine, with no strong actives or fragrance listed. It suits sensitive skin and targets dryness and redness, and it is a gentle restorative serum rather than a strong one. Application area is not specified, but it is a serum for skin recovery."
+            },
+            {
+              "brand": "bioderma",
+              "product_name": "intensive eye cream 100 ml",
+              "score_category": 0,
+              "percent_match": 15.0,
+              "reason": "An eye-contour product that does not address redness on the cheeks or dryness near the nose. No ingredient list is provided."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "grape water hydrating face mist - 75ml",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "A face mist targeting dryness and redness, but it only gives light hydration and does not support barrier repair. No ingredient list is provided, so I cannot check for fragrance or irritants."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "deep hydration moisturizer",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "A face moisturizer with squalane, shea butter and glycerin that addresses dryness, but it contains parfum (fragrance), which is a risk for skin that burns after cleansing. It also has no explicit barrier or redness-soothing actives."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "hyaluronic serum",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "A face hydrating serum with hyaluronic acid and glycerin that helps dryness, but it contains parfum (fragrance) and offers little barrier repair. It may be too light as the main product for recovering skin."
+            }
+          ],
+          "evaluation_rapport": "Best fits: The Ordinary Rice Lipids + Ectoin Microemulsion and Avène Intensive Skin Restorative Serum. Both are gentle, fragrance-free, face-appropriate and aimed at dryness, redness and barrier recovery, in line with the user's wish to let skin recover without strong actives. The Ordinary Soothing & Barrier Support Serum is promising but cannot be fully verified without ingredients. Fragranced Caudalie face products are acceptable only with caution given the burning sensation. Products that should not be recommended: the PHA lip exfoliant (acid, wrong area), the CeraVe body cream and lotion (body products with UV filters and a salicylate), and the Bioderma eye cream (wrong area). Missing from the routine: a gentle non-foaming cleanser, since the burning follows regular washing, and daily sunscreen, which is important after retinol and acid use. The engine returned many near-identical scores and several body or lip items, which indicates weak area filtering."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 5716,
+        "output_tokens": 1565,
+        "latency_ms": 10777.123459003633
+      }
+    },
+    {
+      "user_id": "d22eb1bd-db97-58ac-9187-c37fc1790e5b",
+      "text": "Po zeszłorocznych wypryskach zostały mi brązowawe ślady na brodzie i policzkach. Teraz nic nowego prawie nie wyskakuje, ale na zdjęciach twarz wygląda na poplamioną, jakby miała różne odcienie. Mam filtr, tylko używam go nieregularnie, bo pod makijażem się roluje. Chciałabym wyrównać kolor, a nie agresywnie złuszczać.",
+      "mapping": {
+        "selected_additional_detail": "Po zeszłorocznych wypryskach zostały mi brązowawe ślady na brodzie i policzkach. Teraz nic nowego prawie nie wyskakuje, ale na zdjęciach twarz wygląda na poplamioną, jakby miała różne odcienie. Mam filtr, tylko używam go nieregularnie, bo pod makijażem się roluje. Chciałabym wyrównać kolor, a nie agresywnie złuszczać.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "hyperpigmentation",
+            "uneven_skin_tone",
+            "uv_protection"
+          ],
+          "mapped_goals": [
+            "even out skin tone"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": [
+            {
+              "active_ingredient": "sunscreen",
+              "time_of_day": "unknown"
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 92.0,
+          "evaluation_rapport": "The mapping closely follows the user's Polish description. Brownish marks left after breakouts on chin and cheeks map to hyperpigmentation (post-inflammatory). The photos looking blotchy with varying shades and the wish to even out color map to uneven_skin_tone and the goal 'even out skin tone'. The irregular use of sunscreen (\"filtr\") is correctly captured in the routine, with time_of_day unknown, which is appropriate since the user does not specify. uv_protection as a concern is a mild inference, but it is reasonable given the inconsistent sunscreen use and the pigmentation goal. Sensitivity is 'unknown', correctly avoiding an unsupported inference despite the user not wanting aggressive exfoliation. No allergens or previous reactions are invented. Minor gaps: the sunscreen rolling under makeup is not captured as a product issue, and the 'avoid aggressive exfoliation' preference is not recorded, but the schema may not require these."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1071,
+        "output_tokens": 355,
+        "latency_ms": 3315.2947500057053
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "l’oréal paris",
+              "product_name": "golden age rapid spot corrector",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "Niacinamide and phenylethyl resorcinol (a brightening agent) address post-blemish marks and uneven tone without aggressive exfoliation. However, alcohol denat and several fragrance allergens add irritation risk, and the product targets mature skin spots and is also labelled for hands."
+            },
+            {
+              "brand": "l’oréal paris",
+              "product_name": "revitalift clinical spf50 + vitamin c daily invisible fluid",
+              "score_category": 2,
+              "percent_match": 82.0,
+              "reason": "A face SPF50 with broad-spectrum filters supports UV protection, which is key for preventing marks from darkening, and ascorbyl glucoside helps with tone. Its invisible fluid texture may suit the user's pilling issue, though alcohol denat and fragrance are minor drawbacks."
+            },
+            {
+              "brand": "eucerin",
+              "product_name": "anti-pigment cleansing gel",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "It contains lactic and glycolic acids, which are mild exfoliants, so it conflicts somewhat with the wish to avoid aggressive exfoliation. As a wash-off product it has limited effect on pigmentation, and alcohol denat adds some irritation risk."
+            },
+            {
+              "brand": "eucerin",
+              "product_name": "sun face oil control gel-cream tinted light spf 50+",
+              "score_category": 2,
+              "percent_match": 84.0,
+              "reason": "A face SPF50+ with broad-spectrum filters and a tint (iron oxides, titanium dioxide) that helps even out the look of tone and protect against darkening. Licorice-derived glycyrrhetinic acid is soothing, and the light gel-cream texture may pill less under makeup, though it is aimed at oily skin."
+            },
+            {
+              "brand": "eucerin",
+              "product_name": "sun photoaging control tinted spf 50+ medium",
+              "score_category": 2,
+              "percent_match": 86.0,
+              "reason": "A tinted SPF50+ with iron oxides protects against UV and visible light and visually evens skin tone, which suits post-blemish marks. It is gentle and fragrance-free, with licorice extract for calming; no conflicting ingredients."
+            },
+            {
+              "brand": "eucerin",
+              "product_name": "sun face oil control tinted spf 50+ medium",
+              "score_category": 2,
+              "percent_match": 84.0,
+              "reason": "A tinted face SPF50+ with iron oxides and licorice extract supports UV protection and even-looking tone without exfoliating actives. The oil-control formulation may be more mattifying than necessary, but nothing conflicts with the user's needs."
+            },
+            {
+              "brand": "cetaphil",
+              "product_name": "healthy radiance brightening night cream",
+              "score_category": 2,
+              "percent_match": 75.0,
+              "reason": "Niacinamide supports fading marks and evening tone gently, with humectants and no strong acids or fragrance listed. It lacks UV protection, which the user also needs, but it is a safe non-exfoliating addition."
+            },
+            {
+              "brand": "cetaphil",
+              "product_name": "healthy radiance brightening day protection cream spf15",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "It combines niacinamide with sun filters for face use and is suitable for sensitive skin, which fits the goals. SPF15 is too low to effectively prevent pigmentation from darkening, and the cream texture may still pill under makeup."
+            },
+            {
+              "brand": "garnier",
+              "product_name": "vitamin c* fresh & bright hydrating sorbet cream",
+              "score_category": 1,
+              "percent_match": 58.0,
+              "reason": "Niacinamide and ascorbyl glucoside target uneven tone, but salicylic acid (exfoliant), alcohol denat, citrus oils and many fragrance allergens raise irritation and photosensitivity concerns. It also conflicts with the preference to avoid exfoliating, and there is no sun protection."
+            },
+            {
+              "brand": "garnier",
+              "product_name": "vitamin c* brightening liquid care",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "No ingredients are provided, so safety and the formula cannot be verified. The targets (hyperpigmentation, uneven tone) match the concerns, but the fit can only be assumed from the name."
+            }
+          ],
+          "evaluation_rapport": "The routine fits the user well on sun protection: several face SPF products, especially the tinted Eucerin sunscreens (photoaging control and oil control) and the L’Oréal Revitalift fluid, address the irregular sunscreen use and help prevent marks from darkening, and the tint can visually even out tone. Niacinamide products (Cetaphil night cream, L’Oréal spot corrector) add gentle brightening without aggressive exfoliation. Gaps: no clear advice on texture for makeup pilling, and few targeted gentle actives such as azelaic acid, tranexamic acid or stable vitamin C serums. Products to deprioritize: the Eucerin anti-pigment cleansing gel (AHAs in a wash-off form contradict the no-exfoliation wish), the Garnier sorbet cream (salicylic acid, fragrance and citrus oils), and the Garnier liquid care (no ingredient data to verify). The Cetaphil SPF15 day cream is too low in protection to be the main sunscreen."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 6704,
+        "output_tokens": 1766,
+        "latency_ms": 12279.628666001372
+      }
+    },
+    {
+      "user_id": "f0183b0b-2abc-5df3-b642-505463f381ea",
+      "text": "Najgorzej jest chyba na czole: drobne grudki pod skórą, których nie da się normalnie wycisnąć. Co jakiś czas wyskakuje też bolesna krostka przy żuchwie. Tłusta strefa T nie przeszkadza mi tak bardzo jak to, że pory wyglądają na zapchane. Nie zależy mi na efekcie glass skin, wolę po prostu mniej niespodzianek.",
+      "mapping": {
+        "selected_additional_detail": "Najgorzej jest chyba na czole: drobne grudki pod skórą, których nie da się normalnie wycisnąć. Co jakiś czas wyskakuje też bolesna krostka przy żuchwie. Tłusta strefa T nie przeszkadza mi tak bardzo jak to, że pory wyglądają na zapchane. Nie zależy mi na efekcie glass skin, wolę po prostu mniej niespodzianek.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "blemishes",
+            "signs_of_congestion",
+            "visible_shine"
+          ],
+          "mapped_goals": [
+            "less breakouts",
+            "less clogged pores"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 88.0,
+          "evaluation_rapport": "The mapping is largely faithful to the Polish input. Small subcutaneous bumps on the forehead that can't be extracted, plus an occasional painful pimple on the jawline, map well to 'blemishes'. 'Clogged-looking pores' maps to 'signs_of_congestion'. 'Visible_shine' is derived from the oily T-zone mention; the user says it bothers them less, but it is still a stated feature, so it is a reasonable if lower-priority concern. Goals 'less breakouts' ('mniej niespodzianek') and 'less clogged pores' are accurately derived. Rejecting 'glass skin' is correctly not mapped as a goal. Sensitivity is 'unknown', which is appropriate because nothing was stated. Allergens, previous reactions and routine are empty, which is correct as none were mentioned. No unsupported information was invented. The only minor quibble is that visible_shine is weighted equally despite being de-emphasized, and 'oily skin type' is not captured separately."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1038,
+        "output_tokens": 363,
+        "latency_ms": 3727.8459169901907
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "niacinamide 10% + zinc 1%",
+              "score_category": 2,
+              "percent_match": 82.0,
+              "reason": "Niacinamide and zinc PCA are aimed at congestion, clogged-looking pores and oiliness, and the product is a gentle face serum with no known conflicts. It helps the user's main concern, though it does not exfoliate inside pores."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "sulfur 10% powder-to-cream concentrate",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "Sulfur and kaolin target congestion and shine, and it is a face product. The user reports a painful pimple and no sensitivity data, so a 10% sulfur treatment can be drying or irritating, and the shine target is a minor concern for this user."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "salicylic acid 2% solution",
+              "score_category": 2,
+              "percent_match": 92.0,
+              "reason": "Salicylic acid (BHA) is oil-soluble and directly addresses clogged pores and small bumps under the skin on the forehead. It is a face product for congestion with no allergens listed, though it should be introduced gradually since sensitivity is unknown."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "foaming cleanser",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "It is a face cleanser with niacinamide and ceramides, suited to oily skin, but a rinse-off cleanser has only an indirect effect on clogged pores and under-skin bumps. It contains no active exfoliant, and sulfate-type surfactants may be a bit stripping."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "cerave foaming cleanser refill 473ml",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "A gentle ceramide cleanser for oily skin that supports a blemish-prone routine only indirectly. It has no pore-clearing actives, and it duplicates the other foaming cleanser."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "cerave blemish barrier patches",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "Ingredients are not provided, so the formula cannot be assessed. Patches may help with a single surface pimple, but not with deep non-extractable bumps or clogged pores across the forehead."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "blemish control cleanser",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "Listed ingredients include niacinamide and ceramides, but there is no clear salicylic acid, and UV filters (ethylhexyl salicylate, triazines) are unusual for a cleanser. The ingredient list looks identical to the retinol serum, so it may be mismatched data, and a wash-off product helps only indirectly."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "blemish control gel",
+              "score_category": 2,
+              "percent_match": 84.0,
+              "reason": "Contains salicylic, glycolic and lactic acids with niacinamide and ceramides, which targets clogged pores and blemishes while supporting the barrier. Multiple acids could irritate if combined with other exfoliants, so it should be introduced slowly."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "hydrating hyaluronic acid serum",
+              "score_category": 0,
+              "percent_match": 15.0,
+              "reason": "A hydrating, rich serum with petrolatum and fatty alcohols, designed for dry skin, with no actives for clogged pores or bumps. It does not address the user's concern and may feel heavy on an oily T-zone."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "resurfacing retinol serum with ceramides & niacinamide",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "The product is meant for blemishes and texture, but the supplied ingredient list shows no retinol and is identical to the blemish control cleanser, so the data looks unreliable. It also cannot be judged for irritation potential, and it adds little for under-skin bumps."
+            }
+          ],
+          "evaluation_rapport": "The best fits are the Ordinary salicylic acid 2% solution and the CeraVe blemish control gel, which directly address clogged pores and small under-skin bumps, plus the Ordinary niacinamide + zinc serum as a gentle supporting step. The cleansers are acceptable but only indirectly helpful, and the sulfur treatment is a secondary option since it may be drying. The patches lack ingredient data, and the retinol serum and blemish cleanser entries appear to have mismatched ingredient lists. The hydrating hyaluronic acid serum should not be recommended, since it does not address the concern. Overall the set is relevant but contains duplicates, and layering multiple acids (salicylic acid solution with the acid gel) should be avoided. A gentle cleanser, a single BHA product and niacinamide, with sunscreen, would suit this user."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 5407,
+        "output_tokens": 1623,
+        "latency_ms": 10855.925999989267
+      }
+    },
+    {
+      "user_id": "ccd10bbf-6b8b-5e95-bf31-fc573ca97f6b",
+      "text": "Mam 29 lat i zauważam małe linie przy zewnętrznych kącikach oczu, szczególnie kiedy się uśmiecham. Po nieprzespanej nocy są dużo bardziej widoczne i twarz wygląda na odwodnioną. Nie chcę ciężkiego programu anti-aging ani zabiegów, tylko sensowną, delikatną pielęgnację na co dzień. Czoło jest jeszcze całkiem gładkie.",
+      "mapping": {
+        "selected_additional_detail": "Mam 29 lat i zauważam małe linie przy zewnętrznych kącikach oczu, szczególnie kiedy się uśmiecham. Po nieprzespanej nocy są dużo bardziej widoczne i twarz wygląda na odwodnioną. Nie chcę ciężkiego programu anti-aging ani zabiegów, tylko sensowną, delikatną pielęgnację na co dzień. Czoło jest jeszcze całkiem gładkie.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "crow's_feet",
+            "dehydration",
+            "early_signs_of_aging"
+          ],
+          "mapped_goals": [
+            "reduce fine lines around eyes",
+            "improve hydration",
+            "gentle daily skincare"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 93.0,
+          "evaluation_rapport": "The mapping closely follows the user's input. Crow's feet is derived correctly from the fine lines at the outer eye corners, which are more visible when smiling. Dehydration is supported by 'face looks dehydrated' after a sleepless night. Early signs of aging is a reasonable inference for a 29-year-old with early fine lines and a smooth forehead. The goals (reduce fine lines around eyes, improve hydration, gentle daily skincare) match the stated wish for gentle, non-heavy daily care with no procedures. Sensitivity 'unknown' is appropriate, since the user never describes sensitive skin; 'gentle' is a preference, not evidence of sensitivity. Allergens, previous reactions, and routine are empty, which is correct because none were mentioned. The only minor point is that dehydration is somewhat inferred from a temporary state after poor sleep, but it is explicitly mentioned by the user, so there is no hallucination."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1065,
+        "output_tokens": 341,
+        "latency_ms": 3701.5925829764456
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "argireline solution 10%",
+              "score_category": 2,
+              "percent_match": 85.0,
+              "reason": "Acetyl hexapeptide-8 targets early signs of aging and crow's feet on the face, and the formula has no strong actives, so it suits the wish for gentle, light care. It does not add much hydration on its own."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-peptide eye serum",
+              "score_category": 2,
+              "percent_match": 93.0,
+              "reason": "Made for the eye contour and targets crow's feet and early aging with peptides, caffeine and niacinamide, which fits the fine lines at the outer eye corners. It contains small amounts of glycolic and citric acid for pH, which is minor, and the user did not report sensitivity."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "natural moisturizing factors + ha",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "A gentle face cream with NMFs, hyaluronate, glycerin and urea that directly addresses the dehydrated look. It does not target fine lines specifically, but it works as a basic daily step."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "matrixyl 10% + ha",
+              "score_category": 2,
+              "percent_match": 80.0,
+              "reason": "Signal peptides plus sodium hyaluronate support early signs of aging and some hydration with no harsh ingredients, which suits a gentle routine. It is a general face serum, not eye-specific."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-peptide + ha serum",
+              "score_category": 2,
+              "percent_match": 88.0,
+              "reason": "Combines several peptides including acetyl hexapeptide-8 with hyaluronic acid and humectants, covering both fine lines and dehydration in one gentle serum. It is a good fit for the stated goals."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "ascorbyl glucoside solution 12%",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "Targets dullness and uneven tone, so it only indirectly relates to fine lines and dehydration. Vitamin C at 12% is a mild derivative, but it is not what the user asked for."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "marine hyaluronics",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "Hydrating serum that helps the dehydrated look, but it does not target fine lines. It also contains salicylic acid and sodium salicylate, an unneeded exfoliant for a user who wants gentle care."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "amino acids + b5",
+              "score_category": 2,
+              "percent_match": 65.0,
+              "reason": "A gentle hydrating serum with amino acids, betaine and panthenol that addresses the dehydrated look without irritants. It supports fine lines only indirectly through hydration."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "caffeine 3% + escin 1% face serum",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "Its targets are early aging and dullness, and the caffeine and escin formula is aimed at puffiness rather than fine lines or hydration. It contains salicylic acid, which is unneeded for this user, so the relevance is weak."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "volufiline 92% + pal-isoleucine 1%",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "An anhydrous volumizing serum for early aging that mainly targets volume and firmness, not fine lines or dehydration. The occlusive base is not clearly relevant, and the user did not ask for volume."
+            }
+          ],
+          "evaluation_rapport": "The routine fits the user well in terms of safety, since almost all products are gentle, face-appropriate and free of strong acids or retinoids. The best matches are the multi-peptide eye serum for crow's feet, plus the multi-peptide + ha serum, matrixyl + ha and argireline for fine lines. The natural moisturizing factors cream and amino acids + b5 cover the dehydrated look. The routine lacks a sunscreen, which is the key product for preventing and reducing fine lines, and it has no cleanser or simple morning/evening structure. Several hydrating or peptide products overlap, so a lean routine would be better. Products to avoid recommending here are the ascorbyl glucoside, caffeine + escin and volufiline serums because they are off-target, and marine hyaluronics because of the salicylic acid."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 6052,
+        "output_tokens": 1490,
+        "latency_ms": 10779.73912502057
+      }
+    },
+    {
+      "user_id": "ffa07de7-3fe2-5bf5-bf13-ed21fdabe9d3",
+      "text": "Pod oczami mam ciemne półksiężyce nawet kiedy dobrze śpię. Rano dochodzi do tego opuchlizna, która schodzi dopiero po kilku godzinach. Nie zauważyłem natomiast zmarszczek i to nie jest mój priorytet. Chciałbym wiedzieć, czy w ogóle jakiś kosmetyk może tu coś realnie zmienić, czy raczej nie powinienem oczekiwać cudów.",
+      "mapping": {
+        "selected_additional_detail": "Pod oczami mam ciemne półksiężyce nawet kiedy dobrze śpię. Rano dochodzi do tego opuchlizna, która schodzi dopiero po kilku godzinach. Nie zauważyłem natomiast zmarszczek i to nie jest mój priorytet. Chciałbym wiedzieć, czy w ogóle jakiś kosmetyk może tu coś realnie zmienić, czy raczej nie powinienem oczekiwać cudów.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "dark_circles",
+            "puffiness"
+          ],
+          "mapped_goals": [
+            "reduce dark circles",
+            "reduce morning puffiness"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 95.0,
+          "evaluation_rapport": "The mapping matches the user's description. Dark circles under the eyes (\"ciemne półksiężyce\") map to dark_circles and morning swelling that subsides after a few hours maps to puffiness. Goals (reduce dark circles, reduce morning puffiness) follow directly from the text. The user explicitly said wrinkles are not a priority, and the model correctly did not map wrinkles. Sensitivity is \"unknown\", which is appropriate since nothing was stated. Allergens, previous reactions and routine are empty, which is correct as none were mentioned. No unsupported information was derived. The only minor gap is that the user's question about whether a cosmetic can realistically help (expectation management) is not captured, but this is not a required mapping field."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1048,
+        "output_tokens": 274,
+        "latency_ms": 3128.8040000072215
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "caffeine solution 5% + egcg eye serum",
+              "score_category": 2,
+              "percent_match": 92.0,
+              "reason": "Eye-area serum that lists dark circles and puffiness as targets, with 5% caffeine as the key active, plus EGCG and hyaluronic acid. It contains no allergens or known reactions to avoid; the low-level lactic and salicylic acids are only pH adjusters and a mild consideration for the delicate eye area."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-peptide eye serum",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "Eye-area serum that lists dark circles and puffiness among its targets and contains caffeine and niacinamide, so it supports both concerns. Its main focus is early aging and crow's feet, which the user said is not a priority, and caffeine has no stated concentration, so it is a slightly less direct fit than the pure caffeine serum."
+            }
+          ],
+          "evaluation_rapport": "Both products are designed for the eye contour and address the user's actual concerns of dark circles and morning puffiness, so the routine is on target and safe given that no allergies or sensitivity were stated. The caffeine serum is the most direct fit, while the multi-peptide serum is a reasonable but more anti-aging-oriented alternative that adds little for a user not concerned with wrinkles. Using both together would be redundant; one is enough. Missing from the set are options for pigmentation-related dark circles, such as vitamin C or sunscreen for the eye area, and gentle guidance on expectations: cosmetics can modestly reduce puffiness temporarily and may slightly improve the look of dark circles, but they will not eliminate those caused by genetics or anatomy. No product here should be excluded, though it is worth noting that the ingredient lists contain mild acids that a user who turns out to be sensitive should patch test."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2970,
+        "output_tokens": 633,
+        "latency_ms": 5706.2081250187475
+      }
+    },
+    {
+      "user_id": "0bc33730-5d76-5888-9770-099695e9b0a7",
+      "text": "Nie mam właściwie trądziku, cera nie jest też jakoś wyjątkowo sucha. Problem w tym, że wygląda płasko, szaro i na zmęczoną nawet po urlopie. Chciałabym bardziej świeżego, świetlistego wykończenia, ale bez tłustej warstwy. Używam tylko żelu do mycia i SPF; jeśli coś dokładać, to jeden produkt, nie pięć.",
+      "error": "APITimeoutError: Request timed out."
+    },
+    {
+      "user_id": "95fab232-784a-5e5a-b28f-49523bd062ca",
+      "text": "Moje policzki są szorstkie w dotyku, a zimą czasami pojawiają się na nich suche placki. Podkład podkreśla każdą nierówność. Pory raczej nie są pozatykane i nie walczę z pryszczami. Chcę przede wszystkim, żeby powierzchnia skóry była bardziej równa i mniej ściągnięta po kąpieli.",
+      "mapping": {
+        "selected_additional_detail": "Moje policzki są szorstkie w dotyku, a zimą czasami pojawiają się na nich suche placki. Podkład podkreśla każdą nierówność. Pory raczej nie są pozatykane i nie walczę z pryszczami. Chcę przede wszystkim, żeby powierzchnia skóry była bardziej równa i mniej ściągnięta po kąpieli.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "dryness",
+            "texture_irregularities",
+            "dehydration"
+          ],
+          "mapped_goals": [
+            "smoother skin texture",
+            "less tightness after bathing"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 90.0,
+          "evaluation_rapport": "The mapping is well grounded in the user's text. Rough cheeks and dry patches in winter support dryness and texture_irregularities. Foundation emphasizing unevenness supports texture_irregularities. Tightness after bathing supports dehydration, a reasonable derivation, though it could be read as an overlap with dryness. The goals (smoother skin texture, less tightness after bathing) match the stated wishes. Sensitivity is 'unknown', which is correct because none was mentioned. Allergens, previous reactions and routine are empty, which is correct because none were provided. The user said pores are not clogged and they do not struggle with pimples, and the model did not map acne or congestion, which is correct. The only minor risk is that dehydration is a slight inference, but it is plausible."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1019,
+        "output_tokens": 282,
+        "latency_ms": 3239.0297499950975
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "pha 5% exfoliating lip serum",
+              "score_category": 0,
+              "percent_match": 10.0,
+              "reason": "This is a lip product, so it does not address rough cheeks or facial texture, even though its PHA and humectants are relevant in principle."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-active delivery essence",
+              "score_category": 2,
+              "percent_match": 72.0,
+              "reason": "A face essence with glycerin and propanediol that hydrates, which helps tightness and dry patches and lets the skin surface look smoother. It has no harsh actives, though it is a light step and not a full solution."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "natural moisturizing factors + ha",
+              "score_category": 2,
+              "percent_match": 92.0,
+              "reason": "A face cream with NMF components, urea, glycerin, hyaluronate and lipids that directly targets rough, dry cheeks and tightness. Its occlusive and emollient content also helps keep the skin soft and even, and nothing in it conflicts with the user's input."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "niacinamide 10% + zinc 1%",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "Niacinamide can support skin texture, but the zinc and the oil-control focus are not needed since the user has no clogged pores or acne. Dryness and tightness make it a less suitable choice, as it may be drying or irritating for some."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "marine hyaluronics",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "A face hydrating serum with glycerin and amino acids that targets dehydration and tightness. It contains a small amount of salicylic acid, which is minor, but it could be slightly drying for very dry patches."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "amino acids + b5",
+              "score_category": 2,
+              "percent_match": 80.0,
+              "reason": "A face hydrating serum with amino acids, betaine and panthenol that supports hydration and comfort, which addresses tightness and dry patches. It contains no irritants or conflicting ingredients."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "saccharomyces ferment 30% milky toner",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "Its targets (textural irregularities, dryness) match the user's goals and it is for the face, but no ingredient list is provided so the formula cannot be verified for conflicts."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "retinol 1% in squalane",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "Retinol can improve texture, but 1% is a strong dose for dry, rough cheeks with winter dry patches and tightness, and the user has no experience noted. It risks irritation and further dryness, though the squalane base is emollient."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "retinol 0.5% in squalane",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "A lower retinol dose in a squalane base can help uneven texture and is for dry skin, but retinoids may worsen tightness and dry patches if introduced too fast. It is relevant but needs cautious use."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "glucoside foaming cleanser",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "A gentle face cleanser, but it is labeled for oily skin and only indirectly supports texture. The user reports tightness after bathing, so a foaming cleanser does not help the main concern."
+            }
+          ],
+          "evaluation_rapport": "The best fits are the hydrating and barrier-supporting products: natural moisturizing factors + ha, amino acids + b5, marine hyaluronics and multi-active delivery essence all address dryness, tightness and rough texture without harsh actives. Saccharomyces ferment toner is plausible, but its ingredient list is missing, so it cannot be fully verified. Retinol products and niacinamide + zinc are only partly suitable: the retinols may irritate dry, tight skin, and the zinc formula is aimed at congestion and shine, which the user does not have. The glucoside cleanser is gentle but not targeted. The PHA lip serum should not be recommended, as it is a lip product and does not treat facial cheeks. The routine would be improved by a gentle, mild exfoliant (lactic acid or PHA for the face) and a rich moisturizer, with sunscreen and a mild cleanser as basics."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 4975,
+        "output_tokens": 1470,
+        "latency_ms": 10831.174791004742
+      }
+    },
+    {
+      "user_id": "ebb47542-5a0f-588f-8810-cef41fdc27bf",
+      "text": "Czerwienię się mocno po treningu albo gorącym prysznicu, ale po pół godzinie wszystko wraca do normy — nie traktuję tego jako problemu. Bardziej denerwują mnie ciemniejsze plamy na skroniach, które chyba zrobiły się wyraźniejsze po lecie. Nie chcę pozbywać się piegów; chciałabym tylko, żeby reszta twarzy miała bardziej jednolity kolor.",
+      "mapping": {
+        "selected_additional_detail": "Czerwienię się mocno po treningu albo gorącym prysznicu, ale po pół godzinie wszystko wraca do normy — nie traktuję tego jako problemu. Bardziej denerwują mnie ciemniejsze plamy na skroniach, które chyba zrobiły się wyraźniejsze po lecie. Nie chcę pozbywać się piegów; chciałabym tylko, żeby reszta twarzy miała bardziej jednolity kolor.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "hyperpigmentation",
+            "uneven_skin_tone"
+          ],
+          "mapped_goals": [
+            "more even skin tone",
+            "reduce dark spots"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 95.0,
+          "evaluation_rapport": "The mapping matches the user's input. The user is bothered by darker patches on the temples that became more visible after summer and wants a more even skin tone while keeping freckles. The model mapped this to hyperpigmentation and uneven_skin_tone, with goals 'more even skin tone' and 'reduce dark spots'. These are reasonable derivations. The transient flushing after exercise or a hot shower is explicitly not treated as a problem by the user, and the model correctly did not map redness or sensitivity as a concern. Sensitivity is 'unknown', which is appropriate because normal transient flushing does not establish sensitive skin. No allergens, previous reactions, or routine were invented, and none were mentioned. The only minor point is that 'reduce dark spots' is slightly more specific than 'darker patches', and the model did not capture the preference to keep freckles. Still, it did not contradict it, and it avoided a goal to remove freckles."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1048,
+        "output_tokens": 335,
+        "latency_ms": 3066.6756659920793
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "l’oréal paris",
+              "product_name": "golden age rapid spot corrector",
+              "score_category": 2,
+              "percent_match": 85.0,
+              "reason": "Niacinamide and phenylethyl resorcinol directly target dark patches and uneven tone, and it is a face product. Alcohol denat and fragrance allergens are minor drawbacks, but the user reports no sensitivity or allergies."
+            },
+            {
+              "brand": "l’oréal paris",
+              "product_name": "revitalift clinical spf50 + vitamin c daily invisible fluid",
+              "score_category": 2,
+              "percent_match": 88.0,
+              "reason": "High-SPF face sunscreen with ascorbyl glucoside (vitamin C). Daily UV protection is essential for patches that darkened after summer, and it should help keep freckles from darkening further. Alcohol denat and fragrance are minor points."
+            },
+            {
+              "brand": "eucerin",
+              "product_name": "anti-pigment cleansing gel",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "Targets pigmentation, but as a rinse-off cleanser its lactic and glycolic acids have limited contact time, so it supports the concern only indirectly. Alcohol denat plus acids add some irritation potential for skin that flushes easily."
+            },
+            {
+              "brand": "eucerin",
+              "product_name": "sun face oil control gel-cream tinted light spf 50+",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "Face SPF 50+ with glycyrrhetinic acid and iron oxide tint, which supports an even tone and protects pigmented areas. The oil-control formula suits oily skin best, and the user's skin type is unknown."
+            },
+            {
+              "brand": "eucerin",
+              "product_name": "sun photoaging control tinted spf 50+ medium",
+              "score_category": 2,
+              "percent_match": 85.0,
+              "reason": "Tinted SPF 50+ with glycyrrhetinic acid and hyaluronate, suitable for sensitive and all skin types, which directly supports tone evenness and UV protection against darkening. The application area is not listed, but it is a facial sunscreen by nature."
+            },
+            {
+              "brand": "eucerin",
+              "product_name": "sun face oil control tinted spf 50+ medium",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "Face SPF 50+ with a tint and glycyrrhetinic acid helps protect and visually even out the complexion. The oil-control, mattifying focus is not needed by this user, so it is slightly less tailored."
+            },
+            {
+              "brand": "cetaphil",
+              "product_name": "healthy radiance brightening comfort night cream",
+              "score_category": 2,
+              "percent_match": 72.0,
+              "reason": "Niacinamide in a gentle moisturizer supports a more even tone without harsh actives. It is a mild brightening option rather than a strong pigment corrector."
+            },
+            {
+              "brand": "cetaphil",
+              "product_name": "healthy radiance brightening day protection cream spf15",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "Niacinamide with a face sunscreen is relevant, but SPF 15 is too low to protect post-summer hyperpigmentation adequately, so it only partly supports the concern."
+            },
+            {
+              "brand": "garnier",
+              "product_name": "vitamin c* fresh & bright hydrating sorbet cream",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "Niacinamide and ascorbyl glucoside help brighten, but lemon extract and citrus peel oils are potentially photosensitizing and sit alongside fragrance allergens and alcohol denat. This conflicts with treating sun-darkened patches."
+            },
+            {
+              "brand": "garnier",
+              "product_name": "vitamin c* brightening liquid care",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "The listed targets match the concern, but no ingredient list is provided, so safety and efficacy cannot be verified and the formula is not guessed."
+            }
+          ],
+          "evaluation_rapport": "The recommendations fit the user's concern well: temple hyperpigmentation and a more even tone, while keeping freckles. The best fits are the sunscreens (Revitalift SPF50 + vitamin C, Eucerin Photoaging Control tinted, and the other Eucerin tinted SPF 50+ options). The L'Oréal Golden Age spot corrector and the Cetaphil night cream add niacinamide-based brightening. The routine is heavy on sunscreens and has few distinct step types, with several near-duplicate SPFs and no gentle dedicated serum for pigmentation (such as a vitamin C or azelaic acid serum without citrus oils). It also lacks a simple non-acid cleanser. The Cetaphil SPF15 is too weak for the main goal. The Garnier sorbet cream carries citrus photosensitizer risk and should be deprioritized. The Garnier liquid care cannot be assessed without ingredients and should not be recommended until the data is complete. The Eucerin anti-pigment cleanser is of limited benefit because of its short contact time. The user's harmless post-exercise flushing was rightly not treated as a concern, though alcohol denat and fragrance appear in many of these products."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 6643,
+        "output_tokens": 2977,
+        "latency_ms": 26828.97254198906
+      }
+    },
+    {
+      "user_id": "be0108e8-1f9b-5c0f-9afa-ad25915107ec",
+      "text": "Mam raczej spokojną skórę, bez większych zmian i bez uczucia ściągnięcia. Dużo jeżdżę na rowerze, więc zależy mi na sensownej codziennej ochronie przed słońcem; obecny filtr szczypie mnie w oczy. Zastanawiam się też nad czymś antyoksydacyjnym, ale nie chcę marketingowych obietnic o cofnięciu starzenia.",
+      "mapping": {
+        "selected_additional_detail": "Mam raczej spokojną skórę, bez większych zmian i bez uczucia ściągnięcia. Dużo jeżdżę na rowerze, więc zależy mi na sensownej codziennej ochronie przed słońcem; obecny filtr szczypie mnie w oczy. Zastanawiam się też nad czymś antyoksydacyjnym, ale nie chcę marketingowych obietnic o cofnięciu starzenia.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "uv_protection",
+            "antioxidant_support"
+          ],
+          "mapped_goals": [
+            "daily sun protection",
+            "find an antioxidant product",
+            "avoid eye stinging from sunscreen"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 93.0,
+          "evaluation_rapport": "The mapping is faithful to the user's Polish input. The user wants sensible daily sun protection (cycling a lot), says the current sunscreen stings their eyes, and is considering an antioxidant product without anti-aging marketing claims. Mapped concerns uv_protection and antioxidant_support, and the three mapped goals (daily sun protection, find an antioxidant product, avoid eye stinging from sunscreen), all match. Sensitivity is 'unknown', which is appropriate: eye stinging from a sunscreen does not establish sensitive skin, and the user calls their skin calm. Allergens, previous reactions and routine are empty, which is correct because no allergens or full routine were stated. Eye stinging from the current sunscreen could arguably be logged as a previous reaction to a product, but it is captured in the goals, so leaving that list empty is defensible. A minor point is that the 'avoid anti-aging marketing claims' preference is not explicitly captured, though this is a small omission. No unsupported information was derived."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1049,
+        "output_tokens": 365,
+        "latency_ms": 4086.9873750198167
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "ascorbyl glucoside solution 12%",
+              "score_category": 2,
+              "percent_match": 75.0,
+              "reason": "A gentle, water-based vitamin C derivative for the face that fits the wish for an antioxidant product, with no irritating or conflicting ingredients on the list. It is a good, low-risk antioxidant option for calm skin."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "vitamin c suspension 23% + ha spheres 2%",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "It is a relevant antioxidant, but 23% pure ascorbic acid is a strong, potentially irritating option, and the user has not said whether their skin is sensitive. It is also targeted at signs of aging, which the user does not want to be sold on."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "ascorbyl tetraisopalmitate solution 20% in vitamin f",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "A stable oil-soluble vitamin C derivative that supports the antioxidant goal. It is an oil-only formula labelled for dry skin, and the user describes calm skin without tightness, so it fits less well and the aging-oriented targeting is not what the user wants."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "pycnogenol 5%",
+              "score_category": 2,
+              "percent_match": 75.0,
+              "reason": "A simple two-ingredient antioxidant serum for the face (pine bark extract in propanediol) with no conflicting ingredients. It fits the antioxidant interest without anti-aging claims."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "resveratrol 3% + ferulic acid 3%",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "Resveratrol and ferulic acid are classic antioxidants that suit the stated interest, and the formula is minimal with no obvious conflicts. It is a good companion to daily sun protection."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "100% cold-pressed virgin marula oil",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "This is mainly a moisturising oil for dryness and hair, with only indirect antioxidant support. The user has no dryness or tightness, so it does not address the main concerns."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "100% fermented rose hip seed oil",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "It lists antioxidant support, but it is a face oil aimed at aging and redness, which are not the user's concerns. It only indirectly supports the goal and gives no UV protection."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "uv filters spf 45 serum",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "This is the only product that directly addresses the main need, daily face UV protection with SPF 45. However, the formula is built on chemical filters (octocrylene, homosalate, ethylhexyl salicylate, butyl methoxydibenzoylmethane). Such filters commonly sting eyes, and the user already complains about that, so the fit cannot be confirmed from the ingredients."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-antioxidant radiance serum",
+              "score_category": 2,
+              "percent_match": 80.0,
+              "reason": "A water-based face serum with several antioxidants (ascorbyl glucoside, ergothioneine, tocotrienols) at a skin-friendly pH. It matches the antioxidant interest well, with no strong actives or obvious conflicts."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "euk 134 0.1%",
+              "score_category": 2,
+              "percent_match": 70.0,
+              "reason": "A simple face serum with a single antioxidant (a manganese complex) in propanediol, with no irritating ingredients. It supports the antioxidant goal without making aging claims."
+            }
+          ],
+          "evaluation_rapport": "The user's main practical need is sensible daily sun protection for a lot of cycling, with a sunscreen that does not sting the eyes. They are also curious about one antioxidant product and want no anti-aging promises. The list is dominated by antioxidant serums, and 7 of 10 products are antioxidants. Good fits are the multi-antioxidant radiance serum, resveratrol + ferulic acid, ascorbyl glucoside 12%, pycnogenol and EUK 134, which are simple and low-risk. The only sunscreen is a chemical-filter serum, and those filters commonly cause eye stinging, so it is uncertain whether it solves the user's problem. What is missing is a choice of sunscreens suited to eye-sensitive users, for example a mineral or low-sting formula, which should have been the priority. The user asked for just one antioxidant, so the list is redundant. The strong 23% ascorbic acid suspension, the dry-skin-oriented ascorbyl tetraisopalmitate oil, and the marula and rose hip oils should not be recommended, as they are either too harsh, poorly matched to calm non-dry skin, or only tangentially relevant."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 4670,
+        "output_tokens": 2548,
+        "latency_ms": 18639.56650000182
+      }
+    },
+    {
+      "user_id": "ed8e7bcd-9534-571d-8073-b225e7b19f56",
+      "text": "Na nosie i pod dolną wargą widać pełno ciemnych kropek. Nie mam ropnych zmian ani takich typowych czerwonych pryszczy. Próbowałem mocniej szorować te miejsca, ale tylko się podrażniły. Chciałbym lepiej oczyszczać skórę, bez uczucia, że po myciu jest papierowa.",
+      "mapping": {
+        "selected_additional_detail": "Na nosie i pod dolną wargą widać pełno ciemnych kropek. Nie mam ropnych zmian ani takich typowych czerwonych pryszczy. Próbowałem mocniej szorować te miejsca, ale tylko się podrażniły. Chciałbym lepiej oczyszczać skórę, bez uczucia, że po myciu jest papierowa.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "signs_of_congestion",
+            "cleansing",
+            "dryness",
+            "redness"
+          ],
+          "mapped_goals": [
+            "better cleanse skin",
+            "less tight after washing"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 1,
+          "percent_match": 65.0,
+          "evaluation_rapport": "Mostly accurate mapping with some over-derivation. Correct: 'signs_of_congestion' (dark dots on nose and under lower lip = blackheads/congestion), 'cleansing' (wants better cleansing), goals 'better cleanse skin' and 'less tight after washing' (papery feeling after washing), sensitivity 'unknown' (no explicit statement; irritation from scrubbing does not prove sensitive skin), and empty allergens, previous reactions and routine (none mentioned). Questionable: 'dryness' is only loosely supported by the 'papery' feeling after washing; it could be inferred as post-wash tightness but the user did not describe dryness as a concern, so it is a stretch. Incorrect: 'redness' is not stated; the user said the areas became 'irritated' from scrubbing and explicitly denied typical red pimples, so redness is an unsupported derivation. Overall, core concerns are captured but one concern is unsupported and one is weakly supported."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1018,
+        "output_tokens": 356,
+        "latency_ms": 3766.058792010881
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "niacinamide 10% + zinc 1%",
+              "score_category": 2,
+              "percent_match": 85.0,
+              "reason": "Face serum targeting signs of congestion and textural irregularities with niacinamide and zinc PCA. It tackles blackheads gently, without scrubbing or strong acids, which suits the user's irritation after harder scrubbing."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "squalane cleanser",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "Gentle balm cleanser for the face that removes impurities without stripping, matching the wish to cleanse better without a papery feeling. It has no actives for congestion, so it only supports the concern indirectly through cleansing."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "rice lipids + ectoin microemulsion",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "Face moisturizer with barrier-supporting ingredients that may help with post-wash tightness. It does not address blackheads and contains oils and lipids that add little for congestion."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising cream",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "Body product, so it is not appropriate for the facial concern on the nose and lip area. It also contains a rich, occlusive base and sunscreen filters with no relevance to congestion."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising lotion",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "Body lotion, so it does not address a facial concern on the nose and chin area. It has the same formula as the cream, with no ingredients targeting blackheads or cleansing."
+            },
+            {
+              "brand": "avène",
+              "product_name": "intensive skin restorative serum",
+              "score_category": 1,
+              "percent_match": 30.0,
+              "reason": "Soothing, simple formula with panthenol and glycerin that may calm irritation from scrubbing. Application area is not specified and it has no ingredients targeting blackheads or cleansing, so the relevance is only indirect."
+            },
+            {
+              "brand": "bioderma",
+              "product_name": "intensive eye cream 100 ml",
+              "score_category": 0,
+              "percent_match": 2.0,
+              "reason": "Eye-contour product, which is the wrong area for the nose and lower lip concerns. Ingredients are missing, so the formula cannot be assessed."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "grape water hydrating face mist - 75ml",
+              "score_category": 1,
+              "percent_match": 20.0,
+              "reason": "Hydrating face mist might ease tightness, but it does not address blackheads or cleansing. Ingredients are missing, so the formula cannot be checked."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "deep hydration moisturizer",
+              "score_category": 1,
+              "percent_match": 25.0,
+              "reason": "Face moisturizer that may help with the papery feeling. It has rich oils and shea butter, which are not ideal for congestion-prone areas, and contains fragrance that may irritate already irritated skin."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "hyaluronic serum",
+              "score_category": 1,
+              "percent_match": 30.0,
+              "reason": "Lightweight hydrating face serum that may help with tightness after washing. It does not address blackheads or cleansing and contains fragrance, which may irritate skin."
+            }
+          ],
+          "evaluation_rapport": "The best fits are the niacinamide + zinc serum for congestion and the squalane cleanser for gentle cleansing without stripping; together they cover the main concern and goal. The rest of the set is mostly generic hydration or soothing products with redness and dryness targets, which were wrongly emphasized by the extraction (redness unsupported). The routine lacks a gentle chemical exfoliant for blackheads, such as a low-strength salicylic acid, introduced carefully because the user's skin got irritated by scrubbing. The body creams and lotion (CeraVe) and the eye cream (Bioderma) should not be recommended because they are for the wrong area. Fragranced Caudalie products are less suitable for skin that gets irritated easily."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 5727,
+        "output_tokens": 1344,
+        "latency_ms": 9574.012541997945
+      }
+    },
+    {
+      "user_id": "17bb1c4d-5d41-5061-93b1-fa5453bce38d",
+      "text": "Co kilka dni pojawia się nowa czerwona zmiana, przeważnie na policzku. Kiedy znika, przez dłuższy czas zostaje po niej zaczerwieniony ślad. Stosowałam kiedyś bardzo wysuszającą kurację i nie chcę znów mieć łuszczącej się skóry. Budżet mam nieduży, więc maksymalnie jeden nowy kosmetyk w tym miesiącu.",
+      "mapping": {
+        "selected_additional_detail": "Co kilka dni pojawia się nowa czerwona zmiana, przeważnie na policzku. Kiedy znika, przez dłuższy czas zostaje po niej zaczerwieniony ślad. Stosowałam kiedyś bardzo wysuszającą kurację i nie chcę znów mieć łuszczącej się skóry. Budżet mam nieduży, więc maksymalnie jeden nowy kosmetyk w tym miesiącu.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "redness",
+            "dryness"
+          ],
+          "mapped_goals": [
+            "reduce new red bumps",
+            "fade lingering red marks",
+            "avoid flaky skin"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 1,
+          "percent_match": 60.0,
+          "evaluation_rapport": "Mapped redness is well supported: a new red lesion every few days and lingering red marks. The goals are mostly faithful: reduce new red bumps, fade lingering red marks, and avoid flaky skin all follow from the text. Sensitivity 'unknown', empty allergens, empty routine, and empty previous reactions are appropriate, since the user mentions no specific products or allergens. The weak point is mapped concern 'dryness'. The user does not currently report dryness; they only say a past drying treatment caused flaking and they want to avoid it again. Mapping this as a current concern is an unsupported derivation. It is better treated as a preference or goal, which the model already captured in 'avoid flaky skin'. The past drying treatment could arguably be a previous reaction to a product, but no product is named, so leaving it empty is acceptable. The budget constraint of at most one new product this month is not captured anywhere, though the schema may have no field for it. Overall the mapping is partially correct: redness and goals are good, but dryness is an overreach."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1044,
+        "output_tokens": 366,
+        "latency_ms": 3731.368125008885
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "rice lipids + ectoin microemulsion",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "Face product with ectoin, allantoin and barrier-supporting lipids that is gentle and non-drying, so it supports the user's wish to avoid flaking and calms redness. It does not treat recurring red lesions or post-inflammatory marks, so support is only indirect."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising cream",
+              "score_category": 0,
+              "percent_match": 15.0,
+              "reason": "Designed for the body, so it is not appropriate for the cheek concern. It also has a heavy, UV-filter-containing formula and does not target red lesions or marks."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising lotion",
+              "score_category": 0,
+              "percent_match": 15.0,
+              "reason": "Body product with the same formula as the cream, so it is the wrong area for a facial concern. It does not address recurring red lesions or lingering marks."
+            },
+            {
+              "brand": "avène",
+              "product_name": "intensive skin restorative serum",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "Gentle, fragrance-free formula with panthenol and glycerin, and its targets include blemishes and redness, which fits the user's concerns somewhat. It has no active ingredient for post-blemish marks, and the application area is not specified, so it only supports indirectly."
+            },
+            {
+              "brand": "bioderma",
+              "product_name": "intensive eye cream 100 ml",
+              "score_category": 0,
+              "percent_match": 10.0,
+              "reason": "Eye-contour product, so it is not suitable for a cheek concern. No ingredients are provided, so the formula cannot be assessed."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "grape water hydrating face mist - 75ml",
+              "score_category": 1,
+              "percent_match": 25.0,
+              "reason": "Face mist that offers hydration and possibly soothing, but has little effect on red lesions or marks. No ingredients are provided, so the formula cannot be checked."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "deep hydration moisturizer",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "Face moisturizer that prevents dryness, but it is rich with shea butter and oils and contains fragrance, which may be a problem for reactive skin with recurring lesions. It does not target red marks."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "hyaluronic serum",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "Lightweight hydrating face serum that is not drying, but it contains fragrance and has no ingredients aimed at lesions or marks. It supports only the goal of avoiding flaky skin."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "moisturising mask",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "Contains centella asiatica, which may help with redness, but it is a rich mask with oils and fragrance and the application area is not specified. It only indirectly supports the concern and is a poor use of the one-product budget."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "gel moisturiser with hyaluronic acid + aloe vera",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "Light gel face moisturizer with hyaluronic acid and aloe that prevents flaking, but it contains fragrance and no active ingredient for red lesions or marks. Support is only indirect."
+            }
+          ],
+          "evaluation_rapport": "The user has recurring red lesions on the cheek, lingering red marks, a wish to avoid a flaky skin barrier after a past harsh treatment, and a budget of at most one new product. No recommended product is a strong match, because none contains a clear active for lesions or post-inflammatory marks, such as azelaic acid, a gentle niacinamide serum, or a mild salicylic acid product. The best options are gentle face products that protect the barrier and calm redness: The Ordinary rice lipids + ectoin microemulsion and Avène intensive skin restorative serum, the latter also listing blemishes as a target. The Caudalie hydrators are acceptable but contain fragrance, so they are less suitable for skin with recurring lesions. The CeraVe body creams and lotion and the Bioderma eye cream should not be recommended because they are for the wrong body area. Overall the list is too hydration-focused and redundant for a user who can buy only one product."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 6099,
+        "output_tokens": 1439,
+        "latency_ms": 9862.643040978583
+      }
+    },
+    {
+      "user_id": "a67ada64-2202-51de-a04e-cf914886ccd4",
+      "text": "Mam 57 lat. Zmarszczki na czole i przy ustach są już widoczne również wtedy, kiedy nie robię żadnej miny. Nie liczę na to, że krem je usunie, ale chciałbym zadbać o skórę i nie pogarszać sytuacji. Dotąd używałem tylko mydła i czasem kremu, więc potrzebuję bardzo prostej rutyny.",
+      "mapping": {
+        "selected_additional_detail": "Mam 57 lat. Zmarszczki na czole i przy ustach są już widoczne również wtedy, kiedy nie robię żadnej miny. Nie liczę na to, że krem je usunie, ale chciałbym zadbać o skórę i nie pogarszać sytuacji. Dotąd używałem tylko mydła i czasem kremu, więc potrzebuję bardzo prostej rutyny.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "wrinkles",
+            "early_signs_of_aging"
+          ],
+          "mapped_goals": [
+            "care for skin",
+            "not make wrinkles worse",
+            "simple routine"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": [
+            {
+              "product_name": "soap",
+              "time_of_day": "unknown"
+            },
+            {
+              "product_name": "cream",
+              "time_of_day": "unknown"
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 1,
+          "percent_match": 78.0,
+          "evaluation_rapport": "Mostly accurate mapping. Wrinkles are correctly derived from the user's description of forehead and perioral lines visible at rest. Goals (care for skin, not worsen wrinkles, simple routine) match the input well. Sensitivity 'unknown', empty allergens and empty previous reactions are appropriate because none were mentioned. Routine (soap, occasional cream with unknown time of day) matches the input. The one issue is 'early_signs_of_aging': the user is 57 and has static wrinkles, which are established aging signs, not early ones, so this label is an unsupported derivation and slightly inaccurate. The selected concern 'other' is not itself an error since mapping is separate. Overall the mapping is good with one minor incorrect addition."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1074,
+        "output_tokens": 276,
+        "latency_ms": 3274.1798749775626
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "argireline solution 10%",
+              "score_category": 2,
+              "percent_match": 75.0,
+              "reason": "A face serum with acetyl hexapeptide-8, a simple, gentle, non-acid formula that supports the visible wrinkles on the forehead, and it fits the goal of caring for the skin without making things worse. It targets expression lines, which suits the forehead, but it adds a step to a very simple routine."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "matrixyl 10% + ha",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "A face serum with signal peptides and hyaluronic acid, with no strong actives or irritants, that supports mature skin with visible wrinkles. It is a gentle, relevant care step, though it is a serum rather than a basic cream."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-peptide + ha serum",
+              "score_category": 2,
+              "percent_match": 82.0,
+              "reason": "A face serum combining several peptides, hyaluronic acid and humectants for anti-aging care and hydration. It has only mild acid for pH adjustment and no harsh actives, so it fits a user who wants to care for mature skin without worsening it, and one product covers several needs."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-peptide eye serum",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "It is made for the eye area, while the user's wrinkles are on the forehead and around the mouth, so it only indirectly supports the concern. It also contains glycolic acid and many actives, which does not suit a very simple routine."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "caffeine 3% + escin 1% face serum",
+              "score_category": 1,
+              "percent_match": 25.0,
+              "reason": "A face product, but it mainly targets dullness and tired-looking skin rather than wrinkles. It also contains salicylic acid, an unnecessary exfoliant for this user, so it is only indirectly relevant."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "volufiline 92% + pal-isoleucine 1%",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "An anhydrous face serum aimed at volume and firmness with a short, non-irritating ingredient list. It supports mature skin only indirectly and does not directly address wrinkle lines. It is also an extra step in a minimal routine."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "lacto-pdrn* 4% + b9 eye cream",
+              "score_category": 0,
+              "percent_match": 15.0,
+              "reason": "It is for the eye contour, not the forehead or the area around the mouth. The ingredient list is missing, so its safety and suitability cannot be verified, and I will not guess the formula."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "ha + asiaticoside lip treatment",
+              "score_category": 0,
+              "percent_match": 15.0,
+              "reason": "A lip product. It does not address forehead wrinkles and could only help with the lips, so it is not relevant to the stated concern."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "foaming cleanser",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "A gentle face cleanser with ceramides and niacinamide that would replace the soap in a simple routine. However, it is designed for oily skin and only supports wrinkles indirectly, since a cleanser does not treat them. It also contains parabens."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "hydrating cream to foam cleanser",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "A gentle, hydrating face cleanser with ceramides that suits mature skin and is a simple step replacing soap. It is only an indirect support for wrinkles, and it contains a small amount of salicylic acid that is unnecessary for this user."
+            }
+          ],
+          "evaluation_rapport": "Overall the set suits the user fairly well. The face peptide serums (Argireline, Matrixyl + HA, Multi-Peptide + HA) are gentle, address visible wrinkles on the forehead and around the mouth, and do not make the situation worse. The CeraVe cleansers could replace soap as a sensible basic step. Missing: a simple daily moisturizer and daily SPF, the most important basics for a 57-year-old who wants to care for his skin and not make wrinkles worse. Too many serums make the routine more complex than the user asked for, so one serum plus a cleanser and cream would be enough. Products that should not be recommended: the lip treatment and the Lacto-PDRN eye cream (wrong area, and its ingredients are missing). The eye serum and the caffeine + escin serum are poor fits because of their area or target, and they add acids the user does not need."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 6224,
+        "output_tokens": 1544,
+        "latency_ms": 11093.223665986443
+      }
+    },
+    {
+      "user_id": "671614f8-3338-5d0a-b1f5-c185ab19eeaa",
+      "text": "Usta wyglądają na bardzo cienkie na zdjęciach i ciekawi mnie, czy pielęgnacją da się uzyskać choć trochę pełniejszy efekt. Nie chodzi mi o wypełniacze ani o rozjaśnianie twarzy. Same usta nie pękają i nie są szczególnie suche. Chcę raczej subtelny, wizualny rezultat niż jakąś ogromną zmianę.",
+      "mapping": {
+        "selected_additional_detail": "Usta wyglądają na bardzo cienkie na zdjęciach i ciekawi mnie, czy pielęgnacją da się uzyskać choć trochę pełniejszy efekt. Nie chodzi mi o wypełniacze ani o rozjaśnianie twarzy. Same usta nie pękają i nie są szczególnie suche. Chcę raczej subtelny, wizualny rezultat niż jakąś ogromną zmianę.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "lip_plumpness"
+          ],
+          "mapped_goals": [
+            "subtly fuller-looking lips"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 95.0,
+          "evaluation_rapport": "The mapping matches the user's input well. The user describes thin-looking lips and wants a subtle fuller look via skincare, not fillers. The model mapped the concern to 'lip_plumpness' and the goal to 'subtly fuller-looking lips', which is accurate and consistent with the 'other' selection. Sensitivity is 'unknown', which is correct since no sensitivity information was given. Allergens, previous reactions and routine are empty, which is correct as none were mentioned. The model did not derive unsupported information such as dryness, cracking or sensitivity; the user explicitly said the lips are not dry or cracking. The only minor point is that the goal omits the 'no fillers / no lightening' constraints, but these are not required fields."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1027,
+        "output_tokens": 270,
+        "latency_ms": 6940.984124987153
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "ha + asiaticoside lip treatment",
+              "score_category": 2,
+              "percent_match": 88.0,
+              "reason": "It is a lip product that lists lip-plumpness among its targets. Sodium hyaluronate, hydrolyzed hyaluronic acid and glycerin hydrate the lips and can give a subtly smoother, fuller look, and no allergens or harsh actives are present (the only acid is lactic acid, low on the list). It is not a filler and does not brighten, which matches the user's wishes.}],"
+            },
+            {
+              "brand": "x",
+              "product_name": "x",
+              "score_category": 0,
+              "percent_match": 0.0,
+              "reason": "x"
+            }
+          ],
+          "evaluation_rapport": "x"
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2397,
+        "output_tokens": 254,
+        "latency_ms": 3485.890374984592
+      }
+    },
+    {
+      "user_id": "344357f7-dd62-5bdc-aadd-ab1e9d56c3d4",
+      "text": "Po południu nos i czoło bardzo mi się świecą, ale matowienie za wszelką cenę też mi nie odpowiada. Gorzej, że nowe kremy często zostawiają ciężki film i mam wtedy wrażenie zatkanych porów. Chciałbym znaleźć delikatne mycie, które nie nasila tego problemu. Nie szukam rozświetlenia — tego mam aż za dużo.",
+      "mapping": {
+        "selected_additional_detail": "Po południu nos i czoło bardzo mi się świecą, ale matowienie za wszelką cenę też mi nie odpowiada. Gorzej, że nowe kremy często zostawiają ciężki film i mam wtedy wrażenie zatkanych porów. Chciałbym znaleźć delikatne mycie, które nie nasila tego problemu. Nie szukam rozświetlenia — tego mam aż za dużo.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "visible_shine",
+            "signs_of_congestion",
+            "cleansing"
+          ],
+          "mapped_goals": [
+            "less shine",
+            "avoid heavy film",
+            "gentle cleansing"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 90.0,
+          "evaluation_rapport": "The mapping closely follows the user's input. Shine on nose and forehead in the afternoon maps to visible_shine, and the heavy film with a feeling of clogged pores maps to signs_of_congestion. The wish for a gentle cleanser maps to cleansing and the goal 'gentle cleansing'. The goals 'less shine' and 'avoid heavy film' are faithful, and the user's rejection of over-mattifying and highlighting is not turned into a goal. Sensitivity is 'unknown', which is right because the user never states sensitivity, and 'gentle' is a product preference, not a sensitivity claim. Allergens, previous reactions and routine are empty, which is correct since none were mentioned. Minor point: 'cleansing' is a need rather than a skin concern, and the T-zone location is not captured, but nothing is invented."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1040,
+        "output_tokens": 307,
+        "latency_ms": 3296.8084170133807
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "niacinamide 10% + zinc 1%",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "Targets visible shine and congestion with niacinamide and zinc PCA in a lightweight water-based serum, which is relevant. However, the user asked for a gentle cleanser, so this is not the requested product type, and the tamarind and xanthan gums can feel tacky on some skin."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "sulfur 10% powder-to-cream concentrate",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "Sulfur and kaolin address shine and congestion, but 10% sulfur is a strong, drying treatment that is not gentle and not a cleanser. The user wants gentle care and does not want to over-mattify. The powder-to-cream texture may also feel like a film."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "glucoside foaming cleanser",
+              "score_category": 2,
+              "percent_match": 92.0,
+              "reason": "A mild cleanser based on decyl and coco glucoside, with no heavy oils or occlusive ingredients, so it should not leave a film. It is labelled for oily skin and fits the wish for gentle cleansing without aggressive mattifying."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "squalane cleanser",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "A gentle balm cleanser, but it is oil- and ester-rich (squalane, coco-caprylate/caprate, caprylic/capric triglyceride) and meant for dry skin. This could leave the heavy film the user dislikes and add to the clogged-pore feeling."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "glycolipid cream cleanser",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "A gentle cream cleanser with glycolipids suited to all skin types. The fatty alcohols (behenyl, stearyl) and glyceryl stearate create a creamy, rich texture that may leave some residue, which is a risk for someone sensitive to film. It is a reasonable choice but less ideal than a light gel cleanser."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "salicylic acid 2% solution",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "Salicylic acid helps with congestion and the feeling of clogged pores. It is a leave-on exfoliating treatment rather than the requested gentle cleanser, and a 2% BHA could be too strong when the user wants a gentle approach. It is also not a mattifying-focused product."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "salicylic acid 2% anhydrous solution",
+              "score_category": 0,
+              "percent_match": 25.0,
+              "reason": "The oil-based formula (squalane, caprylic/capric triglyceride, polyglycerides) is likely to feel heavy and leave a film, which contradicts the user's complaint. It is also a 2% acid treatment and not a gentle cleanser."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "salicylic acid 2% masque",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "Kaolin, charcoal and salicylic acid target shine and congestion, but this is an occasional rinse-off mask, not a gentle daily cleanser. It contains 2% acid plus squalane and may be too intensive for a user who wants gentle care and no over-mattifying."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "salicylic acid 0.5% body serum",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "This is a body product and not intended for facial concerns on the nose and forehead. It is also not a cleanser."
+            }
+          ],
+          "evaluation_rapport": "The user has shine on the nose and forehead, a feeling of heavy film and clogged pores from creams, and wants a gentle cleanser that does not over-mattify and does not add glow. The glucoside foaming cleanser is the best fit: gentle, light, and suited to oily skin, with no heavy oils. The glycolipid cream cleanser is a plausible second option, but its creamy texture may leave residue. Niacinamide + zinc is a sensible supporting product for shine and congestion, but it is not a cleanser. The recommended set is overloaded with salicylic acid and sulfur actives, which do not match the request for gentleness and for avoiding aggressive mattification. The squalane cleanser, the anhydrous salicylic acid solution and the salicylic acid masque are heavy or intensive and risk the film and clogged-pore feeling. The body serum should not be recommended because it is not meant for the face. The routine lacks more gentle, lightweight cleansing options (e.g. a light gel cleanser) and a non-comedogenic, lightweight moisturizer to address the film issue from creams."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 4609,
+        "output_tokens": 1613,
+        "latency_ms": 12037.854708003579
+      }
+    },
+    {
+      "user_id": "343a193e-1259-5fc1-9c99-c3c006ff6dc7",
+      "text": "Mam piegi i bardzo je lubię, więc proszę ich nie usuwać ani nie traktować jak przebarwień do zwalczenia. Chodzi mi tylko o nierówną, lekko chropowatą teksturę przy linii żuchwy. Zwykle nie mam żadnych krostek. Filtr nakładam każdego ranka i na razie nie potrzebuję nowego.",
+      "mapping": {
+        "selected_additional_detail": "Mam piegi i bardzo je lubię, więc proszę ich nie usuwać ani nie traktować jak przebarwień do zwalczenia. Chodzi mi tylko o nierówną, lekko chropowatą teksturę przy linii żuchwy. Zwykle nie mam żadnych krostek. Filtr nakładam każdego ranka i na razie nie potrzebuję nowego.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "texture_irregularities",
+            "uv_protection"
+          ],
+          "mapped_goals": [
+            "smooth uneven texture at the jawline"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 1,
+          "percent_match": 55.0,
+          "evaluation_rapport": "Correct mappings: 'texture_irregularities' fits the rough, uneven texture near the jawline; the goal 'smooth uneven texture at the jawline' is accurate; sensitivity 'unknown' is appropriate since none was stated; allergens and previous reactions are correctly empty. Errors: 'uv_protection' was mapped as a concern, but the user says they already apply sunscreen every morning and do not need a new one, so it is not a concern or need. Also, the routine is empty although the user mentioned a morning sunscreen step, which should likely have been captured (e.g., sunscreen every morning). Freckles were correctly not mapped as pigmentation, respecting the request. Overall the mapping is partly correct but includes an unsupported concern and omits the stated routine."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1018,
+        "output_tokens": 285,
+        "latency_ms": 3066.347083018627
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "niacinamide 10% + zinc 1%",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "Targets textural irregularities and is a gentle face serum, but it is aimed more at congestion and shine, and the user has no breakouts. Its support for rough texture is indirect."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "glucoside foaming cleanser",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "A gentle face cleanser with a textural-irregularities tag, but a wash-off product with no exfoliating ingredient will do little for rough texture along the jawline. It is marked for oily skin, and the user's skin type is unknown."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "salicylic acid 2% solution",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "Salicylic acid can smooth rough texture, but this product is aimed at congestion and blemishes, and the user reports no breakouts. A 2% BHA at low pH may be stronger than needed when sensitivity is unknown."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "pha 5% exfoliating lip serum",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "It is a lip product, so it does not suit jawline skin. It does not address the user's facial texture concern."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "uv filters spf 45 serum",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "It is a sunscreen that targets only UV protection. The user said they already use sunscreen daily and do not need a new one, and it does nothing for texture."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "saccharomyces ferment 30% milky toner",
+              "score_category": 1,
+              "percent_match": 65.0,
+              "reason": "It targets textural irregularities and is a mild face toner, so it fits the concern in principle. The ingredient list is missing, so I cannot check for conflicting or irritating ingredients."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-active delivery essence",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "A gentle hydrating essence for the face with glycerin and a textural-irregularities tag. It offers only indirect smoothing through hydration and has no active exfoliant."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "aloe 2% + nag 2% solution",
+              "score_category": 2,
+              "percent_match": 75.0,
+              "reason": "It is a gentle face serum with N-acetyl glucosamine and lactic acid at low levels, which can support smoother, more even texture. It has no ingredients that conflict with the user's wish to keep freckles, and no harsh actives."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "glycolic acid 7% exfoliating toner",
+              "score_category": 2,
+              "percent_match": 85.0,
+              "reason": "The glycolic acid exfoliates the surface to smooth rough, uneven texture, which matches the user's main goal directly. It can irritate if overused, and it may slightly brighten pigmentation, but it does not target freckles."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "azelaic acid suspension 10%",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "Azelaic acid can refine texture, but it is mainly used for redness, blemishes and uneven tone, which the user does not want treated. It could lighten the freckles the user wants to keep."
+            }
+          ],
+          "evaluation_rapport": "Several products fit the user's goal of smoothing a slightly rough jawline texture. The best fits are the glycolic acid 7% toner and the aloe + NAG serum, and the saccharomyces ferment milky toner is also a good fit, though its ingredient list is missing. The niacinamide serum, hydrating essence and cleanser only support texture indirectly. The salicylic acid and azelaic acid products are aimed at blemishes, redness and tone, which the user does not have or does not want treated, and azelaic acid may fade freckles. The lip serum should not be recommended because it is a lip product, and the SPF serum should not be recommended because the user said they already use sunscreen and need no new one. The routine lacks a gentle, targeted exfoliant plan with guidance on frequency, and it does not account for the unknown sensitivity."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 5084,
+        "output_tokens": 1412,
+        "latency_ms": 9624.286167003447
+      }
+    },
+    {
+      "user_id": "e02ed315-7e59-5be4-8237-a482970a8cab",
+      "text": "Od kilku tygodni mam zaczerwienione skrzydełka nosa i takie drobne łuski przy brwiach. Czasem swędzi, ale na policzkach jest w porządku. Nie wiem, czy to kwestia kosmetyków, pogody czy coś innego, więc nie chcę kupować w ciemno kolejnych kwasów. Bardziej zależy mi na uspokojeniu skóry niż efekcie glow.",
+      "mapping": {
+        "selected_additional_detail": "Od kilku tygodni mam zaczerwienione skrzydełka nosa i takie drobne łuski przy brwiach. Czasem swędzi, ale na policzkach jest w porządku. Nie wiem, czy to kwestia kosmetyków, pogody czy coś innego, więc nie chcę kupować w ciemno kolejnych kwasów. Bardziej zależy mi na uspokojeniu skóry niż efekcie glow.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "redness",
+            "dryness",
+            "barrier_support"
+          ],
+          "mapped_goals": [
+            "calm skin",
+            "less redness"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 1,
+          "percent_match": 55.0,
+          "evaluation_rapport": "Correct: 'redness' (reddened nasal alae) and goals 'calm skin' / 'less redness' (user wants to soothe skin rather than glow). Sensitivity 'unknown', empty allergens, previous reactions and routine are appropriate, since the user only mentions acids vaguely and does not name products or confirm a reaction. Questionable: 'dryness' is a plausible inference from the small flakes near the brows, but the user never mentions dryness or tightness, and the flaking with itching could have other causes, so this is a weak derivation. 'barrier_support' is not supported: the user does not mention barrier damage, and the cause is explicitly unknown (cosmetics, weather or something else). Overall, the redness and goals are well mapped, but the added dryness and barrier_support go beyond what the input supports. Missed: itching and flaking could have been captured as separate concerns (e.g. flaking/irritation) rather than being forced into dryness and barrier support."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1028,
+        "output_tokens": 347,
+        "latency_ms": 3733.818416018039
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "rice lipids + ectoin microemulsion",
+              "score_category": 2,
+              "percent_match": 82.0,
+              "reason": "A face emulsion with ectoin, allantoin, glycerin and lipids, targeting barrier support and redness, with no acids or strong actives. It suits the wish to calm the skin without buying more acids."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "pha 5% exfoliating lip serum",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "A lip product, not for the face, and it contains exfoliating acids (gluconolactone, malic and tartaric acid) that the user explicitly wants to avoid. It does not address redness near the nose or eyebrows."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "soothing & barrier support serum",
+              "score_category": 1,
+              "percent_match": 65.0,
+              "reason": "A face serum targeting redness and barrier support with niacinamide, so it is relevant and likely gentle. The ingredient list is missing, so I cannot check for irritants or allergens."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising cream",
+              "score_category": 0,
+              "percent_match": 20.0,
+              "reason": "This is a body product, so it is not suited to facial redness and flaking. It also contains several chemical UV filters and ethylhexyl salicylate, which add unnecessary ingredients for a user unsure of the trigger."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising lotion",
+              "score_category": 0,
+              "percent_match": 20.0,
+              "reason": "This is a body product, so it is not suited to facial redness and flaking. It has the same UV filter and ethylhexyl salicylate formula as the cream, which adds unneeded ingredients."
+            },
+            {
+              "brand": "avène",
+              "product_name": "intensive skin restorative serum",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "A simple, fragrance-free-looking formula with thermal spring water, panthenol, glycerin and betaine, aimed at sensitive skin and redness. It contains no strong acids or actives, so it fits the goal of calming the skin. No application area is given, but the formula looks suitable for the face."
+            },
+            {
+              "brand": "bioderma",
+              "product_name": "intensive eye cream 100 ml",
+              "score_category": 0,
+              "percent_match": 15.0,
+              "reason": "An eye-contour product, not for the nose wings or eyebrows, and it has no ingredient list. It is not a good match for the affected areas."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "grape water hydrating face mist - 75ml",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "A face mist for sensitive skin that targets redness, but it only offers light hydration and indirect support. The ingredient list is missing, so I cannot check it for fragrance or irritants."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "deep hydration moisturizer",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "A face moisturizer with squalane and shea butter that could comfort dry, flaking skin. It contains parfum, which is a risk for itchy, reactive skin of unknown cause, and the formula targets dryness rather than redness."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "hyaluronic serum",
+              "score_category": 1,
+              "percent_match": 42.0,
+              "reason": "A face hydrating serum with hyaluronic acid and glycerin that supports the skin only indirectly. It contains parfum, which is a potential irritant for itchy, red skin, and it does not specifically soothe."
+            }
+          ],
+          "evaluation_rapport": "The user wants to calm redness at the nose wings and flaking near the eyebrows, with itching and an unknown cause, and does not want more acids. The best fits are the Avène restorative serum and The Ordinary rice lipids + ectoin microemulsion, which are gentle and aimed at soothing and barrier support. The Ordinary soothing & barrier serum looks relevant, but its ingredients are missing. The Caudalie face products are only partly suitable because they contain fragrance and mainly hydrate. Products that should not be recommended are the PHA lip serum (acids and wrong area), the two CeraVe body products (wrong area, extra UV filters) and the Bioderma eye cream (wrong area, no ingredients). The routine lacks a gentle cleanser and a daily sunscreen. It also does not mention seeing a dermatologist if the scaling and itching persist, since the cause is unclear and could be something other than product-related dryness."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 5616,
+        "output_tokens": 1479,
+        "latency_ms": 9866.981041006511
+      }
+    },
+    {
+      "user_id": "59cf937e-e1b7-55ec-a662-213abe427bc3",
+      "text": "Nie potrafię dobrze opisać problemu pod oczami: w sztucznym świetle wyglądają na sine, a na zdjęciach czasem bardziej brązowe. Nie są specjalnie opuchnięte, ale cienie są moim głównym zmartwieniem. Nie jestem pewien, czy to przebarwienie, kwestia budowy twarzy czy cokolwiek innego. Wolałbym ostrożne podejście.",
+      "mapping": {
+        "selected_additional_detail": "Nie potrafię dobrze opisać problemu pod oczami: w sztucznym świetle wyglądają na sine, a na zdjęciach czasem bardziej brązowe. Nie są specjalnie opuchnięte, ale cienie są moim głównym zmartwieniem. Nie jestem pewien, czy to przebarwienie, kwestia budowy twarzy czy cokolwiek innego. Wolałbym ostrożne podejście.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "dark_circles"
+          ],
+          "mapped_goals": [
+            "reduce under-eye shadows"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 2,
+          "percent_match": 92.0,
+          "evaluation_rapport": "The mapping is well grounded in the user's input. The user describes under-eye shadows that look bluish in artificial light and brownish in photos, and says the shadows are their main concern. Mapping 'other' to 'dark_circles' and the goal 'reduce under-eye shadows' follows directly from this. Sensitivity is 'unknown', which is correct because the user states no sensitivity, only a preference for a cautious approach. Allergens, previous reactions and routine are empty, which is correct because none were mentioned. The model did not invent a cause (pigmentation, anatomy) and did not infer sensitive skin from the 'cautious approach' wording. Minor point: the 'cautious approach' preference is not captured in any field, but the schema may not have a place for it. The 'selected' value of 'other' versus the mapped 'dark_circles' is a reasonable refinement."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1024,
+        "output_tokens": 313,
+        "latency_ms": 3296.66241700761
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "caffeine solution 5% + egcg eye serum",
+              "score_category": 2,
+              "percent_match": 82.0,
+              "reason": "It is an eye-contour serum that targets dark circles and contains caffeine, EGCG and hyaluronic acid, which suit the user's main concern of under-eye shadows. The small amounts of lactic and salicylic acid are likely only pH adjusters, so it still fits the user's wish for a cautious approach, though a patch test is sensible. It does not address a structural cause of the shadows."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-peptide eye serum",
+              "score_category": 1,
+              "percent_match": 60.0,
+              "reason": "It is an eye-area product that lists dark circles among its targets and contains caffeine, niacinamide and peptides, but it is mainly an anti-aging formula, so it supports the shadow concern only indirectly. It also contains glycolic and citric acid, which add some risk for a user who prefers a cautious approach around the eyes."
+            }
+          ],
+          "evaluation_rapport": "Both products are eye-contour serums and fit the user's main concern of under-eye shadows. The caffeine + EGCG serum is the better fit, because it targets dark circles directly and has a simple, gentle profile. The multi-peptide serum is more of an anti-aging product with glycolic acid, so it is a weaker and less cautious choice. The routine is missing daily sunscreen, which helps prevent pigment-related darkening, and an option aimed at pigmentation, though the user is unsure whether the cause is pigmentation or structural. Neither product is clearly harmful, and no allergens were reported. Both products would benefit from a patch test before use."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 2939,
+        "output_tokens": 571,
+        "latency_ms": 5833.784208021825
+      }
+    },
+    {
+      "user_id": "0cc0c80c-047a-55b5-8ed6-385d69818670",
+      "text": "Przez większą część miesiąca mam spokój, ale co jakiś czas na brodzie wyskakują po dwie, trzy bolesne zmiany. Po nich zostają drobne ciemniejsze ślady. Mam skórę wrażliwą na mocne zapachy; jeden perfumowany krem kiedyś bardzo mnie podrażnił. Szukam czegoś prostego, bez dokładania trzech nowych aktywnych składników naraz.",
+      "mapping": {
+        "selected_additional_detail": "Przez większą część miesiąca mam spokój, ale co jakiś czas na brodzie wyskakują po dwie, trzy bolesne zmiany. Po nich zostają drobne ciemniejsze ślady. Mam skórę wrażliwą na mocne zapachy; jeden perfumowany krem kiedyś bardzo mnie podrażnił. Szukam czegoś prostego, bez dokładania trzech nowych aktywnych składników naraz.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "blemishes",
+            "hyperpigmentation"
+          ],
+          "mapped_goals": [
+            "fewer painful breakouts",
+            "fade dark marks",
+            "simple routine"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "high"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [
+            "{\n\"brand\": null,\n\"product_name\": null,\n\"concentration_ingredient\": null,\n\"concentration\": null,\n\"suited_for\": null,\n\"ph\": null,\n\"effect\": \"very irritated by a fragranced cream\",\n\"severity\": \"moderate\",\n\"original_text\": \"jeden perfumowany krem kiedyś bardzo mnie podrażnił\"\n}"
+          ],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 1,
+          "percent_match": 78.0,
+          "evaluation_rapport": "Mostly accurate mapping. Blemishes (recurring painful chin breakouts) and hyperpigmentation (darker marks left after them) are correctly derived. Goals 'fewer painful breakouts' and 'fade dark marks' are reasonable inferences, and 'simple routine' matches the request for something simple without adding three new actives. Sensitivity 'high' is a slight overreach: the user said skin is sensitive to strong fragrances and had one irritation from a perfumed cream, but did not state the degree of sensitivity. The previous reaction is captured correctly (fragranced cream, irritation), and the original text is quoted accurately. However, severity 'moderate' is an inference, since the user said 'bardzo mnie podrażnił' (very irritated), which could be read as more severe. Allergens are empty, which is acceptable, but fragrance sensitivity could arguably be noted as a potential irritant. The routine is empty, which is correct because no current routine was described. The 'other' selected concern was reasonably remapped to specific concerns."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1200,
+        "output_tokens": 374,
+        "latency_ms": 5835.191791004036
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "cerave",
+              "product_name": "resurfacing retinol serum with ceramides & niacinamide",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "It is fragrance-free and has niacinamide and ceramides, and it targets marks and blemishes on the face. But it is a retinol product (retinol is not in the INCI list shown), so it adds an active that may irritate sensitive skin, and the user wants a simple routine without new actives."
+            },
+            {
+              "brand": "bioderma",
+              "product_name": "kerato+ body 150 ml",
+              "score_category": 0,
+              "percent_match": 10.0,
+              "reason": "This is a body product, so it does not suit chin breakouts and marks on the face. No ingredients are listed, so the formula cannot be checked for fragrance or irritants."
+            },
+            {
+              "brand": "bioderma",
+              "product_name": "serum 30 ml",
+              "score_category": 1,
+              "percent_match": 45.0,
+              "reason": "It is a face serum that targets blemishes and hyperpigmentation, which fits the concerns. No ingredients are provided, so I cannot confirm it is fragrance-free or gentle enough for sensitive skin."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "concentrated brightening glycolic essence - 100ml",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "Glycolic acid can help with marks and blemishes, but it is a strong exfoliating active that may irritate skin sensitive to fragrance. It also contains linalool and limonene, which are fragrance allergens, and no application area is given."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "vinoperfect brightening aha micropeel - 100ml",
+              "score_category": 0,
+              "percent_match": 25.0,
+              "reason": "It contains parfum (fragrance), which conflicts with the user's reaction to a perfumed cream. It is also an exfoliating peel with mandelic acid and papain, which adds an irritating active to sensitive skin."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "dark spot brightening serum vitamin c alternative - 30ml",
+              "score_category": 0,
+              "percent_match": 30.0,
+              "reason": "It targets dark marks, but it lists parfum (fragrance), which is a direct conflict with the user's fragrance sensitivity and previous irritation. It has no clear active for painful breakouts, and the application area is not specified."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "dark spot niacinamide moisturizer - 50ml",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "Niacinamide in a simple face moisturizer suits marks and breakouts and keeps the routine easy. However, it contains parfum (fragrance), which conflicts with the user's fragrance sensitivity."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "the glow bestsellers",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "This is a fragrance-heavy formula with alcohol, essential oils and many fragrance allergens (citral, linalool, limonene, geraniol, citronellol). It is potentially harmful for fragrance-sensitive skin and has no actives for breakouts or marks."
+            },
+            {
+              "brand": "caudalie",
+              "product_name": "radiance and anti-dark spot routine",
+              "score_category": 0,
+              "percent_match": 15.0,
+              "reason": "This is a multi-product routine set with no ingredients listed, so safety and fragrance content cannot be assessed. A multi-step set also goes against the user's wish for a simple routine without several new actives."
+            },
+            {
+              "brand": "l’oréal paris",
+              "product_name": "bright reveal dark spot serum, 10% [niacinamide + amino-sulfonic acid]",
+              "score_category": 0,
+              "percent_match": 20.0,
+              "reason": "It combines niacinamide, glycolic acid and capryloyl salicylic acid with alcohol denat and parfum / fragrance. This stacks several actives and includes fragrance, which conflicts with both the sensitivity and the wish for a simple routine."
+            }
+          ],
+          "evaluation_rapport": "The user has occasional painful chin breakouts that leave dark marks, sensitivity to strong fragrance, and wants a simple routine without several new actives. Most of the list targets the right concerns but does not respect the fragrance trigger or the wish for simplicity. Several products contain parfum or fragrance allergens (Caudalie serum, moisturizer, micropeel and bestsellers set, and the L'Oréal serum), and others stack acids or retinol on sensitive skin. The best fits are the CeraVe serum, with caution about its retinol (not in the listed ingredients), and the Bioderma face serum, if its formula proves fragrance-free; the Caudalie niacinamide moisturizer is only a partial fit because of its fragrance. The Bioderma body product, the Caudalie routine set (no ingredients), the Caudalie Glow set, the micropeel, the dark spot serum with fragrance and the L'Oréal serum should not be recommended. What is missing is a gentle, fragrance-free option with one active (such as niacinamide, azelaic acid or a low-strength salicylic acid) plus a simple moisturizer and SPF to prevent marks from darkening."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 5446,
+        "output_tokens": 1689,
+        "latency_ms": 11132.468833995517
+      }
+    },
+    {
+      "user_id": "7b8189c4-a9c4-590e-be85-b450cc10284c",
+      "text": "Skóra jest napięta po myciu, a kiedy nałożę serum z kwasem, czuję szczypanie i przez resztę dnia policzki są różowe. Kiedyś zależało mi głównie na wygładzeniu drobnych nierówności, ale teraz priorytetem jest komfort. Nie chcę usuwać wszystkich produktów z półki; mam już neutralny krem, który dobrze toleruję.",
+      "mapping": {
+        "selected_additional_detail": "Skóra jest napięta po myciu, a kiedy nałożę serum z kwasem, czuję szczypanie i przez resztę dnia policzki są różowe. Kiedyś zależało mi głównie na wygładzeniu drobnych nierówności, ale teraz priorytetem jest komfort. Nie chcę usuwać wszystkich produktów z półki; mam już neutralny krem, który dobrze toleruję.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "dryness",
+            "redness",
+            "barrier_support",
+            "texture_irregularities"
+          ],
+          "mapped_goals": [
+            "more skin comfort",
+            "smooth minor unevenness"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "high"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [
+            "{\n\"brand\": null,\n\"product_name\": \"serum with acid\",\n\"concentration_ingredient\": \"acid\",\n\"concentration\": null,\n\"suited_for\": null,\n\"ph\": null,\n\"effect\": \"stinging and persistent redness on the cheeks for the rest of the day\",\n\"severity\": \"moderate\",\n\"original_text\": \"kiedy nałożę serum z kwasem, czuję szczypanie i przez resztę dnia policzki są różowe\"\n}"
+          ],
+          "mapped_routine": [
+            {
+              "product_name": "neutral cream",
+              "time_of_day": "unknown"
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 1,
+          "percent_match": 68.0,
+          "evaluation_rapport": "Most of the mapping is faithful. Tightness after washing maps to dryness, and pinkness plus stinging after the acid serum maps to redness. The goals (more skin comfort, smoothing minor unevenness) match the text, and 'texture_irregularities' is a reasonable reading of the smoothing goal. The previous reaction to the acid serum is captured accurately with no invented brand, concentration or pH. The neutral cream is correctly listed as a routine product. The time of day is correctly left 'unknown'. Allergens are correctly empty. Problems: (1) 'high' sensitivity is not stated by the user. Stinging and redness after an acid serum is a product reaction, not proof of sensitive skin, which is exactly the kind of unsupported derivation the task warns against. (2) 'barrier_support' is an inference. The user never mentions barrier damage, and tightness and stinging only hint at it. (3) 'texture_irregularities' is listed as a current concern, although the user says it used to matter and comfort is now the priority. (4) The severity 'moderate' for the reaction is assumed, since the user gives no severity. Overall the mapping is mostly grounded but includes several unsupported inferences, so it is partially correct."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1248,
+        "output_tokens": 434,
+        "latency_ms": 4403.546332992846
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "rice lipids + ectoin microemulsion",
+              "score_category": 2,
+              "percent_match": 92.0,
+              "reason": "Face moisturizer with ectoin, glycerin, urea, hyaluronate, allantoin and lipids, targeting dryness, barrier support and redness, which fits the tightness and comfort priority. It has no acids or strong actives, though it contains minor fragrance-free preservatives only and no known conflicts."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "pha 5% exfoliating lip serum",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "A lip product, so it does not address facial tightness or redness. It also contains an acid exfoliant (gluconolactone plus citric, malic and tartaric acids), which conflicts with the user's stinging reaction to an acid serum."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "niacinamide 10% + zinc 1%",
+              "score_category": 1,
+              "percent_match": 50.0,
+              "reason": "Face serum with niacinamide and zinc PCA that could support barrier function and redness, but 10% niacinamide with zinc is a high-strength active that can sting or flush in reactive skin. It is oriented toward congestion and shine rather than comfort, so it only indirectly fits."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "soothing & barrier support serum",
+              "score_category": 1,
+              "percent_match": 72.0,
+              "reason": "Targets barrier support and look of redness on the face, which matches the user's priorities. The ingredient list is missing, so I cannot verify the absence of irritants or acids and cannot give full marks."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "saccharomyces ferment 30% milky toner",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "Face product that targets dryness, but it is categorized as an exfoliant aimed at textural irregularities, which the user said is no longer the priority. The ingredient list is missing, so I cannot verify it is free of acids or irritants after the user's reaction to an acid serum."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-active delivery essence",
+              "score_category": 2,
+              "percent_match": 78.0,
+              "reason": "Simple face essence with glycerin, propanediol and glycogen that hydrates and helps with tightness. It contains a small amount of citric acid as a pH adjuster, but there are no exfoliating acids, so it is gentle and supports comfort."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "aloe 2% + nag 2% solution",
+              "score_category": 2,
+              "percent_match": 80.0,
+              "reason": "Face serum with aloe, N-acetyl glucosamine, glycerin and propanediol, targeting look of redness and suited to dry skin, which matches the user's cheek redness and tightness. It contains a small amount of lactic acid, likely as a pH adjuster, which is a minor caution given the acid sting history."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising cream",
+              "score_category": 1,
+              "percent_match": 40.0,
+              "reason": "Contains ceramides, glycerin, hyaluronate and niacinamide and targets dryness and redness, but it is a body product, not meant for the face. It also contains several chemical UV filters and ethylhexyl salicylate, which are unnecessary for a comfort-focused facial routine, and the user already has a tolerated cream."
+            },
+            {
+              "brand": "cerave",
+              "product_name": "intensive moisturising lotion",
+              "score_category": 1,
+              "percent_match": 38.0,
+              "reason": "Ceramide-rich formula that supports dryness and redness, but it is for the body, not the face. It also includes chemical UV filters and would duplicate the cream the user already tolerates."
+            },
+            {
+              "brand": "avène",
+              "product_name": "intensive skin restorative serum",
+              "score_category": 2,
+              "percent_match": 88.0,
+              "reason": "Gentle formula with thermal spring water, glycerin, panthenol and betaine, aimed at dryness and redness and suited to sensitive skin. It has no strong acids or retinoids; only a trace of citric acid as a pH adjuster. The application area is not specified, but it is a serum that is plausibly for the face."
+            }
+          ],
+          "evaluation_rapport": "The routine fits the user's comfort priority best through the rice lipids + ectoin microemulsion, the Avène restorative serum, the multi-active delivery essence and the aloe + NAG solution, which are hydrating, soothing and free of strong exfoliating acids. The soothing & barrier support serum would likely fit as well but lacks an ingredient list, so it cannot be fully verified. The recommendations should not include the PHA lip serum (wrong area and an acid that conflicts with the stinging reaction) or the exfoliating-oriented milky toner, which lacks ingredient data and targets a goal the user has deprioritized. The 10% niacinamide + zinc serum is a stronger active that may be too much for reactive skin. The CeraVe body cream and lotion are not for the face and duplicate the tolerated cream. The set includes too many serums and essences at once, and a simpler routine of a gentle cleanser, one soothing serum and the user's existing cream would respect the wish to keep their current products. Missing are a gentle non-stripping cleanser to address tightness after washing and a sunscreen recommendation for facial redness."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 5662,
+        "output_tokens": 1756,
+        "latency_ms": 12187.68704199465
+      }
+    },
+    {
+      "user_id": "c4531374-0fda-5a1e-a658-bd8cf55eac94",
+      "text": "To trochę nietypowe pytanie, bo bardziej niż twarz martwi mnie skóra głowy i włosy. Po zmianie szamponu mam wrażenie większej suchości skóry głowy, a włosy są matowe i łatwo się plączą. Nie chcę na tej podstawie diagnozy wypadania włosów. Jeśli system obsługuje tylko pielęgnację twarzy, wolę jasną informację zamiast losowo dobranego serum.",
+      "mapping": {
+        "selected_additional_detail": "To trochę nietypowe pytanie, bo bardziej niż twarz martwi mnie skóra głowy i włosy. Po zmianie szamponu mam wrażenie większej suchości skóry głowy, a włosy są matowe i łatwo się plączą. Nie chcę na tej podstawie diagnozy wypadania włosów. Jeśli system obsługuje tylko pielęgnację twarzy, wolę jasną informację zamiast losowo dobranego serum.",
+        "concerns": {
+          "selected": [
+            "other"
+          ],
+          "mapped": [
+            "dryness",
+            "dullness"
+          ],
+          "mapped_goals": [
+            "less dry scalp",
+            "less tangled hair"
+          ]
+        },
+        "skin_profile_pair": {
+          "mapped_sensitivity": "unknown"
+        },
+        "routine_and_allergens": {
+          "mapped_allergens": [],
+          "mapped_previous_reactions_to_products": [],
+          "mapped_routine": []
+        }
+      },
+      "extraction": {
+        "result": {
+          "score_category": 1,
+          "percent_match": 55.0,
+          "evaluation_rapport": "Partially correct. Correct: sensitivity 'unknown', and empty allergens, previous reactions and routine are appropriate since the user mentioned none (the shampoo change is not a reported reaction or a face routine). The goals 'less dry scalp' and 'less tangled hair' reflect the input reasonably, though they are inferred rather than explicitly stated as goals. Incorrect: the concerns were mapped to 'dryness' and 'dullness', but the user's concerns concern scalp and hair, not facial skin. Mapping them onto skin concerns for the face is misleading, and the selected 'other' category better fits. 'Dullness' was derived from hair looking matte (hair, not skin), and 'dryness' refers to the scalp. The user explicitly said the main concern is scalp/hair rather than the face and wanted a clear statement if the system only supports facial care instead of a randomly chosen serum, so the mapping should have kept the concern as 'other' (scalp/hair) and not forced facial categories. The output also does not flag that this is out of scope. The user's request not to infer hair loss was respected."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 1038,
+        "output_tokens": 393,
+        "latency_ms": 4153.715833002934
+      },
+      "products": {
+        "result": {
+          "products": [
+            {
+              "brand": "the ordinary",
+              "product_name": "niacinamide 10% + zinc 1%",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "This is a face serum aimed at congestion and shine. It does not address scalp dryness or dull, tangled hair, and the user did not ask for a facial serum."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "100% organic cold-pressed rose hip seed oil",
+              "score_category": 0,
+              "percent_match": 10.0,
+              "reason": "It is labeled for the face, with targets such as dryness and signs of aging. Nothing in the listing supports scalp or hair use, so it does not fit the stated concern."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "100% plant-derived squalane",
+              "score_category": 1,
+              "percent_match": 35.0,
+              "reason": "Its targets include hair and dryness, and squalane is a light emollient that could help with matte, tangled hair ends. The application area is listed only as face, and scalp use is not indicated, so support is indirect."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "100% organic cold-pressed moroccan argan oil",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "The application area includes hair and the targets include hair and dryness. A single-ingredient oil could add shine and reduce tangling in the lengths. Suitability for a dry scalp is not stated, so it only indirectly supports the scalp concern."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "100% cold-pressed virgin marula oil",
+              "score_category": 1,
+              "percent_match": 55.0,
+              "reason": "It is listed for face and hair, with dryness and hair targets, and the single ingredient is an emollient oil that may improve shine and detangling. It is not specifically indicated for the scalp, so it is only a partial match."
+            },
+            {
+              "brand": "the ordinary",
+              "product_name": "multi-active delivery essence",
+              "score_category": 0,
+              "percent_match": 8.0,
+              "reason": "This is a facial hydrating essence with no hair or scalp application. It does not address the user's actual concern."
+            },
+            {
+              "brand": "avène",
+              "product_name": "intensive skin restorative serum",
+              "score_category": 0,
+              "percent_match": 8.0,
+              "reason": "It is a facial serum for dryness, redness and blemishes, with no application area given and no hair or scalp use indicated. It does not match the scalp and hair concern."
+            },
+            {
+              "brand": "avène",
+              "product_name": "boost serum",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "This is a face serum, and it contains fragrance. It has no relevance to scalp dryness or hair texture."
+            },
+            {
+              "brand": "eucerin",
+              "product_name": "hyaluron-filler +3x effect hydra boost serum",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "It is a facial anti-wrinkle and hydration serum with no hair or scalp indication. It does not fit what the user asked for."
+            },
+            {
+              "brand": "paula’s choice",
+              "product_name": "water-infusing electrolyte moisturizer",
+              "score_category": 0,
+              "percent_match": 5.0,
+              "reason": "This is a facial moisturizer and is not meant for the scalp or hair. Its dryness and dullness targets refer to facial skin."
+            }
+          ],
+          "evaluation_rapport": "The user's main concern is a dry scalp and matte, tangled hair after a shampoo change. They said that if the system only covers face care, they would rather get clear information than a randomly chosen serum. Most of the recommendations are facial serums, essences, moisturizers or a facial oil, and they do not address this concern. Only the argan oil, marula oil and squalane have any link to hair, and that link is partial. The two oils list hair as an application area and could help with shine and tangling in the hair lengths. None of the three is indicated for the scalp, so none fully addresses the dry scalp. The niacinamide/zinc serum, rose hip oil, delivery essence, both Avène serums, the Eucerin serum and the Paula's Choice moisturizer should not be recommended. The routine is missing a clear statement that scalp and hair care is outside the face-care scope, and any real hair or scalp products such as a gentle shampoo, conditioner or scalp-specific care. The engine should have said this openly and not defaulted to face products."
+        },
+        "model": "claude-sonnet-5-5",
+        "input_tokens": 5141,
+        "output_tokens": 1639,
+        "latency_ms": 12253.930083010346
+      }
+    }
+  ]
+}

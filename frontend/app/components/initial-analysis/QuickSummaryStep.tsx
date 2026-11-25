@@ -4,6 +4,7 @@ import {
   Check,
   FlaskConical,
   Search,
+  ShieldAlert,
   Trophy,
   type LucideIcon,
 } from "lucide-react";
@@ -128,6 +129,12 @@ function Summary({ quickSummary }: { quickSummary: QuickSummary }) {
       {CHIP_SECTIONS.map(({ key, ...section }) => (
         <SummaryCard key={key} {...section} items={quickSummary[key]} />
       ))}
+      <SummaryCard
+        category="Sensitivity"
+        title="How your skin reacts"
+        icon={ShieldAlert}
+        items={["INCLUDE SENSITIVITY"]}
+      />
       <SummaryCard
         category="Routine"
         title="What you use now"

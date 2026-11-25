@@ -36,6 +36,7 @@ from app.schemas.initial_analysis import (
     ContextEvent,
     MockProductSchema,
     NegativeEffectsEvent,
+    ProductReason,
     StatusEvent,
     UserSkinInformationInput,
 )
@@ -45,7 +46,11 @@ from app.service.decision.llm_utils import (
     openai_user_skin_context_inference,
 )
 from app.service.decision.dataset_queries import load_products, load_allergen_terms
-from app.service.decision.schemas import UserSkinContext, ProductNegativeLabel
+from app.service.decision.schemas import (
+    UserSkinContext,
+    ProductNegativeLabel,
+    SensitivityLevels,
+)
 from annotated_types import Gt, Lt
 from functools import cache
 from pathlib import Path
@@ -87,6 +92,7 @@ NORMALIZED_TARGETS_PATH = (
 POTENTIALLY_IRRITATING_INGREDIENTS = (
     Path(__file__).resolve().parent / "data" / "potentially-irritating-ingredients.json"
 )
+SENSITIVE_LEVELS = {SensitivityLevels.VERY_HIGH, SensitivityLevels.HIGH}
 
 
 def normalize_ingredient_name(name: str) -> str:
@@ -151,16 +157,50 @@ def rate_positive_effect(product: Product, concerns: list[str]) -> float:
     return len(matched) / len(concerns)
 
 
+def matches_to_skin(p: Product, ctx: UserSkinContext) -> bool:
+    for fit in p.suited_for:
+        if ctx.skin_type in PRODUCT_SUITED_FOR_TO_SKIN_TYPE.get(fit, set()):
+            return True
+    return False
+
+
+def irritates(p: Product, ctx: UserSkinContext) -> float:
+    active = p.concentration_ingredient
+    if active and normalize_ingredient_name(active) in load_irritating_ingredients():
+        return SKIN_TYPE_IRRITATION_MAPPING.get(ctx.skin_sensitivity, 0.7)
+    return 1.0
+
+
+def build_reasons(product: Product, ctx: UserSkinContext) -> list[ProductReason]:
+    targets = parse_targets(product.targets)
+    concerns = set(ctx.skin_concerns)
+    reasons: list[ProductReason] = []
+
+    if ctx.skin_type and matches_to_skin(product, ctx):
+        reasons.append(
+            ProductReason(label=f"{ctx.skin_type} skin", matches_profile=True)
+        )
+
+    reasons += [
+        ProductReason(label=target.replace("_", " "), matches_profile=True)
+        for target in sorted(targets & concerns)
+    ]
+
+    if ctx.skin_sensitivity in SENSITIVE_LEVELS and irritates(product, ctx) == 1.0:
+        reasons.append(
+            ProductReason(label="gentle on sensitive skin", matches_profile=True)
+        )
+
+    reasons += [
+        ProductReason(label=target.replace("_", " "), matches_profile=False)
+        for target in sorted(targets - concerns)
+    ]
+    return reasons
+
+
 def rate_negative_effect(
     product: Product, ctx: UserSkinContext, negative_labels: set[str]
 ) -> ScoreAnnotation:
-
-    def matches_to_skin(p: Product, ctx: UserSkinContext) -> bool:
-        suited_for = p.suited_for
-        for fit in suited_for:
-            if PRODUCT_SUITED_FOR_TO_SKIN_TYPE[fit] == ctx.skin_type:
-                return True
-        return False
 
     def unsuited_for_skin(ctx: UserSkinContext, negative_labels: set[str]) -> float:
         if ctx.skin_type is None:
@@ -169,17 +209,6 @@ def rate_negative_effect(
 
         if relevant & negative_labels:
             return 0.0
-
-        return 1.0
-
-    def irritates(p: Product, ctx: UserSkinContext) -> float:
-
-        active = p.concentration_ingredient
-        if (
-            active
-            and normalize_ingredient_name(active) in load_irritating_ingredients()
-        ):
-            return SKIN_TYPE_IRRITATION_MAPPING.get(ctx.skin_sensitivity, 0.7)
 
         return 1.0
 
@@ -364,7 +393,10 @@ async def wsm_pipeline(
         message="Proposed products for your skin",
         data=[
             MockProductSchema(
-                brand=product.brand, name=product.product_name, wsm_score=score
+                brand=product.brand,
+                name=product.product_name,
+                reasons=build_reasons(product, ctx),
+                wsm_score=score,
             )
             for product, score, _ in ranking[:10]
         ],

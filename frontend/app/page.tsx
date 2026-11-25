@@ -3,10 +3,10 @@ import { motion } from "motion/react";
 
 import { Navbar } from "./navbar";
 
-import { StepByStep } from "./components/landing/StepByStep";
 import { HeroButtons } from "./components/landing/OverviewHook";
 import { HeroImage } from "./components/landing/HeroImage";
 import { Sparkle } from "lucide-react";
+import { Philosophy } from "./Philosophy";
 export default function Page() {
   return (
     <>
@@ -42,7 +42,6 @@ export default function Page() {
           <HeroImage />
         </motion.section>
       </div>
-      <StepByStep />
     </>
   );
 }

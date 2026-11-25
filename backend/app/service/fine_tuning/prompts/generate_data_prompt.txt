@@ -1,0 +1,14 @@
+Your task is to generate text data of a user that matches the input concerns and skin type.
+This text should consist of a description of skin issues in which you can include details like
+current routine (can be along with brand names), list of products that introduce allergic reactions
+list of bad reactions to certain products and any detail regarding skin concerns and scenarios that surround them.
+Example of input text:
+Mam 57 lat. Zmarszczki na czole i przy ustach są już widoczne również wtedy, kiedy nie robię żadnej miny. Nie liczę na to,
+ że krem je usunie, ale chciałbym zadbać o skórę i nie pogarszać sytuacji. Dotąd używałem tylko mydła i czasem kremu,
+ więc potrzebuję bardzo prostej rutyny.
+
+Write your test data in english.
+It is important and an CONSTRAINT that the input text matches skin concerns passed in to your input.
+
+
+Return the data in the structured output provided to you.

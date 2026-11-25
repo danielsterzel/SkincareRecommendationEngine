@@ -8,9 +8,15 @@ export const userSkinInformationInput = z.object({
   additional_detail: z.string(),
 });
 
+export const productReasonSchema = z.object({
+  label: z.string(),
+  matchesProfile: z.boolean(),
+});
+
 export const productSchema = z.object({
   brand: z.string(),
   name: z.string(),
+  reasons: z.array(productReasonSchema),
   wsmScore: z.number().gt(0).max(1),
 });
 
@@ -62,3 +68,4 @@ export type QuickSummary = z.infer<typeof quickSummarySchema>;
 
 export type AnalysisEvent = z.infer<typeof analysisEvent>;
 export type Product = z.infer<typeof productSchema>;
+export type ProductReason = z.infer<typeof productReasonSchema>;

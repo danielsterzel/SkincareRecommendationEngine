@@ -46,8 +46,7 @@ export function AnimatedCheck({
   );
 }
 
-// bare check mark (no circle) that draws itself when it mounts
-export function DrawnCheck({ className }: { className?: string }) {
+export function NoFillAnimatedCheck({ className }: { className?: string }) {
   return (
     <motion.svg
       viewBox="0 0 24 24"

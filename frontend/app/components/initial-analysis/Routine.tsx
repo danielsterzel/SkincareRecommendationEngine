@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "motion/react";
-import { LoaderCircle, Plus } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+import { RecommendedProductCard } from "./RecommendedProductCard";
 import type { useInitialAnalysis } from "@/lib/hooks/useInitialAnalysis";
 
 type InitialAnalysis = ReturnType<typeof useInitialAnalysis>;
@@ -34,27 +35,11 @@ export function Routine({ analysis }: { analysis: InitialAnalysis }) {
             </p>
           ) : (
             analysis.data.map((product, index) => (
-              <div
+              <RecommendedProductCard
                 key={`${product.brand}-${product.name}-${index}`}
-                className="p-4 rounded-2xl border-[0.5px] border-neutral-300 bg-white flex items-center justify-between gap-4"
-              >
-                <div className="min-w-0">
-                  <p className="text-xs text-secondary">{product.brand}</p>
-                  <h4 className="font-medium">{product.name}</h4>
-                  <p className="text-xs text-secondary">
-                    WSM Score: {product.wsmScore.toFixed(3)}
-                  </p>
-                </div>
-                {/* TODO: save the product to the user's skin space */}
-                <button
-                  type="button"
-                  disabled
-                  className="shrink-0 h-8 px-3 rounded-full border-[0.5px] border-neutral-300 bg-white text-xs font-medium text-secondary flex items-center gap-1 disabled:cursor-not-allowed"
-                >
-                  <Plus className="w-3 h-3" />
-                  Add to my skin space
-                </button>
-              </div>
+                product={product}
+                rank={index + 1}
+              />
             ))
           )}
         </section>

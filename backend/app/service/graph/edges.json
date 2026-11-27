@@ -1,0 +1,468 @@
+{
+  "retinol": {
+    "aliases": ["Retinol", "Vitamin A"],
+    "research_status": "reviewed",
+    "works": true,
+
+    "contraindicated_in":  [
+      {
+    "condition": "pregnancy",
+    "evidence": "However, on the basis of current knowledge and available data, it can be concluded that the use of topical retinoids during pregnancy cannot be advised because of lack of evidence to support this decision.",
+    "source": "https://link.springer.com/article/10.1007/s12325-022-02319-7",
+    "status": "verified"
+    }
+
+    ],
+    "helps_with": [
+      {"concern":  "acne",
+        "evidence": "This is a review to support the use of cosmeceuticals in acne including: retinol, retinaldehyde, benzoyl peroxide, azelaic acid, beta hydroxy acids, alpha hydroxy acids, niacinamide, zinc, tea tree oil and green tea.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+        "status": "verified"
+      },
+      {"concern":  "wrinkles",
+        "evidence": "In 2022, Chien et al. reported that a topical formulation containing a combination of three retinoids (retinol 1%, retinyl acetate 0.05% and retinyl palmitate 0.05%) was comparable in terms of antiageing efficacy to a topical tretinoin 0.02% formulation.",
+        "source": "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865",
+        "status": "verified"
+      },
+      {"concern":  "early_signs_of_aging",
+        "evidence": "In 2022, Chien et al. reported that a topical formulation containing a combination of three retinoids (retinol 1%, retinyl acetate 0.05% and retinyl palmitate 0.05%) was comparable in terms of antiageing efficacy to a topical tretinoin 0.02% formulation.",
+        "source": "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865",
+        "status": "verified"
+      },
+      {
+      "concern": "advanced_signs_of_aging",
+      "evidence": "...involving patients with moderate to severe facial photodamage. The study suggests that cosmeceuticals containing a combination of retinol and retinyl esters may have a comparable antiaging effect to tretinoin",
+      "note": "combination: retinol 1% + retinyl esters 0.1%; retinol dominant",
+      "source": "https://link.springer.com/article/10.1007/s12325-022-02319-7",
+      "status": "verified"
+      },
+      {
+        "concern":  "texture_irregularities",
+      "evidence":  "However, because retinoids present as active ingredients in cosmeceuticals must be converted to tretinoin after application, some researchers have questioned whether their efficacy is comparable to tretinoin.64–66 Despite these differences in opinion, there is evidence that many of the clinical and biological effects of retinol on the skin mirror those of tretinoin, including improvement of skin texture, rhytids and dyschromia; regulation of keratinocyte growth and differentiation; epidermal hyperplasia; compaction of the stratum corneum; collagen synthesis; reduced MMP activity; and the deposition of fibrillin-rich microfibrils.",
+      "source":  "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865",
+        "status": "verified"
+      },
+      {
+      "concern":  "uneven_skin_tone",
+      "evidence":  "However, because retinoids present as active ingredients in cosmeceuticals must be converted to tretinoin after application, some researchers have questioned whether their efficacy is comparable to tretinoin.64–66 Despite these differences in opinion, there is evidence that many of the clinical and biological effects of retinol on the skin mirror those of tretinoin, including improvement of skin texture, rhytids and dyschromia; regulation of keratinocyte growth and differentiation; epidermal hyperplasia; compaction of the stratum corneum; collagen synthesis; reduced MMP activity; and the deposition of fibrillin-rich microfibrils.",
+      "source":  "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865",
+        "status": "verified"
+      },
+      {
+      "concern":  "hyperpigmentation",
+      "evidence":  "However, because retinoids present as active ingredients in cosmeceuticals must be converted to tretinoin after application, some researchers have questioned whether their efficacy is comparable to tretinoin.64–66 Despite these differences in opinion, there is evidence that many of the clinical and biological effects of retinol on the skin mirror those of tretinoin, including improvement of skin texture, rhytids and dyschromia; regulation of keratinocyte growth and differentiation; epidermal hyperplasia; compaction of the stratum corneum; collagen synthesis; reduced MMP activity; and the deposition of fibrillin-rich microfibrils.",
+      "source":  "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865",
+      "status": "verified"
+      }
+    ],
+    "may_cause": [{
+      "effect":  "redness",
+      "source": "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865; https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "'Retinol is also better tolerated than tretinoin,35,59 although local irritation, including mild erythema and peeling can still occur.'",
+      "status": "verified"
+    },
+      {
+      "effect":  "irritation",
+      "source": "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865; https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "'Retinol is also better tolerated than tretinoin,35,59 although local irritation, including mild erythema and peeling can still occur.'",
+        "status": "verified"
+    },
+      {
+      "effect":  "peeling",
+      "source": "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865; https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "'Retinol is also better tolerated than tretinoin,35,59 although local irritation, including mild erythema and peeling can still occur.'",
+      "status": "verified"
+    },
+    { "effect":  "dryness",
+      "source": "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865; https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "'Retinol is also better tolerated than tretinoin,35,59 although local irritation, including mild erythema and peeling can still occur.'",
+      "status": "verified"}
+    ],
+    "interacts_with": []
+  },
+
+  "Retinaldehyde": {
+    "aliases": ["Retinal", "Retinaldehyde"],
+    "research_status": "reviewed",
+
+    "works": true,
+    "helps_with": [
+            {"concern":  "acne",
+        "evidence": "This is a review to support the use of cosmeceuticals in acne including: retinol, retinaldehyde, benzoyl peroxide, azelaic acid, beta hydroxy acids, alpha hydroxy acids, niacinamide, zinc, tea tree oil and green tea.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+        "status": "verified"
+      },
+        {"concern":  "wrinkles",
+      "evidence":  "Compared to retinol esters, the efficacy of retinaldehyde in antiaging treatments is supported by stronger evidence. Several studies evaluated the efficacy of retinaldehyde on aged and photoaged skin [104,105,106]. Only Creidi et al. [107] performed a comparison clinical study and evaluated the efficacy and tolerability of 0.05% retinaldehyde cream compared to 0.05% tretinoin cream and vehicle in patients with photodamaged skin (Table 2). Both formulations were effective on the basis of the assessed changes of the wrinkle and roughness features, but tretinoin caused more local irritation and lower compliance in patients. Recently, Kwon et al. [108] conducted a 3-month randomized, double-blind, controlled clinical trial comparing the efficacy of 0.1% and 0.05% retinaldehyde creams in 40 women. The data showed improvement in photoaged skin in terms of hydration, wrinkles, skin roughness, and reduction in TEWL",
+        "source": "https://link.springer.com/article/10.1007/s12325-022-02319-7",
+          "status": "verified"
+      },
+      {"concern":  "early_signs_of_aging",
+      "evidence":  "Compared to retinol esters, the efficacy of retinaldehyde in antiaging treatments is supported by stronger evidence. Several studies evaluated the efficacy of retinaldehyde on aged and photoaged skin [104,105,106]. Only Creidi et al. [107] performed a comparison clinical study and evaluated the efficacy and tolerability of 0.05% retinaldehyde cream compared to 0.05% tretinoin cream and vehicle in patients with photodamaged skin (Table 2). Both formulations were effective on the basis of the assessed changes of the wrinkle and roughness features, but tretinoin caused more local irritation and lower compliance in patients. Recently, Kwon et al. [108] conducted a 3-month randomized, double-blind, controlled clinical trial comparing the efficacy of 0.1% and 0.05% retinaldehyde creams in 40 women. The data showed improvement in photoaged skin in terms of hydration, wrinkles, skin roughness, and reduction in TEWL",
+        "source": "https://link.springer.com/article/10.1007/s12325-022-02319-7",
+        "status": "verified"
+      },
+      {
+      "concern": "advanced_signs_of_aging",
+      "evidence":  "Compared to retinol esters, the efficacy of retinaldehyde in antiaging treatments is supported by stronger evidence. Several studies evaluated the efficacy of retinaldehyde on aged and photoaged skin [104,105,106]. Only Creidi et al. [107] performed a comparison clinical study and evaluated the efficacy and tolerability of 0.05% retinaldehyde cream compared to 0.05% tretinoin cream and vehicle in patients with photodamaged skin (Table 2). Both formulations were effective on the basis of the assessed changes of the wrinkle and roughness features, but tretinoin caused more local irritation and lower compliance in patients. Recently, Kwon et al. [108] conducted a 3-month randomized, double-blind, controlled clinical trial comparing the efficacy of 0.1% and 0.05% retinaldehyde creams in 40 women. The data showed improvement in photoaged skin in terms of hydration, wrinkles, skin roughness, and reduction in TEWL",
+      "note": "combination: retinol 1% + retinyl esters 0.1%; retinol dominant",
+      "source": "https://link.springer.com/article/10.1007/s12325-022-02319-7",
+      "status": "verified"
+      },
+      {
+        "concern":  "texture_irregularities",
+      "evidence":  "Compared to retinol esters, the efficacy of retinaldehyde in antiaging treatments is supported by stronger evidence. Several studies evaluated the efficacy of retinaldehyde on aged and photoaged skin [104,105,106]. Only Creidi et al. [107] performed a comparison clinical study and evaluated the efficacy and tolerability of 0.05% retinaldehyde cream compared to 0.05% tretinoin cream and vehicle in patients with photodamaged skin (Table 2). Both formulations were effective on the basis of the assessed changes of the wrinkle and roughness features, but tretinoin caused more local irritation and lower compliance in patients. Recently, Kwon et al. [108] conducted a 3-month randomized, double-blind, controlled clinical trial comparing the efficacy of 0.1% and 0.05% retinaldehyde creams in 40 women. The data showed improvement in photoaged skin in terms of hydration, wrinkles, skin roughness, and reduction in TEWL",
+      "source":  "https://link.springer.com/article/10.1007/s12325-022-02319-7",
+        "status": "verified"
+      },
+      {
+      "concern":  "uneven_skin_tone",
+      "evidence":  "Compared to retinol esters, the efficacy of retinaldehyde in antiaging treatments is supported by stronger evidence. Several studies evaluated the efficacy of retinaldehyde on aged and photoaged skin [104,105,106]. Only Creidi et al. [107] performed a comparison clinical study and evaluated the efficacy and tolerability of 0.05% retinaldehyde cream compared to 0.05% tretinoin cream and vehicle in patients with photodamaged skin (Table 2). Both formulations were effective on the basis of the assessed changes of the wrinkle and roughness features, but tretinoin caused more local irritation and lower compliance in patients. Recently, Kwon et al. [108] conducted a 3-month randomized, double-blind, controlled clinical trial comparing the efficacy of 0.1% and 0.05% retinaldehyde creams in 40 women. The data showed improvement in photoaged skin in terms of hydration, wrinkles, skin roughness, and reduction in TEWL",
+      "source":  "https://link.springer.com/article/10.1007/s12325-022-02319-7",
+        "status": "verified"
+      },
+          {
+      "concern":  "hyperpigmentation",
+      "evidence":  "However, because retinoids present as active ingredients in cosmeceuticals must be converted to tretinoin after application, some researchers have questioned whether their efficacy is comparable to tretinoin.64–66 Despite these differences in opinion, there is evidence that many of the clinical and biological effects of retinol on the skin mirror those of tretinoin, including improvement of skin texture, rhytids and dyschromia; regulation of keratinocyte growth and differentiation; epidermal hyperplasia; compaction of the stratum corneum; collagen synthesis; reduced MMP activity; and the deposition of fibrillin-rich microfibrils.",
+      "source":  "Kim  J, Kim  J, Lee  YI  et al.  A pilot study evaluating the efficacy and safety of retinaldehyde-loaded niosomes against mild-to-moderate acne. J Cosmet Dermatol; Dreno  B, Castell  A, Tsankov  N  et al.  Interest of the association retinaldehyde/glycolic acid in adult acne. Eur Acad Dermatol Venereol  2009; 23:529–32; Dreno  B, Nocera  T, Verrière  F  et al.  Topical retinaldehyde with glycolic acid: study of tolerance and acceptability in association with anti-acne treatments in 1,709 patients. Dermatology  2005; 210:22–9; Chandrashekar  BS, Ashwini  KR, Vasanth  V  et al.  Retinoic acid and glycolic acid combination in the treatment of acne scars. Indian Dermatol Online J  2015; 6:84–8.;21. Masini  F, Ricci  F, Fossati  B  et al.  Combination therapy with retinaldehyde (0.1%) glycolic acid (6%) and efectiose (0.1%) in mild to moderate acne vulgaris during the period of sun exposure–efficacy and skin tolerability. Eur Rev Med Pharmacol Sci  2014; 18:2283–6.",
+      "status": "verified but Evidence from combination therapy: retinaldehyde 0.1% + glycolic acid 6%."
+      }
+    ],
+    "may_cause": [
+    {"effect":  "irritation",
+      "source": "https://link.springer.com/article/10.1007/s12325-022-02319-7",
+      "evidence":  "Compared to retinol esters, the efficacy of retinaldehyde in antiaging treatments is supported by stronger evidence. Several studies evaluated the efficacy of retinaldehyde on aged and photoaged skin [104,105,106]. Only Creidi et al. [107] performed a comparison clinical study and evaluated the efficacy and tolerability of 0.05% retinaldehyde cream compared to 0.05% tretinoin cream and vehicle in patients with photodamaged skin (Table 2). Both formulations were effective on the basis of the assessed changes of the wrinkle and roughness features, but tretinoin caused more local irritation and lower compliance in patients. However, no statistically significant differences in assessed parameters were observed between retinaldehyde and tretinoin or between retinaldehyde and vehicle group (Table 2).",
+      "status": "verified"
+    },
+      {
+        "effect": "dryness",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+        "evidence": "Table 1.Dryness, erythema, peeling depending on subtype, formulation and concentration",
+        "status": "verified"
+      },
+      {"effect":  "redness",
+      "source":  "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1.Dryness, erythema, peeling depending on subtype, formulation and concentration",
+        "status": "verified"
+      },
+       {"effect":  "peeling",
+      "source":  "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1.Dryness, erythema, peeling depending on subtype, formulation and concentration",
+        "status": "partially_verified"
+      }
+    ],
+    "interacts_with": []
+  },
+  "Retinyl Palmitate": {
+    "research_status": "partially_reviewed",
+    "desc": "Further research is required for Retinyl Palmitate to support it's anti-aging claims",
+    "works": null,
+    "aliases": [],
+    "helps_with": [],
+    "may_cause": [],
+    "interacts_with": []
+  },
+  "Retinyl Propionate": {
+    "research_status": "partially_reviewed",
+    "desc": "Further research is required for Retinyl Propionate to support it's anti-aging claims",
+    "works": null,
+    "aliases": [],
+    "helps_with": [],
+    "may_cause": [],
+    "interacts_with": []
+  },
+  "Retinyl Acetate": {
+    "research_status": "partially_reviewed",
+    "desc": "To date, no published clinical study has evaluated the antiaging efficacy of retinyl acetate as a single active ingredient in a topical formulation. FROM: https://link.springer.com/article/10.1007/s12325-022-02319-7 ",
+    "works": null,
+    "aliases": [],
+    "helps_with": [],
+    "may_cause": [],
+    "interacts_with": []
+
+  },
+  "Retinyl Retinoate": {
+    "research_status": "partially_reviewed",
+    "desc": "Has some studies but can be more studied",
+    "works": true,
+    "aliases": [],
+    "helps_with": [
+      {
+        "concern": "wrinkles",
+        "evidence": "he efficacy of retinyl retinoate in the treatment of fine wrinkles in photoaged skin is also supported by clinical data",
+        "source": "https://link.springer.com/article/10.1007/s12325-022-02319-7; Kim H, Koh J, Baek J, et al. Retinyl retinoate, a novel hybrid vitamin derivative, improves photoaged skin: a double-blind, randomized-controlled trial. Skin Res Technol. 2011;17(3):380–5.; Kim H, Kim N, Jung S, et al. Improvement in skin wrinkles from the use of photostable retinyl retinoate: a randomized controlled trial. Br J Dermatol. ; Kim M, Yang H, Kim H, Jung H, Jung H. Novel cosmetic patches for wrinkle improvement: retinyl retinoate- and ascorbic acid-loaded dissolving microneedles. Int J Cosmet Sci. 2014;36(3):207–12."
+      }
+    ],
+    "may_cause": [],
+    "interacts_with": []
+  },
+  "Retinyl N-Formyl Aspartamate": {
+    "research_status": "partially_reviewed",
+    "desc": "",
+    "works": null,
+    "aliases": [],
+    "helps_with": [],
+    "may_cause": [],
+    "interacts_with": []
+  },
+  "matrixyl": {
+    "aliases": ["Palmitoyl Pentapeptide-4", "KTTKS"],
+    "research_status": "reviewed",
+    "works": true,
+    "helps_with": [{
+       "concern": "wrinkles",
+      "evidence": "Matrixyl is well tolerated by the skin and was found in a double-blind placebo-controlled split-face trial to cause a visible improvement to fine lines and wrinkles by both quantitative technical and expert grader analysis.",
+      "source": "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865",
+      "status": "verified"
+    },
+       {
+      "concern": "early_signs_of_aging",
+      "evidence": "Matrixyl is well tolerated by the skin and was found in a double-blind placebo-controlled split-face trial to cause a visible improvement to fine lines and wrinkles by both quantitative technical and expert grader analysis.",
+      "source": "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865",
+      "status": "verified"
+    }
+    ],
+    "may_cause": [],
+    "interacts_with": []
+  },
+  "tetrapeptide": {
+    "aliases": ["GEKG", "PKEK", "tetrapeptide proline–lysine–glutamic acid–lysine", "tetrapeptide glycine–glutamic acid–lysine–glycine"],
+    "research_status": "reviewed",
+    "works": true,
+    "helps_with":[
+      {
+     "concern": "wrinkles",
+      "evidence": "The novel bioactive tetrapeptide GEKG (glycine–glutamic acid–lysine–glycine) has also been identified in several ECM proteins and is thought to be capable of inducing wide-ranging ECM deposition through matrikine signalling.80 When tested topically on 10 healthy volunteers in a double-blind placebo-controlled randomized trial, daily application over 8 weeks led to increased levels of collagen I mRNA and increased formation of procollagen I, hyaluronic acid and fibronectin.",
+      "source": "Farwick\nM\n, Grether-Beck\nS\n, Marini\nA\net al. Bioactive tetrapeptide GEKG boosts extracellular matrix formation: in vitro and in vivo molecular and clinical proof\n. Exp Dermatol\n2011\n; 20\n:602\n–4",
+      "status": "verified"
+      },
+             {
+      "concern": "early_signs_of_aging",
+      "evidence": "The novel bioactive tetrapeptide GEKG (glycine–glutamic acid–lysine–glycine) has also been identified in several ECM proteins and is thought to be capable of inducing wide-ranging ECM deposition through matrikine signalling.80 When tested topically on 10 healthy volunteers in a double-blind placebo-controlled randomized trial, daily application over 8 weeks led to increased levels of collagen I mRNA and increased formation of procollagen I, hyaluronic acid and fibronectin.",
+      "source": "Farwick\nM\n, Grether-Beck\nS\n, Marini\nA\net al. Bioactive tetrapeptide GEKG boosts extracellular matrix formation: in vitro and in vivo molecular and clinical proof\n. Exp Dermatol\n2011\n; 20\n:602\n–4",
+      "status": "verified"
+    }
+    ],
+    "may_cause": [],
+    "interacts_with": [
+      {"ingredient":  "vitamin_c",
+      "interaction_type": "positive",
+      "interaction_effect":  ["early_signs_of_aging", "advanced_signs_of_aging"],
+      "evidence":  "More recently, the conjugation of vitamin C with GEKG was shown to increase the expression of basement membrane proteins, resulting in a synergistic antiageing effect.",
+      "evidence_source":  "Jeong\nS\n, Yoon\nS\n, Kim\nS\net al. Anti-wrinkle benefits of peptides complex stimulating skin basement membrane proteins expression\n. Int J Mol Sci\n2019\n; 21\n:73\n."}
+
+    ]
+  },
+  "argireline": {
+    "aliases": ["hexapeptide"," acetyl hexapeptide-3"],
+    "research_status": "reviewed",
+    "works": true,
+    "helps_with": [
+      {"concern":  "wrinkles",
+        "evidence":  " One of the best-known peptides with neurotransmitter-inhibiting properties is the synthetic hexapeptide, acetyl hexapeptide-3 or Argireline® (Lipotec, Barcelona, Spain). It has shown promising clinical results in reducing wrinkle depth when applied topically at a 10% concentration",
+      "source":  "https://academic.oup.com/bjd/article/189/Supplement_1/i17/7333865",
+      "status":  "verified"}
+    ],
+    "may_cause": [],
+    "interacts_with": []
+  },
+  "Benzoyl Peroxide": {
+    "aliases": ["bpo"],
+    "research_status": "reviewed",
+    "works": true,
+    "helps_with": [
+      {"concern": "acne",
+      "evidence":  "Table 1 from source",
+      "source":  "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "status":"verified"
+      }
+    ],
+    "may_cause": [
+      {"effect":  "itching",
+      "source":  "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence":  "Table 1",
+      "status": "verified"
+      },
+      {"effect":  "burning",
+      "source":  "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence":  "Table 1",
+      "status": "verified"
+      }
+    ],
+    "interacts_with": []
+  },
+  "Azelaic acid": {
+    "aliases": [],
+    "research_status": "reviewed",
+    "works": true,
+    "helps_with": [
+      {
+        "concern": "acne",
+        "evidence": "Table 1 in source",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+        "status": "verified"
+      }
+    ],
+    "may_cause": [
+      {"effect": "redness",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+        {"effect": "dryness",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+        {"effect": "peeling",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+      {"effect": "burning",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+      "status": "verified"
+      }
+    ],
+    "interacts_with": []
+  },
+  "Niacinamide": {
+    "aliases": ["Vitamin B3"],
+    "research_status": "reviewed",
+    "works": true,
+    "helps_with": [
+            {
+        "concern": "acne",
+        "evidence": "Table 1 in source",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+        "status": "verified"
+      }
+    ],
+    "may_cause": [
+          {"effect": "mild_burning",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+      "status": "verified"
+      },
+            {"effect":  "mild_itching",
+      "source":  "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence":  "Table 1",
+      "status": "verified"
+      }
+    ],
+    "interacts_with": []
+  },
+  "Salicylic acid": {
+    "aliases": [],
+    "category": "BHA",
+    "works": true,
+    "research_status": "reviewed",
+    "helps_with": [
+        {
+        "concern": "acne",
+        "evidence": "Table 1 in source",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+        "status": "verified"
+      }
+    ],
+    "may_cause": [
+         {"effect": "redness",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+        {"effect": "dryness",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+                {"effect": "photosensitivity",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+                      {"effect": "irritation",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      }
+    ],
+    "interacts_with": []
+  },
+  "Glycolic Acid": {
+    "aliases": [],
+    "category": "AHA",
+    "works": true,
+    "research_status": "reviewed",
+    "helps_with": [
+        {
+        "concern": "acne",
+        "evidence": "Table 1 in source",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+        "status": "verified"
+      }
+    ],
+    "may_cause": [
+         {"effect": "redness",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+        {"effect": "dryness",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+          {"effect": "photosensitivity",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+                {"effect": "irritation",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      }
+    ],
+    "interacts_with": []
+  },
+  "mandelic acid": {
+   "aliases": [],
+    "category": "AHA",
+    "works": true,
+    "research_status": "reviewed",
+    "helps_with": [
+        {
+        "concern": "acne",
+        "evidence": "Table 1 in source",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+        "status": "verified"
+      }
+    ],
+    "may_cause": [
+         {"effect": "redness",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+        {"effect": "dryness",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+          {"effect": "photosensitivity",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      },
+                {"effect": "irritation",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13036733/",
+      "evidence": "Table 1 from source",
+        "status": "verified"
+      }
+    ],
+    "interacts_with": []
+  },
+  "zinc": {}
+}

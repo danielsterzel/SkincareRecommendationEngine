@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 
 from app.api.auth import router as user_router
 from app.api.initial_analysis import router as initial_analysis_router
+from app.api.skin_profile import router as skin_profile_router
 from app.core.settings import settings
 import logging
 
@@ -22,6 +23,7 @@ app.add_middleware(
 )
 app.include_router(initial_analysis_router, prefix="/api/v1")
 app.include_router(user_router, prefix="/api/v1")
+app.include_router(skin_profile_router, prefix="/api/v1")
 
 
 @app.get("/")

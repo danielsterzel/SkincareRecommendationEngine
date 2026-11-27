@@ -16,4 +16,4 @@ from itertools import chain
 local_df = pd.read_parquet("skincare-products-clean.parquet")
 print(local_df.columns)
 
-print(local_df['concentration-ingredient'].dropna().unique())
+print(local_df["concentration-ingredient"].dropna().unique())

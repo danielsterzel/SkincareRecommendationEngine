@@ -185,7 +185,7 @@ async def login(
                 detail="Email is not verified",
             )
 
-        await db.refresh(user, attribute_names=["oauth_accounts", "questionnaire"])
+        await db.refresh(user, attribute_names=["oauth_accounts"])
 
         if password_needs_rehash(password_hash):
             user.password_hash = hash_password(request.password)
@@ -205,11 +205,6 @@ async def login(
                 OAuthAccountSchema.model_validate(account)
                 for account in user.oauth_accounts
             ],
-            questionnaire=(
-                user.questionnaire.question_answers
-                if user.questionnaire is not None
-                else None
-            ),
         )
         login_response = UserLoginResponse(
             tokens=TokenResponse(access_token=access_token),
@@ -266,7 +261,7 @@ async def get_me(
         )
 
     try:
-        await db.refresh(user, attribute_names=["oauth_accounts", "questionnaire"])
+        await db.refresh(user, attribute_names=["oauth_accounts"])
         return UserSchema(
             id=user.id,
             display_name=user.display_name,
@@ -278,11 +273,6 @@ async def get_me(
                 OAuthAccountSchema.model_validate(account)
                 for account in user.oauth_accounts
             ],
-            questionnaire=(
-                user.questionnaire.question_answers
-                if user.questionnaire is not None
-                else None
-            ),
         )
     except SQLAlchemyError:
         raise HTTPException(

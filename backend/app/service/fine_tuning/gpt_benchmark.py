@@ -38,7 +38,9 @@ def benchmark(limit: int | None = None, workers: int = 8) -> None:
             "latency_ms": call.latency_ms,
         }
 
-    with BENCHMARK.open("w", encoding="utf-8") as f, ThreadPoolExecutor(workers) as pool:
+    with BENCHMARK.open("w", encoding="utf-8") as f, ThreadPoolExecutor(
+        workers
+    ) as pool:
         for i, row in enumerate(pool.map(run, nodes), start=1):
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
             f.flush()

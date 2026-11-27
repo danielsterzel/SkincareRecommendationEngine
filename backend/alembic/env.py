@@ -11,7 +11,6 @@ from app.core.settings import settings
 from app.db.base import Base
 
 import app.models.user
-import app.models.questionnaire
 import app.models.email_verification_token
 
 config = context.config

@@ -28,7 +28,6 @@ def make_user(**overrides):
         "email_verified": True,
         "last_login_at": None,
         "oauth_accounts": [],
-        "questionnaire": None,
     }
     values.update(overrides)
     return SimpleNamespace(**values)
@@ -72,9 +71,7 @@ async def test_login_succeeds_and_updates_last_login(monkeypatch):
     assert response.user.last_login_at == user.last_login_at
     session.commit.assert_awaited_once()
     session.rollback.assert_not_awaited()
-    session.refresh.assert_awaited_once_with(
-        user, attribute_names=["oauth_accounts", "questionnaire"]
-    )
+    session.refresh.assert_awaited_once_with(user, attribute_names=["oauth_accounts"])
     cookie = http_response.headers["set-cookie"]
     assert "refresh_token=signed-refresh-token" in cookie
     assert "HttpOnly" in cookie
@@ -169,7 +166,6 @@ async def test_login_response_contains_only_public_user_data(monkeypatch):
         "emailVerified",
         "lastLoginAt",
         "oauthAccounts",
-        "questionnaire",
     }
     assert "password_hash" not in payload["user"]
     assert "passwordHash" not in payload["user"]
@@ -188,9 +184,7 @@ async def test_get_me_returns_authenticated_user_without_password_hash():
     assert payload["emailVerified"] is True
     assert "password_hash" not in payload
     assert "passwordHash" not in payload
-    session.refresh.assert_awaited_once_with(
-        user, attribute_names=["oauth_accounts", "questionnaire"]
-    )
+    session.refresh.assert_awaited_once_with(user, attribute_names=["oauth_accounts"])
 
 
 @pytest.mark.asyncio

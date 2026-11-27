@@ -9,15 +9,12 @@ from app.schemas.initial_analysis import (
     UserSkinInformationInput,
     CurrentRoutineItem,
 )
-from app.schemas.initial_analysis import SkinProblemMock
+from app.domain.skin import SkinProblemOption, SkinConcern, SensitivityLevel, SkinType
 from typing import Annotated, Literal
 
 from app.service.decision.dataset_queries import products_by_key
 from app.service.decision.desicion_engine import wsm_pipeline
 from app.service.decision.schemas import (
-    SkinConcern,
-    SkinType,
-    SensitivityLevels,
     AllergenInciTerms,
     PreviousReactionToProduct,
 )
@@ -35,7 +32,7 @@ RECOMMENDED_PRODUCTS_PROMPT = (
 
 
 class ConcernPair(BaseModel):
-    selected: list[SkinProblemMock]
+    selected: list[SkinProblemOption]
     mapped: list[SkinConcern]
     mapped_goals: list[str]
 
@@ -43,7 +40,7 @@ class ConcernPair(BaseModel):
 class SkinProfilePair(BaseModel):
     selected_skin_type: str | None
     mapped_skin_type: SkinType | None
-    mapped_sensitivity: SensitivityLevels
+    mapped_sensitivity: SensitivityLevel
 
 
 class RoutineAndAllergensPair(BaseModel):
@@ -148,6 +145,7 @@ def pair_context_input(
             ),
         ),
     )
+
 
 class Judge:
     model: str

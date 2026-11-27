@@ -3,15 +3,13 @@ from typing import Annotated, Literal
 from pydantic import Field, ConfigDict
 from app.schemas.configured_schema import ConfiguredSchema
 from pydantic.alias_generators import to_camel
+from app.domain.skin import SkinTypeOption, SkinProblemOption
 
-SkinProblemMock = Literal[
-    "redness", "dryness", "acne", "dark-spots", "clogged-pores", "other"
-]
-SkinType = Literal["dry", "normal", "combination", "oily", "not-sure"]
 
 class ProductReason(ConfiguredSchema):
     label: str
     matches_profile: bool
+
 
 class MockProductSchema(ConfiguredSchema):
     """This is not the dataset Product model, rather the app Product representation"""
@@ -50,8 +48,8 @@ class UserSkinInformationInput(ConfiguredSchema):
         validate_by_name=True,
     )
 
-    concerns: list[SkinProblemMock]
-    skin_type: SkinType | None = None
+    concerns: list[SkinProblemOption]
+    skin_type: SkinTypeOption | None = None
     additional_detail: str | None = Field(default="")
 
 

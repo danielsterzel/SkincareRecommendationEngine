@@ -11,7 +11,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 
 if TYPE_CHECKING:
-    from app.models.questionnaire import Questionnaire
+    from app.models.analysis import Analysis
+    from app.models.skin_profile import SkinProfile
 
 
 def utc_now() -> datetime:
@@ -19,7 +20,7 @@ def utc_now() -> datetime:
 
 
 class User(Base):
-    """BeautyMaker user, independent from the way they sign in."""
+    """Aurelia user, independent from the way they sign in."""
 
     __tablename__ = "users"
 
@@ -56,10 +57,9 @@ class User(Base):
         cascade="all, delete-orphan",
         passive_deletes=True,
     )
-    questionnaire: Mapped[Questionnaire | None] = relationship(
+    skin_profile: Mapped[SkinProfile | None] = relationship(
         back_populates="user",
         cascade="all, delete-orphan",
-        single_parent=True,
         passive_deletes=True,
     )
 

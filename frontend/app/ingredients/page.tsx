@@ -4,6 +4,8 @@ import { MockIngredient, mockIngredients } from "./mock-ingredients";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { IngredientCard } from "./IngredientCard";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function Ingredients() {
   const [selected, setSelected] = useState<MockIngredient | null>(null);
@@ -19,12 +21,29 @@ export default function Ingredients() {
     if (ingredient) setSelected(ingredient);
   }
   return (
-    <div className="w-full min-h-screen flex flex-col gap-2 p-12 items-center">
+    <div className="relative w-full min-h-screen flex flex-col gap-2 px-12 pt-12 pb-32 items-center">
+      <Link
+        href="/"
+        className="
+          absolute top-8 left-8 z-20
+          flex items-center gap-3
+          rounded-full
+          border border-white/40
+          bg-white/70 px-5 py-3
+          text-sm font-medium tracking-wider
+          text-charcoal backdrop-blur-md
+          transition-all duration-300
+          hover:bg-white hover:-translate-x-1
+        "
+      >
+        <ArrowLeft size={18} strokeWidth={1.5} />
+        Back to home
+      </Link>
       <h1 className="text-5xl font-semibold">Ingredient library</h1>
       <p className="text-md text-neutral-600">
         Tap any ingredient to learn what it does
       </p>
-      <div className="mt-12 w-full flex gap-12 justify-center items-center">
+      <div className="mt-12 w-full flex gap-12 justify-center items-start">
         <motion.div
           layout
           className="flex-1 min-w-0 flex flex-wrap justify-center items-center gap-4"
@@ -66,7 +85,7 @@ export default function Ingredients() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 25 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="bg-white w-lg shrink-0 rounded-3xl shadow-sm"
+              className="sticky top-8 bg-white w-lg shrink-0 rounded-3xl shadow-sm"
             >
               <IngredientCard
                 ingredient={selected}

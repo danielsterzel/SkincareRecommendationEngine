@@ -1,10 +1,10 @@
-from enum import StrEnum
 from typing import Literal
 
 from pydantic import BaseModel, Field
 from app.service.decision.domain_types import OptString, SeverityLabels
 from app.schemas.initial_analysis import CurrentRoutineItem
 from app.service.decision.dataset_schemas import Product
+from app.domain.skin import SkinConcern, SensitivityLevel, SkinType
 
 NEGATIVE_EFFECT_LABELS = {
     "dryness": "Skin dryness, flaking, peeling, tightness, or loss of moisture caused or worsened by a product.",
@@ -17,30 +17,6 @@ NEGATIVE_EFFECT_LABELS = {
     "other": "A documented adverse skin effect that does not fit any of the predefined categories.",
     "unknown": "Insufficient reliable information to identify potential adverse effects. This does not imply that the product is risk-free.",
 }
-SkinConcern = Literal[
-    "redness",
-    "dryness",
-    "barrier_support",
-    "blemishes",
-    "hyperpigmentation",
-    "uneven_skin_tone",
-    "uv_protection",
-    "signs_of_congestion",
-    "visible_shine",
-    "crow's_feet",
-    "dehydration",
-    "early_signs_of_aging",
-    "advanced_signs_of_aging",
-    "dark_circles",
-    "puffiness",
-    "dullness",
-    "texture_irregularities",
-    "antioxidant_support",
-    "cleansing",
-    "wrinkles",
-    "lip_plumpness",
-    "hair",
-]
 
 
 class ProductNegativeLabel(BaseModel):
@@ -86,21 +62,6 @@ class AllergenInciTerms(BaseModel):
     inci_terms: list[str]
 
 
-class SkinType(StrEnum):
-    OILY = "oily"
-    COMBINATION = "combination"
-    NORMAL = "normal"
-    DRY = "dry"
-
-
-class SensitivityLevels(StrEnum):
-    VERY_HIGH = "very_high"
-    HIGH = "high"
-    MILD = "mild"
-    LOW = "low"
-    UNKNOWN = "unknown"
-
-
 class UserSkinContext(BaseModel):
     skin_concerns: list[SkinConcern]
     goals: list[str] = Field(
@@ -108,7 +69,7 @@ class UserSkinContext(BaseModel):
     )
     current_routine: list[CurrentRoutineItem]
     allergens: list[AllergenInciTerms]
-    skin_sensitivity: SensitivityLevels
+    skin_sensitivity: SensitivityLevel
     previous_reactions_to_products: list[PreviousReactionToProduct] = Field(
         default_factory=list
     )

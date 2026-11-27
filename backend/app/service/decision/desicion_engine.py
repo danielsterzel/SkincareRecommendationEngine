@@ -49,8 +49,8 @@ from app.service.decision.dataset_queries import load_products, load_allergen_te
 from app.service.decision.schemas import (
     UserSkinContext,
     ProductNegativeLabel,
-    SensitivityLevels,
 )
+from app.domain.skin import SensitivityLevel
 from annotated_types import Gt, Lt
 from functools import cache
 from pathlib import Path
@@ -92,7 +92,7 @@ NORMALIZED_TARGETS_PATH = (
 POTENTIALLY_IRRITATING_INGREDIENTS = (
     Path(__file__).resolve().parent / "data" / "potentially-irritating-ingredients.json"
 )
-SENSITIVE_LEVELS = {SensitivityLevels.VERY_HIGH, SensitivityLevels.HIGH}
+SENSITIVE_LEVELS: set[SensitivityLevel] = {"very_high", "high"}
 
 
 def normalize_ingredient_name(name: str) -> str:
